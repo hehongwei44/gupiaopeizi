@@ -1,0 +1,321 @@
+<include file="../Public/_header" />
+<style type="text/css">
+.quxiantu { margin-top: 30px; }
+.qleft { float: left; width: 50%; text-align: left; }
+.qright { float: right; width: 50%; text-align: right; }
+.ssx a { height: 30px; line-height: 30px }
+.lf { float: left; width: 48%; border: 1px solid #eee; margin: 10px 0px; }
+.lf h6 { border-bottom: 1px solid #eee; color: #3a6ea5; height: 35px; line-height: 35px; padding: 0 10px; font-size: 16px; background: #F8F8F8; }
+.lf .content { padding: 9px 10px; line-height: 22px; }
+.lf .content a { color: red; font-weight: bold; }
+.centerTable { text-align: center; width: 100%; clear: both; border: 1px solid #eee; }
+.centerTable th { background: #F8F8F8; font-size: 14px; height: 35px; }
+.centerTable td { height: 35px; color: #999; border: 1px solid #eee; }
+.centerTable a { font-size: 13px; }
+.amount a { font-size: 24px; color: red; font-family: Arial }
+</style>
+<script type="text/javascript"src="__ROOT__/res/js/highcharts.js"></script>
+<script type="text/javascript"src="__ROOT__/res/js/exporting.js"></script>
+<div class="so_main">
+    <div class="page_tit" style="height:50px">
+        <div  class="left" style="padding:8px 0;font-size:24px">你好 {$user.user_name}，欢迎使用！</div>
+        <div class="right" style="font-size:13px;color:#666;padding-top:9px">
+            当前时间 <span id="clock"></span>
+        </div>
+    </div>
+  <!--列表模块-->
+<script>
+    function changeClock(){
+    	var d = new Date();
+    	document.getElementById("clock").innerHTML = d.getFullYear() + "年" + (d.getMonth() + 1) + "月" + d.getDate() + "日 " + d.getHours() + "点" + d.getMinutes() + "分" + d.getSeconds()+"秒";
+    }
+    window.setInterval(changeClock, 1000);
+    $(function () {
+        $('#month').highcharts({
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: ' '
+            },
+            xAxis: {
+                categories: ['1 月', '2 月', '3 月', '4 月', '5 月', '6 月', '7 月', '8 月', '9 月', '10 月', '11 月', '12 月']
+            },
+            yAxis: {
+                min:0,
+                title: {
+                    text: '注册人数'
+                }
+            },
+            exporting: {
+                enabled:false
+            },
+            tooltip: {
+                enabled: true,
+                formatter: function() {
+                    var s = '<b style="font-size:15px;padding-bottom:4px">'+this.series.name+'</b><br/>3 月 ' + this.x  +' 日  ：共 '+ this.y +' 人';
+                    return s;
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            textShadow: '0 0 3px white, 0 0 3px white'
+                        }
+                    },
+                    enableMouseTracking: true
+                }
+            }, series: [{
+                name: '借款会员',
+                data: [<php>echo implode(',',$chart['borrow']['year'])</php>]
+            },{
+                name: '理财会员',
+                data: [<php>echo implode(',',$chart['invest']['year'])</php>]
+            }, {
+                name: '配资会员',
+                data: [<php>echo implode(',',$chart['stock']['year'])</php>]
+            }, {
+                name: '复合会员',
+                data: [<php>echo implode(',',$chart['complex']['year'])</php>]
+            }]
+        });
+
+        $('#day').highcharts({
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: ' '
+            },
+            xAxis: {
+                categories: [<php>echo implode(',',$chart['day'])</php>]
+            },
+            yAxis: {
+                min:0,
+                title: {
+                    text: '注册人数'
+                }
+            },
+            tooltip: {
+                enabled: true,
+                formatter: function() {
+                    var s = '<b style="font-size:15px;padding-bottom:4px">'+this.series.name+'</b><br/>3 月 ' + this.x  +' 日  ：共 '+ this.y +' 人';
+                    return s;
+                }
+            },
+            exporting: {
+                enabled:false
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            textShadow: '0 0 3px white, 0 0 3px white'
+                        }
+                    },
+                    enableMouseTracking: true
+                }
+            }, series: [{
+                name: '借款会员',
+                data: [<php>echo implode(',',$chart['borrow']['month'])</php>]
+            },{
+                name: '理财会员',
+                data: [<php>echo implode(',',$chart['invest']['month'])</php>]
+            }, {
+                name: '配资会员',
+                data: [<php>echo implode(',',$chart['stock']['month'])</php>]
+            }, {
+                name: '复合会员',
+                data: [<php>echo implode(',',$chart['complex']['month'])</php>]
+            }]
+        });
+
+        $('#status').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: '当前借贷状态比例'
+            },
+            tooltip: {
+                pointFormat: '{series.name} <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        format: '<b>{point.name}</b> {point.percentage:.1f} %'
+                    }
+                }
+            },
+            exporting: {
+                enabled:false
+            },
+            series: [{
+                type: 'pie',
+                name: '占比',
+                data: [
+                    <php>foreach($chart['borrow']['status'] as $val){</php>
+                    ['<php>echo $status[$val['status']]</php>', <php>echo $val['total']</php>],
+                    <php>}</php>
+                ]
+            }]
+        });
+
+        $('#type').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: '借款类型比重分析'
+            },
+            tooltip: {
+                pointFormat: '{series.name} <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        format: '<b>{point.name}</b> {point.percentage:.1f} %'
+                    }
+                }
+            },
+            exporting: {
+                enabled:false
+            },
+            series: [{
+                type: 'pie',
+                name: '占比',
+                data: [
+                    <php>foreach($chart['borrow']['type'] as $val){</php>
+                    ['<php>echo $type[$val['type']]</php>', <php>echo $val['total']</php>],
+                    <php>}</php>
+                ]
+            }]
+        });
+
+
+    });
+
+</script>
+<table class="centerTable" cellpadding="0" cellspacing="0">
+  <tbody>
+  <tr>
+    <th>按月配资待审核</th>
+    <th>按天配资待审核</th>
+    <th>等待初审的标</th>
+    <th>等待复审的标</th>
+    <th>VIP认证申请</th>
+    <th>实名认证申请</th>
+    <!--
+    <th>额度申请等待审核</th>
+    -->
+    <th>上传资料等待审核</th>
+    <th>等待审核提现</th>
+  </tr>
+  <tr class="amount">
+    <td><if condition="$row.borrow_9 gt 0"><a href="__APP__/admin/trade/index.html?type=9&status=0" >{$row.borrow_9}</a><else /> 0 </if></td>
+    <td><if condition="$row.borrow_8 gt 0"><a href="__APP__/admin/trade/index.html?type=8&status=0">{$row.borrow_8}</a><else /> 0 </if></td>
+    <td><if condition="$row.borrow_1 gt 0"><a href="__APP__/admin/borrow/waitverify.html" >{$row.borrow_1}</a><else /> 0 </if></td>
+    <td><if condition="$row.borrow_2 gt 0"><a href="__APP__/admin/borrow/waitverify2.html">{$row.borrow_2}</a><else /> 0 </if></td>
+    <td><if condition="$row.vip_a gt 0"><a href="__APP__/admin/Verifyvip/index?status=0">{$row.vip_a}</a><else /> 0 </if></td>
+    <td><if condition="$row.real_a gt 0"><a href="__APP__/admin/Verifyid/index?status=3">{$row.real_a}</a><else /> 0 </if></td>
+    <!--
+    <td><if condition="$row.limit_a gt 0"><a href="__APP__/admin/member/infowait.html">{$row.limit_a}</a><else /> 0 </if></td>
+    -->
+    <td><if condition="$row.data_up gt 0"><a href="__APP__/admin/verifyinfo/index.html">{$row.data_up}</a><else /> 0 </if></td>
+    <td><if condition="$row.withdraw gt 0"><a href="__APP__/admin/Withdrawlogwait/index.html">{$row.withdraw}</a><else /> 0 </if></td>
+  </tr>
+  <tr>
+    <td><a href="__APP__/admin/trade/index.html?type=9&status=0" >查看</a></td>
+    <td><a href="__APP__/admin/trade/index.html?type=8&status=0">查看</a></td>
+    <td><a href="__APP__/admin/borrow/waitverify.html" >查看</a></td>
+    <td><a href="__APP__/admin/borrow/waitverify2.html">查看</a></td>
+    <td><a href="__APP__/admin/verifyvip/index?status=0">查看</a></td>
+    <td><a href="__APP__/admin/memberid/index?status=3">查看</a></td>
+    <!--
+    <td><a href="__APP__/admin/member/infowait.html">查看</a</td>
+    -->
+    <td><a href="__APP__/admin/verifyinfo/index.html">查看</a></td>
+    <td><a href="__APP__/admin/withdraw/check.html">查看</a></td>
+  </tr>
+  </tbody>
+</table>
+
+<table style="width:100%;padding-top:10px;border:1px solid #eee;margin-top:15px">
+  <tr>
+    <td id="status" style="width:50%;height:250px;border-right:1px dashed #eee"></td>
+    <td id="type"></td>
+  </tr>
+</table>
+
+<div class="page_tab" style="margin-bottom:0px;margin-top:15px">
+    <span data="tab_month" <eq name="_GET[tab]" value=''>class="active"</eq>>会员月走势</span>
+    <span data="tab_day">会员日走势</span>
+</div>
+<div class="lf" id="tab_day" style="clear:both;width:100%;height:390px;margin-top:0px;border-top:0px;display:none;text-align:center;over-follow:hiden">
+    <div class="content">
+        <div id="day" style="width:98%; height: 360px; margin: 0 auto;float:left"></div>
+    </div>
+</div>
+<div class="lf" id="tab_month" style="width:100%;height:390px;margin-top:0px;border-top:0px">
+    <div class="content">
+        <div id="month" style="width:100%; height: 360px; margin: 0 auto"></div>
+    </div>
+</div>
+
+<div class="lf" style="width:50%;height:230px;">
+    <h6>个人信息</h6>
+    <div class="content">
+        登录账户：{$user.user_name}
+        <br />
+        所属角色：{$user.groupname}
+        <br />
+        上次登录时间：{$user.last_log_time|date='Y年m月d日 H点i分s秒',###}
+        <br />
+        累计登录次数：共 12 次
+        <br />
+        上次登录IP：{$user.last_log_ip}
+        <br />
+        本台电脑IP：{$_SERVER['REMOTE_ADDR']}
+    </div>
+</div>
+
+<div class="lf" style="width:49%;float:right;height:230px">
+    <h6>系统信息</h6>
+	 <div class="content">
+        版本：超级版
+        <br />
+        操作系统：{$service.service_name}
+        <br />
+        服务器软件：{$service.service}
+        <br />
+        数据库：MySQL {$service.mysql}
+        <br />
+        执行语言版本：<?php echo PHP_VERSION?>
+        <br />
+        服务器名称：{$Think.SERVER.SERVER_NAME}
+        <br />
+        运行方式：<?php echo strtoupper(php_sapi_name())?>
+        <br />
+        协议：{$Think.SERVER.SERVER_PROTOCOL}
+        <br />
+	 </div>
+</div>
+</div>
+<include file="Public:_footer" />

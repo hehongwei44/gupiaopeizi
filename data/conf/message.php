@@ -1,0 +1,2 @@
+<?php
+return array ( 'stmp' => array ( 'server' => 'smtp.exmail.qq.com', 'port' => '25', 'user' => 'test@yinuowang.com', 'pass' => 'My$#21', ), 'sms' => array ( 'type' => '0', 'user1' => 'dailexinxi', 'pass1' => '123212321', 'user2' => '3423', 'pwd' => '234234', 'user3' => '', 'pass3' => '', ), 'baidu' => array ( 'apiKey' => 'k5mt8cZINNQI4Cl8gIqMAnnO', 'secretKey' => 'PychX6ID9fYt6DtFMmvMavxnP7xDS9kR', 'apkVersion' => '1.0', 'apkPath' => 'http://wap.abc.com/res/apk.apk', ), ); ?>

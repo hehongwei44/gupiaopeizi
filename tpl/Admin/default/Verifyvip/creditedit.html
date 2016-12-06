@@ -1,0 +1,20 @@
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">授信额度调整</div>
+<div class="form2">
+	<form method="post" action="__URL__/doCreditEdit" onsubmit="return subcheck();">
+	<input type="hidden" name="id" value="{$id}" />
+	<div id="tab_1">
+	
+	<dl class="lineD"><dt>变动额度：</dt><dd><htmlA:input id="credit" value="" tip="如果是减少额度，请填负数，如'-1000'"/></dd></dl>
+	
+	</div><!--tab1-->
+	
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>

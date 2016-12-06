@@ -1,0 +1,45 @@
+<include file="Public:header" />
+<h2><strong>通知点设置</strong></h2>
+<div class="ms-c6">
+    <div class="ms-c6-m">
+        <h3>勾选通知点</h3>
+        <div class="formbox">
+            <form action="" method="post">
+                <table>
+                    <tbody>
+                        <tr>
+                        <volist name="data['list']" id="notice" mod="3">
+                            <td>
+                                <input id="{$key}" name="notice[]" value="{$key}" type="checkBox" <in name="key" value="$data['check']">checked</in>>
+                                <label for="{$key}" style="cursor:pointer;">{$notice}</label>
+                            </td>
+                            <eq name="mod" value="2"></tr></tr></eq>
+                        </volist>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align:center">
+                                <button id="submitBtn" class="btn-b" type="button" onclick="chooseNoticePoint();">提 交</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(function() {
+    $('#submitBtn').click(function(){
+        $.post('/member/notice.html', $('form').serialize(),function(res){
+            top.dlg.destroy();
+            if(res.status==0){                    
+                top.dialog(res.info,'success');                    
+            }else{
+                top.dialog(res.info,'error');
+            }                
+        },'json');
+
+    });
+});
+</script>
+<include file="Public:footer" />

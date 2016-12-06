@@ -1,0 +1,43 @@
+<include file="Public:header" />
+<h2><strong>推广赚钱</strong></h2>
+<div class="ms-c6">
+    <div class="ms-c6-t">
+        <ul>
+            <li class="current">
+                <a href="/member/invite/index.html">推广链接</a>
+            </li>
+            <li>
+                <a href="/member/invite/member.html">我的用户</a>
+            </li>
+        </ul>
+    </div>
+    <div class="ms-c6-m">
+        <div class="ms-c6-ts">
+            <div class="formbox">
+                <div class="ms-c6-b">
+                    <dl>
+                        <dt>推广链接</dt>
+                        <dd>以下链接是您对外界进行推广的地址，您可以通过朋友、QQ、微信、博客、论坛或自己的网站进行推广，所有通过该链接注册的用户， 都属于您的推广用户。这些用户在{$param.web_name}完成注册并在{$param.web_name}首次成功充值100元或以上金额后，您可以获得一个10元通用红包。</dd>
+                    </dl>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style="valign:bottom;">
+                                    您的推广链接：
+                                    <input id="id_union_url_txt" class="inp" value="http://{$_SERVER['SERVER_NAME']}/?k={$_SESSION['MEMBER']['ID']|md5}" readonly="" style="width: 500px;" onclick="select()" type="text">
+                                    <button class="btn-b" type="button" id="id_union_rul_btn" data-clipboard-target="id_union_url_txt">复制链接</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    您也可以直接点击 <a href="http://{$_SERVER['SERVER_NAME']}/?k={$_SESSION['MEMBER']['ID']|md5}" target="_blank">http://{$_SERVER['SERVER_NAME']}/?k={$_SESSION['MEMBER']['ID']|md5}</a> 为他们注册。
+                                    <span id="htmlBridge"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="Public:footer" />

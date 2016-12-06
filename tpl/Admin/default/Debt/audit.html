@@ -1,0 +1,69 @@
+<style type="text/css">
+.x_member_form{width:800px; overflow:hidden}
+.x_member_form .form2{height:305px; overflow:auto;}
+
+.x_member_form .form2 .lineD {overflow:hidden; width:95%; display:block;padding: 10px 0;}
+.x_member_form .form2 .lineD label{margin-right:15px;}
+.x_member_form .form2 .lineD dt{width:150px; color:#9CB8CC; font-weight:bold}
+.x_member_form .form2 .lineD dd{width:200px; float:left; margin-left:0px}
+
+
+.page_btm {border-top: 1px solid #9CB8CC;padding: 15px 0 10px 355px;bottom: 0;}
+</style>
+
+<div class="so_main x_member_form">
+<div class="page_tab">
+    <span data="tab_1">债权转让</span>
+</div>
+<div class="form2">
+
+    <div id="tab_1" style="height:245px;">
+        <form  method="post" class="sendsms1" action="__URL__/audit" name="auditForm" id="auditForm">
+            <dl class="lineD">
+                <dt>审核：</dt>
+                <dd><label>
+                    <input type="radio" name="status" value="2" checked="checked" > 审核通过&nbsp;
+                    <input type="radio" name="status" value="3" > 审核不通过&nbsp; 
+                
+                </label>
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt>备注：</dt>
+                <dd><textarea name="remark" id="remark" cols="50" rows="3"></textarea></dd>
+            </dl>
+            <dl class="lineD" style="text-align:center;">
+                <input type="hidden" name="debt_id" id="debt_id" value="{$debt_id}" >
+                <input type="hidden" name="dosubmit" value="1">
+                <img class="img_button" src="/tpl/Home/default/res/images/sub_offline.jpg" style="cursor: pointer;" alt="确认提交">
+            </dl>
+        </form>
+    </div>
+
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="关闭" end="1" onclick="closeui();" />
+    </div>
+</div>
+
+</div>
+<script type="text/javascript">
+    function closeui(){
+        ui.box.close();
+    }
+
+    $(document).ready(function(){
+       $(".img_button").click(function(){
+           var remark = $("#remark").val();
+           if(!remark){
+               alert("备注不能为空"); return false;
+           }
+           if(!$("#debt_id").val()){
+               alert("缺少参数！");
+               return false;
+           }
+           $("#auditForm").submit();
+           
+       })
+    });
+    
+</script>

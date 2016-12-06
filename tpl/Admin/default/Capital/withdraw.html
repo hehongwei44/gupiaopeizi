@@ -1,0 +1,76 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/add';
+var isSearchHidden = 1;
+</script>
+<div class="so_main">
+    <div class="page_tit">
+      <span>会员提现详情</span>
+      <include file="Public:quick" />
+    </div>
+    <div class="page_tab">
+        <a href="__ACTION__?type={$_GET['type']}">
+            <span data="tab_1" <eq name="_GET['level']" value=''>class="active"</eq>>全部</span>
+        </a>
+        <span data="tab_search" onclick="dosearch()"><b class="tab_search"></b></span>
+    </div>
+    <include file="withdraw_search" />
+    <!--搜索/筛选会员-->
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l">ID</th>
+                <th class="line_l">用户名</th>
+                <th class="line_l">处理人</th>
+                <th class="line_l" style="text-align:right">提现金额</th>
+                <th class="line_l" style="text-align:right">提现手续费</th>
+                <th class="line_l" style="text-align:right">到账金额</th>
+                <th class="line_l">提现状态</th>
+                <th class="line_l">提现时间</th>
+                <th class="line_l">处理时间</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.user_name}</td>
+                    <td>{$vo.deal_user}</td>
+                    <td style="text-align:right">{$vo.withdraw_money|default=0}</td>
+                    <td style="text-align:right">{$vo.second_fee|default=0}</td>
+                    <td style="text-align:right">
+                        <if condition="$vo['withdraw_status'] eq 3">
+                            0
+                            <else/> {$vo['success_money']}
+                        </if>
+                    </td>
+                    <td>{$status[$vo['withdraw_status']]}</td>
+                    <td>{$vo.add_time|mydate="y-m-d H:i:s",###}</td>
+                    <td>{$vo.deal_time|mydate="y-m-d H:i:s",###}</td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+</div>
+<script type="text/javascript">
+function showurl(url, Title) {
+    ui.box.load(url, {
+        title: Title
+    });
+}
+</script>
+<include file="Public:_footer" />

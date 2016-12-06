@@ -1,0 +1,28 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">加盟管理</div>
+<div class="page_tab"><span data="tab_1" class="active">加盟信息</span></div>
+<div class="form2">
+	<div id="tab_1">
+	
+		<dl class="lineD"><dt>类型：</dt><dd>{$vo.type}</dd></dl>
+		<dl class="lineD"><dt>时间：</dt><dd>{$vo.add_time|date='Y-m-d H:i:s',###}</dd></dl>
+		<dl class="lineD"><dt>姓名：</dt><dd>{$vo.name}</dd></dl>
+		<dl class="lineD"><dt>电话：</dt><dd>{$vo.contact}</dd></dl>
+		<dl class="lineD"><dt>邮箱：</dt><dd>{$vo.email}</dd></dl>
+		<dl class="lineD"><dt>QQ：</dt><dd>{$vo.qq}</dd></dl>
+		<dl class="lineD"><dt>内容1：</dt><dd><htmlA:text id="msg" value="{$vo.msg}" tip="*" style="height:50px"/></dd></dl>
+		<dl class="lineD"><dt>内容2：</dt><dd><htmlA:text id="msg" value="{$vo.company}" tip="*"  style="height:50px"/><!--addstr='disabled="disabled"'--></dd></dl>
+
+	</div><!--tab1-->
+	
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" onclick="window.location.href='__URL__/index'" value="返回" />
+	</div>
+</div>
+
+</div>
+<include file="Public:_footer" />

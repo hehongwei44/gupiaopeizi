@@ -1,0 +1,221 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="{$res}css/stock.css">
+<link rel="stylesheet" type="text/css" href="/res/box/main.css">
+<script type="text/javascript" src="{$res}js/stock.js"></script>
+<script type="text/javascript" src="/res/box/main.js"></script>
+<style>
+h4 { margin: 30px 0 15px 25px; font-size: 18px }
+table { margin-top: 2px }
+td option { padding: 3px 15px 3px 3px }
+.ddw_l .pz_sel li { width: 110px; height: 80px; margin-right: 20px; margin-bottom: 15px; border: 1px solid #D7D7D7; float: left; text-align: center; cursor: pointer }
+.ddw_l .pz_sel li p.m { padding-top: 20px }
+.sure td { padding-left: 15px; border-bottom: 1px solid #E4E4E4; height: 24px; line-height: 32px }
+.sure .title { font-size: 14px }
+.ddw_r { width: 430px; float: left; margin-bottom: 20px; margin-left: 18px; }
+.ddw_l { width: 435px; float: left; margin-right: 10px }
+.pz_inp { width: 378px; height: 372px; border: 1px solid #D7D7D7 }
+.pz_bj { border: 1px solid #D7D7D7; height: 90px; }
+.pz_pz { border: 1px solid #D7D7D7; height: 158px; }
+.pz_pztxt { font-size: 20px; font-weight: bold; text-align: center; height: 60px; line-height: 49px; color: #676767; }
+</style>
+<!--中部开始-->
+<div class="peizibox conbox" style="margin-top:10px;">
+    <div class="pz_process">
+        <div class="pz_process-line"></div>
+        <div class="pz_process-step s1">
+            <div class="item">1</div>
+            <div class="desc">申请股票配资</div>
+        </div>
+        <div class="pz_process-step s2 curr">
+            <div class="item">2</div>
+            <div class="desc">支付投资本金</div>
+        </div>
+        <div class="pz_process-step s3">
+            <div class="item">3</div>
+            <div class="desc">配资申请成功</div>
+        </div>
+        <div class="pz_process-step s4">
+            <div class="item">4</div>
+            <div class="desc">开始投资股票</div>
+        </div>
+        <div class="pz_process-step s5">
+            <div class="item">5</div>
+            <div id="pz_type" class="desc">盈利全归您</div>
+        </div>
+    </div>
+</div>
+<div class="peizibox conbox" style="margin-top:10px;">
+    <div class="pl50 pr50">
+            <div class="experienceText" style="width:846px;margin-right:58px">
+            <p class="account">
+            支付配资保证金<b>{$_POST['deposit']|number_format=2}</b>元
+            <eq name="_POST['type']" value="9">
+            <gt name="data['interest_month']" value="0">和本月利息 <b>{$data['interest_month']|number_format=2}</b>元</gt>，
+            <else/>
+            <gt name="data['total']" value="0">和管理费 <b>{$data['total']|number_format=2}</b>元</gt>，
+            </eq>
+            当前账户可用余额为<b>{$data['account']['money']|number_format=2}</b>元</p>
+            <notempty name="data['account']['coupon']">
+            <p>使用红包：
+                <select>
+                    <option>请选择红包</option>
+                </select>
+            </p>
+            </notempty>
+            <lt name="data['account']['money']" value="_POST['deposit']">
+            <p>本次支付还差<b id="left">{$data['account']['left']|number_format=2}</b>元 <a class="btn btnBg1" href="/member/?go=/account/charge.html?money={$data['account']['left']}" target="_blank">马上充值</a></p>
+            </lt>
+        </div>
+        <div class="clearfix" style="margin:20px 0 0 0;height:300px;">
+            <div class="ddw_l">
+                <div class="pz_bj">
+                    <p class="t" STYLE="padding-top:25px">
+                        <em>{$_POST['deposit']|number_format}</em>元
+                    </p>
+                    <p>投资本金</p>
+                </div>
+                <div class="pz_pztxt">配资</div>
+                <div class="pz_pz">
+                    <p class="t">
+                        <em>{$_POST['quota']|number_format}</em>元
+                    </p>
+                    <p>配资金额</p>
+                </div>
+            </div>
+            <div class="ddw_r">
+                <table width="100%" cellspacing="0" cellpadding="0" class="sure">
+                    <tbody>
+                        <tr>
+                            <td class="title">操盘须知</td>
+                            <td>
+                                <div style="line-height:130%;">{$data['tips']}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="title">总操盘资金</td>
+                            <td><em>{$_POST['deposit']+$_POST['quota']|number_format}</em> 元</td>
+                        </tr>
+                        <tr>
+                            <td class="title">亏损警告线</td>
+                            <td>{$data['warning']}
+                                <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text="当总操盘资金低于警戒线以下时，只能平仓不能建仓，我们将有权把您的股票减仓到本金余额的6倍" id="tip_1"></span></td>
+                        </tr>
+                        <tr>
+                            <td class="title">亏损平仓线</td>
+                            <td>{$data['lowest']}
+                                <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text="当总操盘资金低于平仓线以下时，我们将有权把您的股票进行平仓，为避免平仓发生，请时刻关注本金是否充足" id="tip_2"></span></td>
+                        </tr>
+
+                        <tr>
+                            <td class="title">借款利率</td>
+                            <td>
+                                <input type="hidden" value="{$_POST['interest']}" name="interest" id="interest"> {$data['interest']}
+                        </tr>
+                        <tr>
+                            <td class="title">管理费</td>
+                            <td>
+                                <input type="hidden" value="{$_POST['fee']}" name="fee"> {$data['fee']}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="title">资金使用期限</td>
+                            <td>
+                                <input type="hidden" value="{$_POST['duration']}" name="duration" id="duration">
+                                <i class="fs20">{$_POST['duration']}</i> {$data['postfix']}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="title">开始交易时间</td>
+                            <td>
+                                <eq name="_POST['start']" value="0">
+                                <input type="hidden" value="0" name="start"> 本交易日
+                                <else/>
+                                <input type="hidden" value="1" name="start"> 下个交易日
+                                </eq>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="title">还款方式</td>
+                            <td>
+                                <label id="nday">{$data['repayment']}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <form action="/stock/done.html" method="POST">
+        <input type="hidden" value="{$_POST['type']}" name="type">
+        <input type="hidden" value="{$_POST['interest']}" name="interest">
+        <input type="hidden" value="{$_POST['quota']}" name="quota">
+        <input type="hidden" value="{$_POST['deposit']}" name="deposit">
+        <input type="hidden" value="{$_POST['duration']}" name="duration">
+        <input type="hidden" value="{$_POST['risk']}" name="risk">
+        <input type="hidden" value="{$data['total']}" name="fee">
+        <input type="hidden" value="{$data['start']}" name="start">
+        <input type="hidden" value="{$_POST['event']}" name="event">
+        <input type="hidden" value="{$data['deadline']}" name="deadline">
+        <input type="hidden" value="true" name="done">
+        <div class="ruleText" style="clear:both">
+            <p><b class="font1" id="id_agree_contract_error">请在阅读并同意借款协议后继续操作</b></p>
+            <p class="jkxy">
+                <input type="checkbox" value="1" id="id_agree_contract">
+                <label for="id_agree_contract" style="cursor:pointer;">我已阅读并同意</label><a href="/help/contract.html" target="_blank">《借款协议》</a>
+                <br>                
+            </p>
+            <input type="button" id="submitBtn" class="btn btnBg1" value="确定"/>
+        </div>
+    </form>
+</div>
+<in name="_POST['type']" value="6,7">
+<div class="items">
+    <include file="item" />
+</div>
+</in>
+<script language="javascript" type="text/javascript">
+$(function(){
+    <neq name="_SESSION['MEMBER']['STATUS']['IDCARD']" value="1">
+    new jBox('Confirm',{
+        content:'您还有通过实名认证，暂时还不能配资。',
+        cancelButton: '以后再说',
+        confirmButton: '去认证',
+        confirm: function(){window.location='/member/?go=/validate/idcard.html?money='},
+        cancel: function(){window.history.go(-1)}            
+    }).open();
+    </neq>
+
+    $('#submitBtn').click(function(){
+        
+        var money = parseInt($('#left').html().replace(',',''));
+
+        if(money>0){
+            new jBox('Confirm',{
+                content:'您当前账户余额不足，请充值后再进行配资。',
+                cancelButton: '以后再说',
+                confirmButton: '立即充值',
+                confirm: function(){window.location='/member/?go=/account/charge.html?money='+money;}
+            }).open();
+            return false;
+        }
+
+        if(!$('#id_agree_contract').is(':checked')){
+            dialog('请先认真阅读借款协议，并同意借款协议内容。');
+            return false;
+        }
+        $("form").submit();
+
+    });
+});
+
+X.init();
+X.slideUP.init("pz_scroll");
+X.prompt.init('tip_1','',{width:250,close:false,dire:4,reget:true});
+X.prompt.init('tip_2','',{width:250,close:false,dire:4,reget:true});
+X.prompt.init('tip_3','',{width:250,close:false,dire:4,reget:true});
+X.prompt.init('tip_4','',{width:250,close:false,dire:4,reget:true});
+X.prompt.init('tip_5','',{width:250,close:false,dire:4,reget:true});
+
+//X.form.inputR('principal',blankTip,'#FF6600','#666666','24px');
+</script>
+<include file="Public:footer" />

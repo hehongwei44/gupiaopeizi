@@ -1,0 +1,52 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+
+
+<tagLib name="htmlA" />
+<div class="so_main">
+<form name="sdf" id="sdf" action="__URL__/index" method="get">
+ <div class="Toolbar_inbox">
+  	<span>从<htmlA:timer id="start_time" tip='只选开始时间则查询从开始时间往后所有' arg="{maxDate:'#F{$dp.$D(\\\\'end_time\\\\')||\\\\'2020-10-01\\\\'}',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true}"  class="Wdate" value="{$search.start_time|mydate='Y-m-d H:i:s',###}"/>到<htmlA:timer id="end_time" tip='只选结束时间则查询从结束时间往前所有' arg="{minDate:'#F{$dp.$D(\\\\'start_time\\\\')}',maxDate:'2020-10-01',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true}" class="Wdate" value="{$search.end_time|mydate='Y-m-d H:i:s',###}"/></span>
+    <a href="javascript:;" onclick="javascript:document.forms.sdf.submit();" class="btn_a"><span>统计</span></a></div>
+ </form>
+<div class="so_main">
+  <div class="page_tit">待还资金查询</div>
+  <div class="Toolbar_inbox">
+    <htmlA:commonBtn type="href" action="__URL__/index?day=1" value="次日待还资金"/><htmlA:commonBtn type="href" action="__URL__/index?day=3" value="3日内待还资金"/><htmlA:commonBtn type="href" action="__URL__/index?day=10" value="10日内待还资金"/><htmlA:commonBtn type="href" action="__URL__/index?day=30" value="30日内待还资金"/><htmlA:commonBtn type="href" action="__URL__/export?{$query}" value="将当前条件下数据导出为Excel"/>
+  </div>
+  
+  <div class="list">
+  <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:22px;">
+        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+        <label for="checkbox"></label>
+    </th>
+    <th class="line_l">标号</th>
+	<th class="line_l">借款标题</th>
+    <th class="line_l">待还本金</th>
+    <th class="line_l">待还利息</th>
+	<th class="line_l">总待还金额</th>
+	<th class="line_l">待还时间</th>
+  </tr>
+  <volist empty="$empty" id="vo" name="list">
+      <tr overstyle='on' id="list_{$vo.id}">
+        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
+        <td>{$vo.borrow_id}</td>
+		<td>{$vo.borrow_name}</td>
+        <td>{$vo.bmoney}</td>
+        <td>{$vo.interest}</td>
+		<td>{$vo.total|default="0.00"}</td>
+		<td>{$vo.deadline|date="Y-m-d H:i:s",###}</td>
+      </tr>
+  </volist>
+  </table>
+
+  </div>
+  
+  <div class="Toolbar_inbox">
+    <htmlA:commonBtn type="href" action="__URL__/export?{$query}" value="将当前条件下数据导出为Excel"/>
+  </div>
+</div>
+
+<include file="Public:_footer" />

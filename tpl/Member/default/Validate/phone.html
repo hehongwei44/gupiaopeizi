@@ -1,0 +1,51 @@
+<include file="Public:header" />
+<h2><strong>绑定手机</strong></h2>
+<div class="formbox">
+    <form method="post">
+        <table>
+            <tbody>
+                <tr>
+                    <th>待绑定手机：</th>
+                    <td>
+                        <input id="mobile" name="mobile" value="" class="inp" type="text">
+                        <input class="smscode" value="发送验证码" type="button">
+                        <span id="emailError" style="color:red"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>验证码：</th>
+                    <td>
+                        <input id="verifyCode" name="smscode" class="inp" type="text">
+                        <input name="bind" value="true" type="hidden">
+                        <span id="verifyCodeErr" style="color:red"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <button type="button" class="btn-b" id="bind">绑定手机</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $('#bind').click(function(){
+            if($('#verifyCode').val()==''){
+                top.dialog('请输入验证码。');
+                return false;
+            }
+            $.post('/member/validate/phone.html', $('form').serialize(),function(res){
+                top.dlg.destroy();
+                if(res.status==0){                    
+                    top.dialog(res.info,'success');                    
+                }else{
+                    top.dialog(res.info,'error'); 
+                }                
+            },'json');
+        });
+    });
+</script>
+<include file="Public:footer" />

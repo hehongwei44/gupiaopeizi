@@ -1,0 +1,102 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+    $(document).ready(function() {
+        var editor = KindEditor.create('textarea[name="art_content"]');
+    });
+</script>
+<style>
+.ke-toolbar-icon{margin-left:0 !important;}
+</style>
+<div class="so_main">
+    <div class="page_tit">编辑文章</div>
+    <div class="page_tab"><span data="tab_1" class="active">基本设置</span><span data="tab_2">高级设置</span></div>
+    <div class="form2">
+        <form method="post" action="__URL__/doEdit" onsubmit="return subcheck();" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{$vo.id}" />
+            <div id="tab_1">
+                <dl class="lineD">
+                    <dt>标题：</dt>
+                    <dd>
+                        <htmlA:input id="title" value="{$vo.title}" tip="*" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>所属栏目：</dt>
+                    <dd>
+                        <htmlA:select id="type_id" value="id|vo.type_id" datakey='type_list' vt='id|type_name' tip="*" style="width:363px" />
+                    </dd>
+                </dl>
+                <dl class="lineD" style="overflow:hidden">
+                    <dt>缩略图：</dt>
+                    <dd>
+                        <input type="file" id="imgfile" name="imgfile" style="float:left" />
+                        <span style="float:left"><div style="text-align:left; clear:both; overflow:hidden; width:290px; height:50px"><div id="imgDiv"></div><if condition="$vo.art_img eq ''">无缩略图<else/><img src="__ROOT__/{$vo.art_img}" width="100" height="100" /></if></div></span>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>内容：</dt>
+                    <dd>
+                        <textarea name="art_content" style="height:360px;width:100%">{$vo.art_content}</textarea>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>是否抓取远程图片：</dt>
+                    <dd>
+                        <htmlA:radio id="is_remote" default="0|否,1|是" tip="抓取远程图片时保存时间可能会稍长，请耐心等待" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>排序：</dt>
+                    <dd>
+                        <htmlA:input id="sort_order" value="{$vo.sort_order}" tip="越大越靠前" />
+                    </dd>
+                </dl>
+            </div>
+            <!--tab1-->
+            <div id="tab_2" style="display:none">
+                <dl class="lineD">
+                    <dt>属性：</dt>
+                    <dd>
+                        <htmlA:radio id="art_set" value="key|vo.art_set" default="0|普通,1|跳转" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>标题颜色：</dt>
+                    <dd>
+                        <htmlA:input id="color" value="{$vo.color}" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>来源/作者：</dt>
+                    <dd>
+                        <htmlA:input id="art_writer" value="{$vo.art_writer}" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>文件名称：</dt>
+                    <dd>
+                        <htmlA:input id="art_url" value="{$vo.art_url}" tip='仅在文章属性为跳转时有效' />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>简要描述：</dt>
+                    <dd>
+                        <htmlA:text id="art_info" value="{$vo.art_info}" tip="SEO元素" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>关键字：</dt>
+                    <dd>
+                        <htmlA:input id="art_keyword" value="{$vo.art_keyword}" tip="SEO元素" />
+                    </dd>
+                </dl>
+            </div>
+            <!--tab2-->
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+            </div>
+        </form>
+    </div>
+</div>
+<include file="Public:_footer" />

@@ -1,0 +1,92 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+var addUrl = '__URL__/good_edit';
+var editUrl = '__URL__/good_edit';
+var editUrl = '__URL__/good_del';
+var isSearchHidden = 1;
+var searchName = "搜索商品";
+var addTitle = '添加商品信息';
+var editTitle = '编辑商品信息';
+var delTitle = '删除商品信息';
+</script>
+<div class="so_main">
+    <div class="page_tit">
+        <span>积分商城商品</span>
+        <include file="Public:quick" />
+    </div>
+    <div class="page_tab">
+        <a href="__URL__/goods">
+            <span data="tab_1" <eq name="_GET['category']" value=''>class="active"</eq>>全部</span>
+        </a>
+        <a href="__URL__/goods?category=1">
+            <span data="tab_1" <eq name="_GET['category']" value='1'>class="active"</eq>>实物</span>
+        </a>
+        <a href="__URL__/goods?category=2">
+            <span data="tab_1" <eq name="_GET['category']" value='2'>class="active"</eq>>虚拟</span>
+        </a>
+    </div>
+    <include file="search" />
+    <div class="Toolbar_inbox">
+        <div class="pages" style="float:right; padding:0px;">{$pagebar}</div>
+        <htmlA:commonBtn type="href" action="__URL__/good_edit" value="添加商品" />
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l">商品ID</th>
+                <th class="line_l" style="text-align:left">商品名</th>
+                <th class="line_l">风格</th>
+                <th class="line_l">图片</th>
+                <th class="line_l">价值</th>
+                <th class="line_l">需要积分</th>
+                <th class="line_l">编辑时间</th>
+                <th class="line_l">是否上线</th>
+                <th class="line_l">排序</th>
+                <th class="line_l" style="width:160px">操作</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td style="text-align:left">{$vo.name}</td>
+                    <td>{$vo.style}</td>
+                    <td>{$vo.img}</td>
+                    <td>{$vo.price}</td>
+                    <td>{$vo.cost}</td>
+                    <td>{$vo.add_time|date="y-m-d",###}</td>
+                    <td>{$vo.order_sn}</td>
+                    <td>{$vo.is_sys}</td>
+                    <td>
+                        <a href="__URL__/good_edit?id={$vo['id']}">编辑</a> | <a href="__URL__/good_del?delid={$vo['id']}">删除</a> |
+                        <a href="javascript:void(0);" onclick="uploadPic({$vo['id']});">上传商品图片</a>
+                    </td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="pages" style="float:right; padding:0px;">{$pagebar}</div>
+        <htmlA:commonBtn type="href" action="__URL__/good_edit" value="添加商品" />
+    </div>
+</div>
+<script type="text/javascript">
+function showurl(url, Title) {
+    ui.box.load(url, {
+        title: Title
+    });
+}
+
+function uploadPic(id) {
+    ui.box.load("__URL__/upload_shop_pic?id=" + id, {
+        title: "上传商品图片"
+    });
+}
+</script>
+<include file="Public:_footer" />

@@ -1,0 +1,62 @@
+<div class="so_main">
+  <div class="alertDiv">
+    <ul>
+      <li>配资人 <span style="color:red;font-size:17px">{$borrow['real_name']}</span>（{$borrow['user_name']}）于 {$borrow['add_time']|date='Y年m月d日H时i分',###} 申请{$borrow.borrow_type} <span style="color:red;font-size:17px">{$borrow['borrow_money']|number_format=2}</span> 元</li>
+      <li>交易时间为 <span style="color:red">{$borrow['deal_start']|date='Y-m-d',###}</span>；保证金 <span style="color:red">{$borrow['deposit']|number_format=2}</span> 元；配资期限为 <span style="color:red">{$borrow['borrow_duration']}</span> {$borrow.postfix}；
+      <eq name="borrow['borrow_type']" value="8">
+      管理费 <span style="color:red">{$borrow['borrow_fee']|number_format=2}</span> 元；风险倍数 <span style="color:red">{$borrow['risk_rate']|number_format=2}</span> 元；
+      <else/>
+      利息 <span style="color:red">{$borrow['borrow_interest']|number_format=2}</span>；月利率 <span style="color:red">{$borrow['borrow_interest_rate']|number_format}%</span>；
+      </eq>
+      </li>
+      <li>如果审核通过{$data.tip.info} </li>
+    </ul>
+  </div>
+  <div class="form2">
+    <form method="post" action="" onsubmit="return subcheck();" enctype="multipart/form-data">
+      <input type="hidden" name="id" value="{$data.id}" />
+      <div id="tab_1">
+        <dl class="lineD">
+          <dt>会员：</dt>
+          <dd>{$borrow['real_name']}（{$borrow['user_name']}）</dd>
+        </dl>
+
+        <dl class="lineD">
+          <dt>{$data.tip.title}：</dt>
+          <dd style="color:#FF0000;font-size:18px">{$data.total|default='-'} {$data.tip.unit}</dd>
+        </dl>
+        <eq name="data['type']" value="9">
+        <dl class="lineD">
+          <dt>返还金额：</dt>
+          <dd><input type="input" value="{$borrow['deposit']}" name="total" style="font-size:24px;padding:3px 5px">&nbsp;&nbsp;<span style="color:red">超出保证金的部分作为盈利返还</span></dd>
+        </dl>
+        </eq>
+        <dl class="lineD">
+          <dt>恒生账户：</dt>
+          <dd>{$borrow.homs.name|default='未分配'}</dd>
+        </dl>
+        <dl class="lineD">
+          <dt>处理结果：</dt>
+          <dd>
+            <eq name="data['status']" value="1">
+              <label><input type="radio" value="2" name="status" checked="true"> 完成 </label>
+            <else/>
+              <label><input type="radio" value="1" name="status" checked="true"> 通过 </label>
+            </eq>            
+            <label><input type="radio" value="-1" name="status"> 拒绝，并作废</label>
+          </dd>
+        </dl>
+        <dl>
+          <dt>简要说明：</dt>
+          <dd>
+            <htmlA:text id="borrow_info" value="{$data['borrow_info']}"/>
+          </dd>
+        </dl>
+      </div>
+      <div class="page_btm">
+        <input type="submit" class="btn_b" value="确定" />
+        <input type="button" class="btn_g" value="取消" onclick="ui.box.close()"/>
+      </div>
+    </form>
+  </div>
+</div>

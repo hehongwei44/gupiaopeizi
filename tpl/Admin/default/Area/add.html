@@ -1,0 +1,23 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">添加地区</div>
+<div class="form2">
+	<form method="post" action="__URL__/doAdd" onsubmit="return subcheck();">
+	<div id="tab_1">
+	
+	<dl class="lineD"><dt>地区名称：</dt><dd><htmlA:input id="name" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>地区排序：</dt><dd><htmlA:input id="sort_order" tip="数字越大越靠前"/></dd></dl>
+	<dl class="lineD"><dt>上级地区：</dt><dd><htmlA:select id="reid" datakey='area_list' vt='id|name' default="一级地区" tip="一级地区则无父分类"/></dd></dl>
+	
+	</div><!--tab1-->
+	
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<include file="Public:_footer" />

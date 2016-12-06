@@ -1,0 +1,109 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/add';
+var isSearchHidden = 1;
+</script>
+<div class="so_main">
+    <div class="page_tit">
+    	<span>
+        <switch name="_GET['type']">
+            <case value="9" break="1">按月配资</case>
+            <case value="8" break="1">按天配资</case>
+            <case value="7" break="1">按周配资</case>
+        </switch><switch name="_GET['status']">
+            <case value="0" break="1">待审</case>
+            <case value="1" break="1">已拒绝</case>
+            <case value="6" break="1">操盘中</case>
+            <case value="8" break="1">到期未结束</case>
+            <case value="7" break="1">已完成</case>
+        </switch>
+        </span>
+        <include file="Public:quick" />
+    </div>
+    <div class="page_tab">
+        <a href="__ACTION__?type={$_GET['type']}">
+            <span data="tab_1" <eq name="_GET['level']" value=''>class="active"</eq>>全部</span>
+        </a>
+        <volist name="level" id="data">
+            <a href="__ACTION__?type={$_GET['type']}&level={$key}">
+                <span data="tab_1" <eq name="_GET['level']" value='$key'>class="active"</eq>>{$data.name}</span>
+            </a>
+        </volist>
+        <span data="tab_search" onclick="dosearch()"><b class="tab_search"></b></span>
+    </div>
+    <!--搜索/筛选会员-->
+    <include file="search" />
+    <!--搜索/筛选会员-->
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+        <div >&nbsp</div>
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l">ID</th>
+                <th class="line_l">借款人</th>
+                <th class="line_l" style="text-align:left">标题</th>
+                <th class="line_l" style="text-align:right">申请实盘资金</th>
+                <if condition="$_GET['type'] eq 8">
+                    <th class="line_l" style="text-align:right">风险倍数</th>
+                    <else/>
+                    <th class="line_l" style="text-align:right">月利率</th>
+                </if>
+                <th class="line_l" style="text-align:right">保证金</th>
+                <th class="line_l" style="text-align:right">申请周期</th>
+                <th class="line_l" style="text-align:right">账户管理费</th>
+                <th class="line_l">交易日</th>
+                <th class="line_l">申请提交时间</th>
+                <th class="line_l">操作</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>
+                        <htmlA:user id="vo.borrow_uid" uname="vo.user_name" />
+                    </td>
+                    <td style="text-align:left"><a href="{$vo.id|getInvestUrl=###}" title="{$vo.borrow_name}" target="_blank">{$vo.borrow_name|cnsubstr=###,12}</a></td>
+                    <td style="text-align:right">{$vo.borrow_money}</td>
+                    <if condition="$_GET['type'] eq 8">
+                        <td style="text-align:right">{$vo.risk_rate}</td>
+                        <else/>
+                        <td style="text-align:right">{$vo.borrow_interest_rate}%</td>
+                    </if>
+                    <td style="text-align:right">{$vo.deposit}</td>
+                    <td style="text-align:right">{$vo.borrow_duration}
+                        <if condition="$_GET['type'] eq 8">天
+                            <else/>月</if>
+                    </td>
+                    <td style="text-align:right">{$vo.borrow_fee}</td>
+                    <td>
+                        <eq name="vo['deal_start']" value="0">今天
+                            <else/>下个交易日</eq>
+                    </td>
+                    <td>{$vo.add_time|date="y-m-d H:i",###}</td>
+                    <td>
+                        <if condition="$_GET['status'] eq 8">
+                            <a href="javascript:void()" onclick="ui.box.load('/admin/common/sms?tab=1&user_name={$vo.user_name}', {title:'通讯系统'})">通知平仓</a>
+                            <else/>
+                            <a href="#ynw" onclick="ui.box.load('__URL__/audit?id={$vo['id']}', {title:'配资申请审核'})">审核</a>
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+        <div >&nbsp</div>
+    </div>
+</div>
+<include file="Public:_footer" />

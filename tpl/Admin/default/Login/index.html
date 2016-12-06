@@ -1,0 +1,48 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">登陆方式管理</div>
+<div class="page_tab"><span data="tab_1" class="active">QQ登陆</span><span data="tab_2">新浪微博</span><span data="tab_3">UC同步登陆</span><span data="tab_4">COOKIE_KEY</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/save" onsubmit="return subcheck();" enctype="multipart/form-data">
+	<div id="tab_1">
+		<dl class="lineD"><dt>是否启用：</dt><dd><htmlA:radio id="login[qq][enable]" value="key|qq_config.enable" default="1|是,0|否" /></dd></dl>
+		<dl class="lineD"><dt>APP_ID：</dt><dd><htmlA:input id="login[qq][id]" value="{$qq_config.id}" /></dd></dl>
+		<dl class="lineD"><dt>APP_KEY：</dt><dd><htmlA:input id="login[qq][key]" value="{$qq_config.key}"/></dd></dl>
+	</div>
+	<div id="tab_2" style="display:none">
+		<dl class="lineD"><dt>是否启用：</dt><dd><htmlA:radio id="login[sina][enable]" value="key|sina_config.enable" default="1|是,0|否" /></dd></dl>
+		<dl class="lineD"><dt>WB_AKEY：</dt><dd><htmlA:input id="login[sina][akey]" value="{$sina_config.akey}" /></dd></dl>
+		<dl class="lineD"><dt>WB_SKEY：</dt><dd><htmlA:input id="login[sina][skey]" value="{$sina_config.skey}"/></dd></dl>
+	</div><!--tab2-->
+	
+	<div id="tab_3" style="display:none">
+		<dl class="lineD"><dt>是否启用：</dt><dd><htmlA:radio id="login[uc][enable]" value="key|uc_config.enable" default="1|是,0|否" /></dd></dl>
+		<dl class="lineD"><dt>UCenter 通信相关</dt><dd>与UC链接验证的相关信息</dd></dl>
+		<dl class="lineD"><dt>UC_KEY：</dt><dd><htmlA:input id="login[uc][UC_KEY]" value="{$uc_config.UC_KEY}"/></dd></dl>
+		<dl class="lineD"><dt>UCenter的 URL 地址：</dt><dd><htmlA:input id="login[uc][UC_API]" value="{$uc_config.UC_API}" tip="带http://"/></dd></dl>
+		<dl class="lineD"><dt>UCenter 的字符集：</dt><dd><htmlA:input id="login[uc][UC_CHARSET]" value="{$uc_config.UC_CHARSET}" tip="gbk | utf-8"/></dd></dl>
+		<dl class="lineD"><dt>UCenter 的 IP：</dt><dd><htmlA:input id="login[uc][UC_IP]" value="{$uc_config.UC_IP}" tip="默认留空,当前应用服务器解析域名有问题时, 请设置此值"/></dd></dl>
+		<dl class="lineD"><dt>当前应用的 ID：</dt><dd><htmlA:input id="login[uc][UC_APPID]" value="{$uc_config.UC_APPID}"/></dd></dl>
+
+		<dl class="lineD"><dt>UCenter 数据库相关</dt><dd>UC所用数据库的相关信息</dd></dl>
+		<dl class="lineD"><dt>UCenter 数据库主机：</dt><dd><htmlA:input id="login[uc][UC_DBHOST]" value="{$uc_config.UC_DBHOST}" /></dd></dl>
+		<dl class="lineD"><dt>UCenter 数据库用户名：</dt><dd><htmlA:input id="login[uc][UC_DBUSER]" value="{$uc_config.UC_DBUSER}"/></dd></dl>
+		<dl class="lineD"><dt>UCenter 数据库密码：</dt><dd><htmlA:input id="login[uc][UC_DBPW]" value="{$uc_config.UC_DBPW}"/></dd></dl>
+		<dl class="lineD"><dt>UCenter 数据库名称：</dt><dd><htmlA:input id="login[uc][UC_DBNAME]" value="{$uc_config.UC_DBNAME}"/></dd></dl>
+		<dl class="lineD"><dt>UCenter 数据库字符集：</dt><dd><htmlA:input id="login[uc][UC_DBCHARSET]" value="{$uc_config.UC_DBCHARSET}"/></dd></dl>
+		<dl class="lineD"><dt>UCenter 数据库表前缀：</dt><dd><htmlA:input id="login[uc][UC_DBTABLEPRE]" value="{$uc_config.UC_DBTABLEPRE}"/></dd></dl>
+
+	</div><!--tab3-->
+	<div id="tab_4" style="display:none">
+		<dl class="lineD"><dt>cookie加密密钥：</dt><dd><htmlA:input id="login[cookie][key]" value="{$cookie_config.key}" tip="尽量复杂" /></dd></dl>
+	</div><!--tab2-->
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<include file="Public:_footer" />

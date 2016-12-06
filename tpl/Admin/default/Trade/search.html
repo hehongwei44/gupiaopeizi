@@ -1,0 +1,56 @@
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<script type="text/javascript">
+var searchName = "搜索/筛选配资";
+</script>
+<div id="search_div" style="display:none">
+    <div class="page_tit">设置搜索条件</div>
+    <div class="form2">
+        <form method="get" action="__URL__/{$xaction}">
+            <if condition="$search.customer_id gt 0">
+                <input type="hidden" name="customer_id" value="{$search.customer_id}" />
+            </if>
+            <if condition="$search.uid gt 0">
+                <input type="hidden" name="uid" value="{$search.uid}" />
+                <input type="hidden" name="olduname" value="{$search.uname}" />
+            </if>
+            <dl class="lineD">
+                <dt>会员名：</dt>
+                <dd>
+                    <input name="uname" style="width:190px" id="title" type="text" value="{$search.uname}">
+                    <span>不填则不限制</span>
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt>所属客服：</dt>
+                <dd>
+                    <input name="customer_name" style="width:190px" id="title" type="text" value="{$search.customer_name}">
+                    <span>不填则不限制</span>
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt>借款金额：</dt>
+                <dd>
+                    <htmlA:select datakey="bj" id="bj" value="key|search.bj" style="width:80px" />
+                    <htmlA:input style="width:100px" id="money" value="{$search.money}" />
+                    <span>不填则不限制</span>
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt>配资时间(开始)：</dt>
+                <dd>
+                    <htmlA:timer id="start_time" tip='只选开始时间则查询从开始时间往后所有' arg="{maxDate:'#F{$dp.$D(\\\\'end_time\\\\')||\\\\'2020-10-01\\\\'}',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true}" class="Wdate" value="{$search.start_time|mydate='Y-m-d H:i:s',###}" />
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt>配资时间(结束)：</dt>
+                <dd>
+                    <htmlA:timer id="end_time" tip='只选结束时间则查询从结束时间往前所有' arg="{minDate:'#F{$dp.$D(\\\\'start_time\\\\')}',maxDate:'2020-10-01',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true}" class="Wdate" value="{$search.end_time|mydate='Y-m-d H:i:s',###}" />
+                </dd>
+            </dl>
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+                <input type="button" class="btn_g" value="取消" onclick="dosearch();" />
+            </div>
+        </form>
+    </div>
+</div>

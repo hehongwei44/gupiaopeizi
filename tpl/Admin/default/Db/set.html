@@ -1,0 +1,18 @@
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="form2">
+	<form method="post" action="__URL__/backup" onsubmit="return subcheck();">
+	<input type="hidden" name="baktable" value="<php>echo implode(',',$_REQUEST['tables']);</php>"/>
+	<div id="tab_1">
+		<dl class="lineD"><dt>备份目录名称：</dt><dd><htmlA:input id="savepath" tip="不能是中文,目录名相同会覆盖"/></dd></dl>
+		<dl class="lineD"><dt>备份备注：</dt><dd><htmlA:input id="info" tip="会在备份目录下生成txt保存备注"/></dd></dl>
+	</div><!--tab1-->
+	
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="开始" />
+	</div>
+	</form>
+</div>
+
+</div>

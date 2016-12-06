@@ -1,0 +1,58 @@
+<include file="Public:_header" />
+<link href="__ROOT__/res/Swfupload/swfupload.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__ROOT__/res/Swfupload/handlers.js"></script>
+
+<style type="text/css">
+.albCt{height:200px}
+option{padding:3px 5px;}
+</style>
+<tagLib name="htmlA" />
+<div class="so_main">
+  <div class="page_tit">
+    添加恒生帐号
+  </div>
+
+  <div class="page_tab"><span data="tab_1" class="active">帐号信息</span></div>
+  <div class="alertDiv">
+    <ul>
+      <li>请先到 HOMS 接口申请账户</li>
+      <li>确保添加的账户和密码能够进行登录和操作</li>
+    </ul>
+  </div>
+  <div class="form2">
+    <form method="post" action="">
+      <input type="hidden" name="id" value="{$vo.id}" />
+      <div id="tab_1">
+        <dl class="lineD">
+          <dt>类型：</dt>
+          <dd>
+            <htmlA:select id="type"  class="select" datakey="data['type']" tip="*"/>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>券商通道：</dt>
+          <dd>
+            <htmlA:input id="agent" value="" tip="*"/>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>恒生账户：</dt>
+          <dd>
+            <htmlA:input id="name" value="" tip="*"/>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>登录密码：</dt>
+          <dd>
+            <htmlA:input id="password" value="" tip="*"/>
+          </dd>
+        </dl>
+      </div>
+      <div class="page_btm">
+        <input type="submit" class="btn_b" value="确定" />
+      </div>
+    </form>
+  </div>
+</div>
+
+<include file="Public:_footer" />

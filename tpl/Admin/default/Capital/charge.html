@@ -1,0 +1,69 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/add';
+var isSearchHidden = 1;
+</script>
+<div class="so_main">
+    <div class="page_tit">
+        <span>会员充值详情</span>
+        <include file="Public:quick" />
+    </div>
+    <div class="page_tab">
+        <a href="__ACTION__?type={$_GET['type']}">
+            <span data="tab_1" <eq name="_GET['level']" value=''>class="active"</eq>>全部</span>
+        </a>
+        <span data="tab_search" onclick="dosearch()"><b class="tab_search"></b></span>
+    </div>
+    <include file="charge_search" />
+    <!--搜索/筛选会员-->
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l">ID</th>
+                <th class="line_l">用户名</th>
+                <th class="line_l" style="text-align:right">充值金额</th>
+                <th class="line_l" style="text-align:right">充值手续费</th>
+                <th class="line_l">充值状态</th>
+                <th class="line_l">对账订单号</th>
+                <th class="line_l">充值方式</th>
+                <th class="line_l">充值时间</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.user_name}</td>
+                    <td style="text-align:right">{$vo.money|default=0}</td>
+                    <td style="text-align:right">{$vo.fee|default=0}</td>
+                    <td>{$status[$vo['status']]}</td>
+                    <td>{$vo.tran_id|default="无"}</td>
+                    <td>{$way[$vo['way']]}</td>
+                    <td>{$vo.add_time|date="y-m-d H:i:s",###}</td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+</div>
+<script type="text/javascript">
+function showurl(url, Title) {
+    ui.box.load(url, {
+        title: Title
+    });
+}
+</script>
+<include file="Public:_footer" />

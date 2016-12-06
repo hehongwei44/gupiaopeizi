@@ -1,0 +1,101 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<div class="so_main">
+    <div class="page_tit">投资级别管理</div>
+    <div class="page_tab">
+        <a href="/admin/leve/index.html">
+            <span data="tab_1" <eq name="_GET['tab']" value='level'>class="active"</eq><eq name="_GET['tab']" value=''>class="active"</eq>>会员级别</span>
+        </a>
+        <a href="/admin/leve/invest?tab=invest">
+            <span data="tab_1" <eq name="_GET['tab']" value='invest'>class="active"</eq>>投资级别</span>
+        </a>
+        <a href="/admin/age/index?tab=age">
+            <span data="tab_1" <eq name="_GET['tab']" value='age'>class="active"</eq>>年龄别称</span>
+        </a>
+    </div>
+    <div class="form2">
+        <div class="alertDiv">
+            <ul>
+                <li>如需新增级别图标，请先将图片通过FTP上传到您服务器项目下的UF\leveico\目录下。</li>
+                <li>提示：所有方式修改完后提交一次即可。</li>
+            </ul>
+        </div>
+        <form method="post" action="__URL__/investsave" onsubmit="return subcheck();" enctype="multipart/form-data">
+            <div id="tab_1">
+                <div class="Toolbar_inbox">
+                    <htmlA:commonBtn type="jsfun" action="addone();" value="添加一个级别" />
+                </div>
+                <div class="list">
+                    <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <th style="width:22px;">
+                                <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                                <label for="checkbox"></label>
+                            </th>
+                            <th class="line_l" style="width:90px">序号</th>
+                            <th class="line_l" style="text-align:left;">级别名称</th>
+                            <th class="line_l" style="text-align:left;">级别开始积分</th>
+                            <th class="line_l" style="text-align:left;">级别结束积分</th>
+                            <th class="line_l" style="text-align:left;">级别图标名称</th>
+                            <th class="line_l" style="width:90px">图标显示</th>
+                            <th class="line_l" style="width:90px">操作</th>
+                        </tr>
+                        <volist empty="$empty" id="vo" name="leve">
+                            <tr overstyle='on' id="list_{$key}">
+                                <td>
+                                    <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$key}">
+                                </td>
+                                <td>{$key}</td>
+                                <td style="text-align:left;">
+                                    <input type="text" style="width:95%" name="leve[{$key}][name]" value="{$vo.name}" />
+                                </td>
+                                <td style="text-align:left;">
+                                    <input type="text" style="width:95%" name="leve[{$key}][start]" value="{$vo.start}" />
+                                </td>
+                                <td style="text-align:left;">
+                                    <input type="text" style="width:95%" name="leve[{$key}][end]" value="{$vo.end}" />
+                                </td>
+                                <td style="text-align:left;">
+                                    <input type="text" style="width:95%" name="leve[{$key}][icoName]" value="{$vo.icoName}" />
+                                </td>
+                                <td><img src="{$vo.start|getInvestLeveIco=###}" /></td>
+                                <td>
+                                    <input type="button" value="删除" onclick="delx({$key})">
+                                </td>
+                            </tr>
+                        </volist>
+                    </table>
+                </div>
+            </div>
+            <!--tab1-->
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+var xss = parseInt({
+    $key
+}) || 0;
+
+function addone() {
+    xss++;
+    var htmladd = '<tr overstyle="on" id="list_' + xss + '">';
+    htmladd += '<td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="' + xss + '"></td>';
+    htmladd += '<td>' + xss + '</td>';
+    htmladd += '<td><input type="text" style="width:100px" name="leve[' + xss + '][name]" value="" /></td>';
+    htmladd += '<td><input type="text" style="width:100px" name="leve[' + xss + '][start]" value="" /></td>';
+    htmladd += '<td><input type="text" style="width:100px" name="leve[' + xss + '][end]" value="" /></td>';
+    htmladd += '<td><input type="text" style="width:100px" name="leve[' + xss + '][icoName]" value="" /></td>';
+    htmladd += '<td>&nbsp;</td>';
+    htmladd += '<td><a href="javascript:void(0);" onclick="delx(' + xss + ');">删除</a></td>';
+    htmladd += '</tr>';
+    $(htmladd).appendTo("#area_list");
+}
+
+function delx(id) {
+    if (confirm("删除后不可恢复，并且删除完要确定保存后才会生产，确定要删除吗?")) $("#list_" + id).remove();
+}
+</script>
+<include file="Public:_footer" />

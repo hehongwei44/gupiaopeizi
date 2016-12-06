@@ -1,0 +1,11 @@
+  <div class="page_tab">
+      <a href="__ACTION__">
+        <span data="tab_1" <eq name="_GET[tab]" value=''>class="active"</eq>>全部</span>
+      </a>
+      <volist name="pagetabs" id="data">
+      <a href="__ACTION__?tab={$key}">
+        <span data="tab_1" <eq name="_GET[tab]" value='$key'>class="active"</eq>>{$data}</span>
+      </a>
+      </volist>
+      <span data="tab_search" onclick="dosearch()"><b class="tab_search"></b></span>
+  </div>

@@ -1,0 +1,156 @@
+<include file="Public:_header" />
+<link href="__ROOT__/res/Swfupload/swfupload.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__ROOT__/res/A/js/uploadPreview.js"></script>
+<script type="text/javascript" src="__ROOT__/res/Swfupload/swfupload.js"></script>
+<script type="text/javascript" src="__ROOT__/res/Swfupload/handlers.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		//即时图片预览
+		$("#imgfile").uploadPreview({width:100,height:50,imgDiv:"#imgDiv",imgType:["bmp","gif","png","jpg"],maxwidth:3169,maxheight:4759});
+		//swf上传图片
+		swfu = new SWFUpload(
+		{
+			// Backend Settings
+			upload_url: "swfupload",
+			post_params: {"PHPSESSID": "<php> echo session_id(); </php>", "dopost" : ""},
+
+			// File Upload Settings
+			file_size_limit : "2 MB",	// 2MB
+			file_types : "*.jpg; *.gif; *.png",
+			file_types_description : "选择 JPEG/GIF/PNG 格式图片",
+			file_upload_limit : "0",
+
+			file_queue_error_handler : fileQueueError,
+			file_dialog_complete_handler : fileDialogComplete,
+			upload_progress_handler : uploadProgress,
+			upload_error_handler : uploadError,
+			upload_success_handler : uploadSuccess,
+			upload_complete_handler : uploadComplete,
+
+			button_image_url : "../images/SmallSpyGlassWithTransperancy_17x18.png",
+			button_placeholder_id : "spanButtonPlaceholder",
+			button_width: 250,
+			button_height: 18,
+			button_text : '<span class="button">选择本地图片 <span class="buttonSmall">(单图最大为 2 MB，支持多选)</span></span>',
+			button_text_style : '.button { font-family: "宋体", sans-serif; font-size: 12px; } .buttonSmall { font-size: 10pt; }',
+			button_text_top_padding: 0,
+			button_text_left_padding: 18,
+			button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+			button_cursor: SWFUpload.CURSOR.HAND,
+			
+			// Flash Settings
+			flash_url : "__ROOT__/res/Swfupload/swfupload.swf",
+
+			custom_settings : {
+				upload_target : "divFileProgressContainer"
+			},
+			
+			// Debug Settings
+			debug: true
+		});
+		//swf上传图片
+	});
+
+</script>
+<script type="text/javascript">
+//swf上传后排序
+function rightPic(o){
+	 var o = $("#albCtok"+o);
+	 if( o.next().length > 0) {
+		  var tmp = o.clone();
+		  var oo = o.next();
+		  o.remove();
+		  oo.after(tmp);
+	 }else{
+		alert("已经是最后一个了"); 
+	 }
+}
+//swf上传后排序
+function leftPic(o){
+	 var o = $("#albCtok"+o);
+	 if( o.prev().length > 0) {
+		  var tmp = o.clone();
+		  var oo = o.prev();
+		  o.remove();
+		  oo.before(tmp);
+	 }else{
+		alert("已经是第一个了"); 
+	 }
+}
+//swf上传后删除图片start
+function delPic(id){
+	var imgpath = $("#albCtok"+id).find("input[type='hidden']").eq(0).val();
+	var datas = {'picpath':imgpath,'oid':id};
+	$.post("__URL__/swfupload?delpic", datas, picdelResponse,'json');
+}
+
+function picdelResponse(res){
+	var imgdiv = $("#albCtok"+res.data);
+		imgdiv.remove();
+		ui.success(res.info);
+		ui.box.close();
+}
+//swf上传后删除图片end
+</script>
+<tagLib name="htmlA" />
+<div class="so_main"> 
+<div class="page_tit">添加商品</div>
+<div class="page_tab"><span data="tab_1" class="active">基本信息</span><span data="tab_2">高级设置</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/doAdd" onsubmit="return subcheck();" enctype="multipart/form-data">
+	<div id="tab_1">
+
+	<dl class="lineD"><dt>商品名称：</dt><dd><htmlA:input id="product_name" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>商品价格：</dt><dd><htmlA:input id="product_price" addstr='onblur="NumberCheck(this);"' tip="*"/></dd></dl>
+	<dl class="lineD"><dt>商品运费：</dt><dd><htmlA:input id="ship_price" value="{$vo.ship_price}" addstr='onblur="NumberCheck(this);"' tip="*"/></dd></dl>
+	<dl class="lineD"><dt>所属分类：</dt><dd><htmlA:select id="product_category" datakey='type_list' vt='id|type_name' tip="*"/></dd></dl>
+	<dl class="lineD"><dt>商品关键字：</dt><dd><htmlA:input id="product_keywords" tip="SEO元素"/></dd></dl>
+	<dl class="lineD"><dt>商品简介：</dt><dd><htmlA:text id="product_des" tip="SEO元素"/></dd></dl>
+	<dl class="lineD"><dt>是否抓取远程图片：</dt><dd><htmlA:radio id="is_remote" default="0|否,1|是" tip="抓取远程图片时保存时间可能会稍长，请耐心等待" /></dd></dl>
+	<dl class="lineD"><dt>商品说明：</dt>
+	  <dd>
+		<include file="./res/editor/kissy.html" />
+		<htmlA:editor id="product_content" w='780px' type='kissy'/>
+	  </dd>
+	</dl>
+	
+	</div><!--tab1-->
+	
+	<div id="tab_2" style="display:none">
+	
+	<dl class="lineD"><dt>物品分类：</dt><dd><htmlA:radio id="product_type" default="1|实物,2|虚拟物品" /></dd></dl>
+	<dl class="lineD" style="overflow:hidden"><dt>缩略图：</dt>
+		<dd>
+			<input type="file" id="imgfile" name="imgfile" style="float:left"/>
+			<span style="float:left"><div style="text-align:left; clear:both; overflow:hidden; width:290px; height:50px"><div id="imgDiv"></div></div></span>
+		</dd>
+	</dl>
+	<dl class="lineD"><dt>商品图片：</dt><dd><div style="display: inline; border: solid 1px #7FAAFF; background-color: #C5D9FF; padding: 2px;"><span id="spanButtonPlaceholder"></span></div><span class="tip">只会保存前4张图片</span></dd></dl>
+	<dl class="lineD"><dt>图片预览：</dt>
+	<dd>
+	<table cellpadding="0" cellspacing="0" width="100%">
+    <tr id="handfield">
+      <td colspan="4" class="bline" style="background:url(images/albviewbg.gif) #fff 0 20px no-repeat;">
+       	<table width='100%' height='160' style="margin:0 0 20px 0">
+       		<tr>
+       			<td>
+       				<div id="divFileProgressContainer" style="height:75px;"></div>
+			 		<div id="thumbnails">
+					</div>
+				</td>
+			</tr>
+		</table>
+      </td>
+    </tr>
+	</table>
+	</dd>
+	</dl>
+	</div><!--tab2-->
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<include file="Public:_footer" />

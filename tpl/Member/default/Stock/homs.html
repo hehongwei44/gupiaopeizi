@@ -1,0 +1,24 @@
+<include file="Public:header" />
+<link href="{$res}css/dialog.css" rel="stylesheet" type="text/css"/>
+
+<include file="Public:dialog" />
+<form action="/member/deposit/save.html">
+    <div class="tip" id="message">温馨提示：请修改并妥善保管您的账户密码，切勿告诉他人。 </div>
+    <table>
+        <tr>
+            <th>操盘账号：</th>
+            <td>{$data.name|default='已注销或未开户'}</td>
+        </tr>
+        <tr>
+            <th>交易密码：</th>
+            <td>{$data.password|default='******'}</td>
+        </tr>
+        <tr>
+            <th>交易软件：</th>
+            <td><a href="/help/software.html" target="_blank">下载</a></td>
+        </tr>
+    </table>
+    <div class="actions">
+        <input class="cancel" type="button" value="关闭" onclick="dlg.destroy()">
+    </div>
+</form>

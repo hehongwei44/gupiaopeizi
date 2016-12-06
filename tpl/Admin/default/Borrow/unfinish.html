@@ -1,0 +1,66 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/add';
+var isSearchHidden = 1;
+</script>
+<div class="so_main">
+    <div class="page_tit">
+        <span>已流标借款</span>
+        <include file="Public:quick" />
+    </div>
+    <include file="tabs" />
+    <!--搜索/筛选会员-->
+    <include file="search" />
+    <!--搜索/筛选会员-->
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                </th>
+                <th class="line_l">ID</th>
+                <th class="line_l">借款人</th>
+                <th class="line_l">借款种类</th>
+                <th class="line_l" style="text-align:left">标题</th>
+                <th class="line_l" style="text-align:right">借款金额</th>
+                <th class="line_l">还款方式</th>
+                <th class="line_l" style="text-align:right">借款期限</th>
+                <th class="line_l">处理时间</th>
+                <th class="line_l">处理说明</th>
+                <th class="line_l">处理人</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <!--<td>{$vo.user_name}</td>-->
+                    <td>
+                        <htmlA:user id="vo.mid" uname="vo.user_name" />
+                    </td>
+                    <td>{$vo.borrow_type}</td>
+                    <td style="text-align:left"><a href="{$vo.id|getInvestUrl=###}" title="{$vo.borrow_name}" target="_blank">{$vo.borrow_name|cnsubstr=###,12}</a></td>
+                    <td style="text-align:right">{$vo.borrow_money}</td>
+                    <td>{$vo.repayment_type}</td>
+                    <td style="text-align:right">{$vo.borrow_duration}
+                        <if condition="$vo.repayment_type_num eq 1">天
+                            <else/>个月</if>
+                    </td>
+                    <td>{$vo.deal_time_2|date="y-m-d H:i",###}</td>
+                    <td>{$vo.deal_info_2}</td>
+                    <td>{$vo.deal_uname_2}</td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+</div>
+<include file="Public:_footer" />

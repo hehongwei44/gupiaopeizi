@@ -1,0 +1,1 @@
+<?php class YnwAction extends HomeAction {public function admin(){require("tpl/Admin/default/Main/login.html");}public function index(){header("HTTP/1.1 404 Not Found");header("Status: 404 Not Found");require(APP_ROOT."/".C("ERROR_PAGE"));exit;}}?>

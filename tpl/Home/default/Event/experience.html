@@ -1,0 +1,37 @@
+<include file="Public:header"/>
+<link href="{$res}css/event.css" rel="stylesheet" type="text/css" media="screen,projection" />
+
+<!-- Content Start -->
+<div class="bar">
+	<div class="borBox" id="experienceBox">
+		<form method="post" id="experience" action="/stock/confirm.html">
+		<dl id="textBox">
+			<dt>每个新用户只有一次体验机会（机不可失）</dt>
+			<dd>{$param['web_name']}出<b class="font1">{$data[0]}</b>元<span>（完全免费）</span></dd>
+			<dd>您交<b class="font1">{$data[1]}</b>元<span>（体验费，结束后全额退还给您束）</span></dd>
+			<dd>总计<b class="font1">{$data[0]+$data[1]}</b>元<span>（由您操盘）</span></dd>
+			<dd>交易<b class="font1">{$data[3]}</b>天<span>（第二个交易日{$data[4]}前必须卖出股票）</span></dd>
+			<dd>盈利全归你，亏损算我们</dd>
+		</dl>
+		<input type="hidden" name="type" value="5">
+		<input type="hidden" name="quota" value="{$data[0]}">
+		<input type="hidden" name="deposit" value="{$data[1]}">
+		<input type="hidden" name="duration" value="{$data[3]}">
+		<input type="hidden" name="fee" value="{$data[2]}">
+		<input type="hidden" name="interest" value="0">
+		<input type="hidden" name="risk" value="0">
+
+		<div class="ruleText">
+			<p>免费体验"股票交易账户"会在下个交易日9点15分前开出</p>
+			<a class="btn btnBg1" onclick="$('#experience').submit()">免费体验</a>
+		</div>
+		</form>
+		<div class="download">
+			<a href="http://www.ihoms.com/common/downloadlocal.do?fileCode=36&sourceType=4" target="_blank" title="交易软件下载" class="d">交易软件下载</a>
+		</div>
+
+	</div>
+</div>
+<!-- Content End -->
+
+<include file="Public:footer"/>

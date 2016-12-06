@@ -1,0 +1,94 @@
+<include file="Public:header" />
+<h2>
+    <strong>配资订单</strong>
+    <span style="float:right"><a href="/stock/month.html" target="_BLANK">去配资</a></span>
+</h2>
+<form action="" method="post">
+    <input id="id_with_status" name="status" value="" type="hidden">
+    <div class="search-box">
+        <table>
+            <tbody>
+                <tr>
+                    <th>配资类型：</th>
+                    <td>
+                        <select name="type">
+                            <option value="">全部</option>
+                            <option value="9">按月付费</option>
+                            <option value="8">按天付费</option>
+                            <option value="7">按周付费</option>
+                            <option value="6">炒股大赛</option>
+                            <option value="5">免费体验</option>
+                        </select>
+                    </td>
+                    <th>配资单号：</th>
+                    <td>
+                        <input class="inp" name="withNo" style="width:110px;" value="" type="text">
+                    </td>
+                    <th>&nbsp;&nbsp;配资备注：</th>
+                    <td>
+                        <input class="inp" name="memo" style="width:100px;" value="" type="text">
+                    </td>
+                    <td colspan="4">
+                        <button class="btn" type="submit">查 询</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+<div class="ms-c6">
+    <div class="ms-c6-t">
+        <ul>
+            <li <eq name="_GET['tab']" value=''>class="current"</eq>><a href="/member/stock/">全部</a></li>
+            <li <eq name="_GET['tab']" value='0'>class="current"</eq>><a href="/member/stock/?tab=0">待审核</a></li>
+            <li <eq name="_GET['tab']" value='6'>class="current"</eq>><a href="/member/stock/?tab=6">操盘中</a></li>
+            <li <eq name="_GET['tab']" value='-'>class="current"</eq>><a href="/member/stock/?tab=-">近日到期</a></li>
+            <li <eq name="_GET['tab']" value='7'>class="current"</eq>><a href="/member/stock/?tab=7">已结束</a></li>
+            <li <eq name="_GET['tab']" value='1'>class="current"</eq>><a href="/member/stock/?tab=1">审核未通过</a></li>
+        </ul>
+    </div>
+    <div class="ms-c6-m clearfix">
+        <volist name="data" id="data" empty="$empty">
+        <dl class="ms-c6-ls">
+            <dt>
+                <span class="r">开始时间：{$data.start|date='Y-m-d',###}<i>&nbsp;&nbsp;结束时间：{$data.deadline|date='Y-m-d',###}</i></span>
+                <a href="/member/stock/detail.html?i={$data['id']}">PZ{$data.id}</a> [{$type[$data['type']]}]
+            </dt>
+            <dd>
+                <ul>
+                    <li>操盘资金
+                        <br><strong>{$data.total|number_format=2}元</strong></li>
+                    <li>配资资金
+                        <br><strong>{$data.money|number_format=2}元</strong></li>
+                    <li>风险保证金
+                        <br><strong>{$data.deposit|number_format=2}元</strong></li>
+                    <li> 管理费
+                        <br><strong><gt name="data['fee']" value="0">{$data.fee|number_format=2}元<else/>免费</gt></strong>
+                    </li>
+                    <li>
+                    <i>
+                    <switch name="data['status']" >
+                    <case value="0" break="1">等待审核</case>
+                    <case value="1" break="1">审核未通过</case>
+                    <case value="6" break="1">操盘中</case>
+                    <case value="7" break="1">配资结束</case>
+                    </switch>
+                    </i>
+                    </li>
+                </ul>
+            </dd>
+            <div class="c9btn">
+                <a href="/member/stock/detail.html?i={$data['id']}">配资详情</a>
+                <eq name="data['status']" value="6">
+                <eq name="data['type']" value="9">
+                <a href="/member/renew/add.html" in="pop" data="{$data['id']}">配资续约</a>
+                <a href="/member/stock/stop.html" in="pop" data="{$data['id']}">终止配资</a>
+                </eq>
+                </eq>
+            </div>
+        </dl>
+        </volist>
+        <div id="_page" class="n-pages">{$param['pages']}</div>
+    </div>
+</div>
+<include file="Public:footer" />

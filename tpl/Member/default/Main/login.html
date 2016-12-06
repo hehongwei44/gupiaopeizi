@@ -1,0 +1,42 @@
+<include file="default:Public:header" group="Home" />
+<link href="/tpl/Member/default/Res/css/login.css" rel="stylesheet" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="/tpl/Member/default/Res/js/login.js"></script>
+<style type="text/css">
+.foot{ margin-top:0;}
+<notempty name="param['ad']['main-middle']">
+.login .bar {
+    background: url({$param['ad']['main-middle']}) no-repeat scroll 0px 0px #FFF;
+}
+</notempty>
+</style>
+<div class="login">
+	<div class="bar">
+		<form id="loginForm" method="post">
+		<div class="loginBox">
+			<b>登录</b>
+			<p class="inputBox">
+				<span>手机/昵称：<i id="un"></i></span><input type="text" name="username" id="username"/>
+			</p>
+			<p class="inputBox">
+				<span>密码：<i id="up"></i></span><input type="password" name="password" id="password"/>
+			</p>
+
+			<p class="inputBox authcode" style="display:<eq name="param['error']" value="">none<else/>block</eq>">
+				<span>验证码：{$param['authcode']}<i id="ua"></i></span><input class="yzm" type="text" name="authcode" id="authcode"/>
+				<img class="yzmPic codeimg" src="/member/authcode.html" />
+			</p>
+			<p class="text authcode codeimg" style="display:<eq name="param['error']" value="">none<else/>block</eq>">
+				<a class="authcode font3" href="#">看不清楚，换一个</a>
+			</p>
+			</empty>
+			<input type="hidden" name="from" id="from" value="{$param['login_from']}"/>
+			<a href="#" id="login" class="btn btnBg1">登录</a>
+			<p class="text">
+				<a class="font3" href="/member/forget.html">忘记密码？</a><a class="font3" href="/member/register.html">立即注册</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<span class="regLink">享5倍杠杆赚翻您！ </span>
+			</p>
+		</div>
+		</form>
+	</div>
+</div>
+<include file="default:Public:footer" group="Home" />

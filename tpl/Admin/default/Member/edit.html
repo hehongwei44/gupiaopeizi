@@ -1,0 +1,87 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<style type="text/css">
+.sel_fs{width:110px}
+</style>
+<!--调试内容开始-->
+<!--<pre><php>var_dump($_SERVER);</php></pre>-->
+<!--调试内容结束-->
+<div class="so_main">
+
+<div class="page_tit">修改会员 {$vo.user_name } 的资料</div>
+<div class="page_tab"><span data="tab_1" class="active">基本信息</span><span data="tab_2">认证信息</span><span data="tab_3">银行卡信息</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/doEdit" onsubmit="return subcheck();">
+	<input type="hidden" name="id" value="{$vo.id}" />
+	<input type="hidden" name="uid" value="{$vo.id}" />
+
+	<div id="tab_1">
+	<dl class="lineD"><dt>会员名：</dt><dd><htmlA:input id="user_name"  value="{$vo.user_name }"/></dd></dl>
+	<dl class="lineD"><dt>客户类型：</dt><dd><htmlA:radio id="user_type" datakey="utype" value="key|vo.user_type"/></dd></dl>
+	<dl class="lineD"><dt>新登录密码：</dt><dd><htmlA:input id="user_pass" tip="如不修改则留空"/></dd></dl>
+	<dl class="lineD"><dt>确认新登录密码：</dt><dd><htmlA:input id="re_user_pass" tip="如不修改则留空" /></dd></dl>
+	<dl class="lineD"><dt>新支付密码：</dt><dd><htmlA:input id="pin_pass" tip="如不修改则留空"/></dd></dl>
+	<dl class="lineD"><dt>确认支付密码：</dt><dd><htmlA:input id="re_pin_pass" tip="如不修改则留空" /></dd></dl>
+	<dl class="lineD"><dt>客服ID：</dt><dd><htmlA:input id="customer_id"  value="{$vo.customer_id}"/></dd></dl>
+	<dl class="lineD"><dt>是否内部发标人员：</dt><dd><htmlA:radio id="is_vip" default="0|否,1|是" value="key|vo.is_vip" tip="内部发标人员可以拥有直接发布借款标的特权，无需等待各项认证通过才能发标，仅用于平台内部人员"/></dd></dl>
+	<dl class="lineD"><dt>是否直投或定存宝会员：</dt><dd><htmlA:radio id="is_transfer" default="0|否,1|是" value="key|vo.is_transfer" tip="选择是才可以以此会员身份在后台发布直投或者定存宝"/></dd></dl>
+	<dl class="lineD"><dt>是否冻结：</dt><dd><htmlA:radio id="is_ban" default="0|否,1|是" value="key|vo.is_ban" tip="冻结后会员不能登陆，须联系客服处理"/></dd></dl>
+	<dl class="lineD"><dt>是否允许发布借款：</dt><dd><htmlA:radio id="is_borrow" default="0|否,1|是" value="key|vo.is_borrow" tip="会员只有被允许发布借款时，才可以发标"/></dd></dl>
+	</div><!--tab1-->
+
+	<div id="tab_2" style="display:none">
+	<dl class="lineD"><dt>真实姓名：</dt><dd><htmlA:input id="real_name"  value="{$vo.real_name}"/></dd></dl>
+	<dl class="lineD"><dt>身份证号：</dt><dd><htmlA:input id="idcard"  value="{$vo.idcard}"/></dd></dl>
+	<dl class="lineD"><dt>手机号码：</dt><dd><htmlA:input id="user_phone"  value="{$vo.user_phone}"/></dd></dl>
+	<dl class="lineD"><dt>会员邮箱：</dt><dd><htmlA:input id="user_email" value="{$vo.user_email}" /></dd></dl>
+	<dl class="lineD"><dt>地址：</dt><dd><htmlA:input id="address" value="{$vo.address}" /></dd></dl>
+	<dl class="lineD"><dt>年龄：</dt><dd><htmlA:input id="age"  value="{$vo.age}"/></dd></dl>
+	<dl class="lineD"><dt>职业：</dt><dd><htmlA:input id="zy" value="{$vo.zy}" /></dd></dl>
+	<!--//////////////////////////////////////////////-->
+	<dl class="lineD"><dt>身份证正面图片：</dt><dd><div style="text-align:left; clear:both; overflow:hidden; width:290px; height:100px"><div id="imgDiv"></div><if condition="$vo.card_img eq ''">无缩略图<else/><img src="__ROOT__/{$vo.card_img}" width="100" height="100" /></if></div>
+	</dd></dl>
+	<dl class="lineD"><dt>身份证反面图片：</dt><dd><div style="text-align:left; clear:both; overflow:hidden; width:290px; height:100px"><div id="imgDiv"></div><if condition="$vo.card_back_img eq ''">无缩略图<else/><img src="__ROOT__/{$vo.card_back_img}" width="100" height="100" /></if></div>
+	</dd></dl>
+<!--//////////////////////////////////////////////-->
+	</div><!--tab1-->
+
+	<!--银行卡信息-->
+	<div id="tab_3"  style="display:none">
+	<dl class="lineD"><dt>银行账号：</dt><dd><htmlA:input id="bank_num"  value="{$vo.bank_num}"/></dd></dl>
+	<dl class="lineD"><dt>银行名称：</dt><dd><htmlA:select id="bank_name" value="key|vo.bank_name" datakey='bank_list' class="select" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>开户银行所在省份：</dt><dd>
+	<htmlA:input id="bank_province"  value="{$vo.bank_province}" tip="如:山东省"/>
+	</dd></dl>
+	<dl class="lineD"><dt>开户银行所在市：</dt><dd>
+	<htmlA:input id="bank_city"  value="{$vo.bank_city}" tip="如:济南市"/>
+	</dd></dl>
+	<dl class="lineD"><dt>开户行支行名称：</dt><dd><htmlA:input id="bank_address" value="{$vo.bank_address}" tip="如:高新区支行" /></dd></dl>
+
+	</div>
+	<!--银行卡信息-->
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+
+function subcheck(){
+	var pass = $("#user_pass").val();
+	var re_pass = $("#re_user_pass").val();
+	if( (pass!=""||re_pass!="") && re_pass!=pass){
+		ui.error("新密码和确认密码不能相同，如不修改则都留空");
+		return false;
+	}
+	var pin = $("#pin_pass").val();
+	var re_pin = $("#re_pin_pass").val();
+	if( (pin!=""||re_pin!="") && re_pin!=pin){
+		ui.error("新支付密码和确认支付密码不相同，如不修改则都留空");
+		return false;
+	}
+	return true;
+}
+
+</script>
+</div>
+<include file="Public:_footer" />

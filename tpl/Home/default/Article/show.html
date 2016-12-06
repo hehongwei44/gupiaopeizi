@@ -1,0 +1,31 @@
+<include file="Public:header"/>
+<link href="{$res}css/article.css" rel="stylesheet" type="text/css" media="screen,projection" />
+<!-- Content Start -->
+<div class="bar">
+<div class="aboutNav">
+	<notempty name="param['ad']['left-top']">
+	<ul>{$param['ad']['left-top']}</ul>
+	</notempty>
+	<ul class="aboutNav">
+		<volist name="param['left_menu']" id="menu">
+		<li <eq name="menu['id']" value="10">class="now"</eq>><a href="{$menu['type_url']}">{$menu['type_name']}</a></li>
+		</volist>
+	</ul>
+	<notempty name="param['ad']['left-bottom']">
+	<ul>{$param['ad']['left-bottom']}</ul>
+	</notempty>
+</div>
+<div class="aboutMain">
+	<p class="title1"><b>网站公告</b></p>
+	<div class="aboutM">
+		<h1 class="articleT">{$data['title']}</h1>
+		<span class="time">发布时间：{$data['art_time']|date='Y-m-d',###}</span>
+		<div class="articleM">
+			<p>{$data['art_content']}</p>
+		</div>
+	</div>	
+</div>
+
+</div>
+<!-- Content End -->
+<include file="Public:footer"/>

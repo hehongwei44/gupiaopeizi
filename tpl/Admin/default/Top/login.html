@@ -1,0 +1,97 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<div class="so_main">
+    <div class="page_tit">
+        <span>登录次数排行榜</span>
+        <include file="Public:quick" />
+    </div>
+    <div class="page_tab">
+        <a href="__ACTION__?type=all">
+            <span data="tab_1" <eq name="_GET['type']" value='all'>class="active"</eq><eq name="_GET['type']" value=''>class="active"</eq>>总排行</span>
+        </a>
+        <a href="__ACTION__?type=day">
+            <span data="tab_1" <eq name="_GET['type']" value='day'>class="active"</eq>>今日排行</span>
+        </a>
+        <a href="__ACTION__?type=week">
+            <span data="tab_1" <eq name="_GET['type']" value='week'>class="active"</eq>>本周排行</span>
+        </a>
+        <a href="__ACTION__?type=month">
+            <span data="tab_1" <eq name="_GET['type']" value='month'>class="active"</eq>>本月排行</span>
+        </a>
+        <a href="__ACTION__?type=year">
+            <span data="tab_1" <eq name="_GET['type']" value='year'>class="active"</eq>>年度排行</span>
+        </a>
+    </div>
+    <notempty name="title">
+    <div class="Toolbar_inbox" style="height:25px;font-size:18px"><div class="page">{$title}</div></div>
+    </notempty>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th class="line_l" style="width:90px">名次</th>
+                <th class="line_l">用户名</th>
+                <th class="line_l" style="text-align:right">登录次数</th>
+                <th class="line_l" style="text-align:right">当前积分</th>
+                <th class="line_l">用户级别</th>
+                <th class="line_l">注册来源</th>
+                <th class="line_l" style="width:120px">会员注册时间</th>
+            </tr>
+            <volist id="vo" name="data" key='keys' empty='$empty' offset="0" length='1'>
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td style="font-size:35px;color:red;height:50px;">{$keys}</td>
+                    <td style="font-size:30px;color:red;">{$vo.user_name}</td>
+                    <td style="text-align:right;color:red;font-size:30px">{$vo.total}</td>
+                    <td style="text-align:right">{$vo.integral}</td>
+                    <td>{$level[$vo['level']]|default='新手'}</td>
+                    <td>{$from[$vo['from']]|default='网站'}</td>
+                    <td>{$vo.reg_time|date="y年m月d日",###}</td>
+                </tr>
+            </volist>
+            <php>$keys++</php>
+            <volist id="vo" name="data" offset="1" length='1'>
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td style="font-size:24px;color:red;height:38px;">{$keys}</td>
+                    <td style="font-size:24px;color:red;">{$vo.user_name}</td>
+                    <td style="text-align:right;color:red;font-size:24px">{$vo.total}</td>
+                    <td style="text-align:right">{$vo.integral}</td>
+                    <td>{$level[$vo['level']]|default='新手'}</td>
+                    <td>{$from[$vo['from']]|default='网站'}</td>
+                    <td>{$vo.reg_time|date="y年m月d日",###}</td>
+                </tr>
+            </volist>
+            <php>$keys++</php>
+            <volist id="vo" name="data" offset="2" length='1'>
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td style="font-size:18px;color:red;height:32px;">{$keys}</td>
+                    <td style="font-size:18px;color:red;">{$vo.user_name}</td>
+                    <td style="text-align:right;color:red;font-size:18px">{$vo.total}</td>
+                    <td style="text-align:right">{$vo.integral}</td>
+                    <td>{$level[$vo['level']]|default='新手'}</td>
+                    <td>{$from[$vo['from']]|default='网站'}</td>
+                    <td>{$vo.reg_time|date="y年m月d日",###}</td>
+                </tr>
+            </volist>
+            <php>$keys++</php>
+            <volist id="vo" name="data" offset="3" length='20'>
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td><php>echo $keys++</php></td>
+                    <td>{$vo.user_name}</td>
+                    <td style="text-align:right;height:20px">{$vo.total}</td>
+                    <td style="text-align:right">{$vo.integral}</td>
+                    <td>{$level[$vo['level']]|default='新手'}</td>
+                    <td>{$from[$vo['from']]|default='网站'}</td>
+                    <td>{$vo.reg_time|date="y年m月d日",###}</td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+function showurl(url, Title) {
+    ui.box.load(url, {
+        title: Title
+    });
+}
+</script>
+<include file="Public:_footer" />

@@ -1,0 +1,212 @@
+<style type="text/css">
+.x_member_form{width:800px; overflow:hidden}
+.x_member_form .form2{height:445px; overflow:auto;}
+
+.x_member_form .form2 .lineD {overflow:hidden; width:98%; display:block;padding: 5px 0;}
+.x_member_form .form2 .lineD label{margin-right:15px;}
+.x_member_form .form2 .lineD dt{width:150px; color:#9CB8CC; font-weight:bold}
+.x_member_form .form2 .lineD dd{width:200px; float:left; margin-left:0px}
+
+
+.page_btm {border-top: 1px solid #9CB8CC;padding: 15px 0 10px 355px;bottom: 0;}
+</style>
+
+<div class="so_main x_member_form">
+<div class="page_tab">
+	<span data="tab_1">账户通讯</span>
+	<span data="tab_2">具体通讯</span>
+	<span data="tab_3">节日通讯</span>
+	<span data="tab_4">通讯记录</span>
+</div>
+<div class="form2">
+
+	<div id="tab_1" style="height:370px;display:none">
+		<form action="sendsms" method="post" class="sendsms1" onsubmit="return subcheck();">
+			<input type="hidden" name="sms" value="1">
+			<dl class="lineD">
+				<dt>通讯方式：</dt>
+				<dd><label><input type="checkbox" name="type" value="1"/>邮件</label><label><input type="checkbox" name="type" value="2"/>短信</label><label><input type="checkbox" name="type" value="4" checked="checked"/>站内信</label></dd>
+			</dl>
+			<dl class="lineD">
+				<dt>用户名：</dt>
+				<dd><input type="text" name="user_name" value="{$user_name}"/></dd>
+			</dl>
+			<dl class="lineD">
+				<dt>发送内容：</dt>
+				<dd><textarea name="info" rows="10" cols="30" style="height: 80px; width: 350px;"></textarea></dd>
+			</dl>
+			<dl class="lineD" style="text-align:center;border-bottom:0px">
+				<img class="img_button" data="1" src="/tpl/Home/default/res/images/sub_offline.jpg" style="cursor: pointer;" alt="确认提交">
+			</dl>
+		</form>
+	</div>
+	
+	<div id="tab_2" style="height:370px;display:none">
+		<form action="sendsms" method="post" class="sendsms2" onsubmit="return subcheck();">
+			<input type="hidden" name="sms" value="2">
+			<dl class="lineD">
+				<dt>邮件账户：</dt>
+				<dd><input type="text" name="email" /></dd>
+			</dl>
+			<dl class="lineD">
+				<dt>短信账户：</dt>
+				<dd><input type="text" name="phone" /></dd>
+			</dl>
+			<dl class="lineD">
+				<dt>发送内容：</dt>
+				<dd><textarea name="info" rows="10" cols="30" style="height: 80px; width: 350px;"></textarea></dd>
+			</dl>
+			<dl class="lineD" style="text-align:center;border-bottom:0px">
+				<img class="img_button" data="2" src="/tpl/Home/default/res/images/sub_offline.jpg" style="cursor: pointer;" alt="确认提交">
+			</dl>
+		</form>
+	</div>
+
+	<div id="tab_3" style="height:370px;display:none">
+		<form action="sendsms" method="post" class="sendsms3" onsubmit="return subcheck();">
+			<input type="hidden" name="sms" value="3">
+			<dl class="lineD">
+				<dt>用户：</dt>
+				<dd>
+					<select name="user_name">
+						<option value="0">----</option>
+						<option value="1">所有会员</option>
+						<option value="2">VIP会员</option>
+						<option value="3">非VIP会员</option>
+					</select>
+				</dd>
+			</dl>
+			<dl class="lineD">
+				<dt>通讯方式：</dt>
+				<dd><label><input type="checkbox" name="type" value="1"/>邮件</label><label><input type="checkbox" name="type" value="2"/>短信</label><label><input type="checkbox" name="type" value="4" checked="checked"/>站内信</label></dd>
+			</dl>
+			<dl class="lineD">
+				<dt>发送内容：</dt>
+				<dd><textarea name="info" rows="10" cols="30" style="height: 80px; width: 350px;"></textarea></dd>
+			</dl>
+			<dl class="lineD" style="text-align:center;border-bottom:0px">
+				<img class="img_button" data="3" src="/tpl/Home/default/res/images/sub_offline.jpg" style="cursor: pointer;" alt="确认提交">
+			</dl>
+		</form>
+	</div>
+
+	<div id="tab_4" style="display:none"></div>
+
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="关闭" end="1" onclick="closeui();" />
+	</div>
+</div>
+
+</div>
+<script type="text/javascript">
+	function closeui(){
+		ui.box.close();
+	}
+
+	$(document).ready(function(){
+		$.ajax({
+		    url: "/admin/common/smslog?user_name={$user_name}",
+		    timeout: 5000,
+		    cache: false,
+		    type: "get",
+		    dataType: "json",
+		    success: function (d, s, r) {
+		        if(d) $("#tab_4").html(d.html);//
+		    }
+		});
+
+		$('.page_tab span').click(function(){
+			if($(this).attr('class')=='active')	return ;
+
+			$('.active').removeClass('active');
+			$(this).addClass('active');
+
+			$("#tab_1").hide();
+			$("#tab_2").hide();
+			$("#tab_3").hide();
+			$("#tab_4").hide();
+
+			$("#"+$(this).attr('data')).show();
+			return false;
+		});
+		$(".page_tab span").eq({$tab}-1).trigger("click")
+
+		$('.img_button').click(function(){
+			if ($(this).attr('data')==1 && $(".btn_b").attr('end')==1) {
+				$(".btn_b").attr('end',0);
+				num = '*';
+				$('.sendsms1 input:checkbox').each(function() {
+		            if ($(this).attr('checked') ==true) {
+		                num += $(this).val() + "*";
+		            }
+		        });
+		        if (num=="*") alert("提现方式不可为空");
+
+				data = {
+					sms:$('.sendsms1 input[name=sms]').val(),
+					type:num,
+					user_name:$('.sendsms1 input[name=user_name]').val(),
+					info:$('.sendsms1 textarea[name=info]').val()
+				};
+
+				$.post(
+					'/admin/common/sendsms',
+					data,
+					function(d){
+						alert(d);
+						$(".btn_b").attr('end',1);
+					});
+			}else if ($(this).attr('data')==2 && $(".btn_b").attr('end')==1){
+				$(".btn_b").attr('end',0);
+				data = {
+					sms:$('.sendsms2 input[name=sms]').val(),
+					email:$('.sendsms2 input[name=email]').val(),
+					phone:$('.sendsms2 input[name=phone]').val(),
+					info:$('.sendsms2 textarea[name=info]').val()
+				};
+
+				$.post(
+					'/admin/common/sendsms',
+					data,
+					function(d){
+						alert(d);
+						$(".btn_b").attr('end',1);
+					});
+			}else if ($(this).attr('data')==3 && $(".btn_b").attr('end')==1) {
+				$(".btn_b").attr('end',0);
+				num = '*';
+				$('.sendsms3 input:checkbox').each(function() {
+		            if ($(this).attr('checked') ==true) {
+		                num += $(this).val() + "*";
+		            }
+		        });
+		        if (num=="*") alert("提现方式不可为空");
+
+				data = {
+					sms:$('.sendsms3 input[name=sms]').val(),
+					type:num,
+					user_name:$(".sendsms3 select[name=user_name]").val(),
+					info:$('.sendsms3 textarea[name=info]').val()
+				};
+
+				$.post(
+					'/admin/common/sendgala',
+					data,
+					function(d){
+						alert(d);
+						$(".btn_b").attr('end',1);
+					});
+			}
+		});
+	});
+	
+	var cansub = true;
+function subcheck(){
+	if(!cansub){
+		alert("请不要重复提交，如网速慢，请耐心等待！");
+		return false;	
+	}
+	cansub = false;
+	return true;
+}
+</script>

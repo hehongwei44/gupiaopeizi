@@ -1,0 +1,83 @@
+<include file="Public:header"/>
+<link href="{$res}css/stock.css" rel="stylesheet" type="text/css" media="screen,projection" />
+<!-- Content Start -->
+<div class="indexbg">
+<div class="bar">
+	<notempty name="param['ad']['main-top']">
+	<div style="width:100%;margin:0 auto;margin-top:20px">{$param['ad']['main-top']}</div>
+	</notempty>
+	<div class="borBox">
+		<div class="indexT font2">
+			{$param['web_name']}提供三种配资产品：请选择合适您的产品
+			<a href="/event/experience.html"><span style="float:right;margin-right:25px;color:red;font-size:15px;padding-top:4px">免费体验</span></a>
+		</div>
+		<ul class="indexUl">
+			<li>
+				<b class="itemT">按<span>月</span>配资</b>
+				<div class="itemM">
+					<p>每月按息付费产品，根据您想要配资的资金额度获取不同的每月利息，配资资金越高，每月利息越优惠。固定月息产品在配资开始时收取首月利息，不足一个月按照一个月缴纳。</p>
+					<dl>
+						<dt>利率费用:</dt><dd><span class="font1">1.2~1.8</span> 分/月</dd>
+						<dt>最小申请:</dt><dd>{$param['stock_month'][0][0]|number_format}元</dd>
+						<dt>最大申请:</dt><dd>{$param['stock_month'][0][1]|number_format}元</dd>
+						<dt>配资周期:</dt><dd>1 ~ 12 个月</dd>
+					</dl>
+					<div class="btnBox"><a href="/stock/month.html" class="btn btnBg1">立即申请</a></div>
+				</div>
+			</li>
+			<li>
+				<b class="itemT">按<span>天</span>配资</b>
+				<div class="itemM">
+					<p>根据您的喜好，选择不同的配资资金和保证金比例。资金使用期限最短2天，最长30天，账户管理费在配资成功后一次性收取；配资到期默认每天自动延期，费用不足时自动终止。</p>
+					<dl>
+						<dt>管理费用:</dt><dd><span class="font1">{$param['stock_day'][1]*1000}‰</span></dd>
+						<dt>最小申请:</dt><dd>{$param['stock_day'][0][0]|number_format}元</dd>
+						<dt>最大申请:</dt><dd>{$param['stock_day'][0][1]|number_format}元</dd>
+						<dt>配资周期:</dt><dd>2 ~ 30 天</dd>
+					</dl>
+					<div class="btnBox"><a href="/stock/day.html" class="btn btnBg1">立即申请</a></div>
+				</div>
+			</li>
+			<li>
+				<b class="itemT">按<span>周</span>配资</b>
+				<div class="itemM">
+					<p>您只需预付少量的风险保证金，最高可获得100万元的实盘资金。当您投资盈利时，盈利七成归您，风险保证金全额退还。操盘时间最长5个交易日，可提前终止，最大优点操盘资金完全免费使用。</p>
+					<dl>
+						<dt>利率费用:</dt><dd><span class="font1">免费</span></dd>
+						<dt>最小申请:</dt><dd>{$param['stock_week'][0][0]|number_format}元</dd>
+						<dt>最大申请:</dt><dd>{$param['stock_week'][0][1]|number_format}元</dd>
+						<dt>配资周期:</dt><dd>5 天</dd>
+					</dl>
+					<div class="btnBox"><a href="/stock/week.html" class="btn btnBg1">立即申请</a></div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<style>
+	.cpdrM{ display:block; height:50px; overflow:hidden;background: #fff}
+	.marquee{ width:100%;}
+	.marquee li{ width:100%; line-height:24px; float:left;text-align: center;}
+	.marquee li p{  float:left; width:174px;padding:6px 12px; overflow:hidden;color:#999;border-right:0px solid #eee;}
+	.marquee li b{ font-size:16px;display: block;color:#555;}
+	.marquee li i{ color:red;font-size:13px;}
+	.indexbg .borBox {padding: 6px 0px 15px;margin-bottom: 0px;}
+	</style>
+	<div class="borBox" style="width:998px;margin:0 auto;border-top:0px;margin-bottom:20px">
+	    <div class="cpdrM">
+	        <ul class="marquee">	        	
+	            <li>
+	            	<volist name="param['new']" id="new" mod='5'>
+	                <p><b>{$new.name}</b>{$new.type}<i>{$new.total}万元</i> {$new.postfix}</p>
+	                <eq name="mod" value="4"></li><li></eq>
+	                </volist>    
+	            </li>
+	        </ul>
+	    </div>   
+	</div>
+	<script>
+	slide('.marquee','Top');
+	</script>
+</div>
+</div>
+<!-- Content End -->
+<include file="Public:footer"/>

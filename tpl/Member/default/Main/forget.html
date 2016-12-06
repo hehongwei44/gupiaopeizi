@@ -1,0 +1,226 @@
+<include file="default:Public:header" group="Home" />
+<link href="/tpl/Member/default/Res/css/login.css" rel="stylesheet" type="text/css" media="screen,projection" />
+<style>
+dd span.error{display:none;color: #F00;}
+</style>
+<!-- Content Start -->
+<div class="bar">
+	<div class="borBox" id="zhBar">
+		<div class="title1"><b>找回密码</b></div>
+		<eq name="_POST['step']" value="">
+		<dl class="form">
+			<form method="post">
+			<dt>方式：</dt>
+			<dd>
+				<select name="method" id="method">
+					<option value="email">邮箱找回</option>
+					<option value="mobile">手机找回</option>
+				</select>
+			</dd>
+			<dt id="methodCaption">已绑定邮箱：</dt>
+			<dd>
+				<input class="text" type="text" value="" name="account" id="account"/>
+				<input class="btn btnBg3" id="sendAuthBtn" type="button" type="text" value="获取验证码" style="display:none"/><br/>
+				<span class="error" id="ia"></span>
+			</dd>
+			<div id="codeDiv" style="display:none">
+			<dt>验证码：</dt>
+			<dd>
+				<input class="text" type="text" value="" name="smscode" id="smscode"/>
+				<span class="error" id="ic"></span>
+				<input type="hidden" name="step" value="2" />
+			</dd>
+			</div>
+			<dd><button type="button" id="oneBtn" class="btn btnBg1" style="width:242px;font-size:16px;height:38px">下一步</button></dd>
+			</form>
+		</dl>
+		</eq>
+
+		<eq name="_POST['step']" value="2">
+		<dl class="form">
+			<form method="post">
+			<dt>新密码：</dt>
+			<dd>
+				<input class="text" type="password" name="password" id="password" value="" />
+				<span class="error" id="pe">密码长度至少为6位</span>
+			</dd>
+			<dt>确认新密码：</dt>
+			<dd>
+				<input class="text" type="password" name="confirm" id="confirm" value="" />
+				<span class="error" id="ce">两次输入的密码不一致</span>
+				<input type="hidden" name="step" value="3" />
+			</dd>
+			<dd><button type="submit" id="twoBtn" class="btn btnBg1" style="width:242px;font-size:16px;height:38px">下一步</button></dd>
+			</form>
+		</dl>
+		</eq>
+
+
+		<eq name="_POST['step']" value="3">
+		<div class="tsbox">
+            <p> <img src="{$res}img/yes.png" width="50" height="50" style="margin-right:10px">成功找回密码！需要<a href="/member/login.html" class="font1">重新登录</a></p>
+        </div>
+		</eq>
+
+		<neq name="_POST['step']" value="3">
+		<div class="zhR">
+			<b>找回密码流程：</b>
+			<p><span <eq name="_POST['step']" value=""> class="now"</eq>>01</span>验证用户信息</p>
+			<p><span <eq name="_POST['step']" value="2"> class="now"</eq>>02</span>设置新的登录密码</p>
+			<p><span <eq name="_POST['step']" value="3"> class="now"</eq>>03</span>登录密码找回成功</p>
+		</div>
+		</neq>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var rs = 60;
+		var method = '邮箱';
+		$('#method').change(function(){
+			if($(this).val()=='email'){
+				method = '邮箱';
+				$('#sendAuthBtn').hide();
+				$('#codeDiv').hide();
+				$('#methodCaption').html('已绑定邮箱：');
+			}else{
+				method = '手机';
+				$('#sendAuthBtn').show();
+				$('#codeDiv').show();
+				$('#methodCaption').html('已绑定手机：');
+			}
+			$('#ia').hide();
+		});
+
+		$('#account').blur(function(){
+			if($('#method').val()=='email'){
+				var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+				if(!filter.test($('#account').val())){
+					$('#ia').show();
+					$('#ia').html('邮箱地址格式不正确');
+					return false;
+				}
+				$('#ia').show();
+				$('#codeDiv').show();
+				$.post("/member/forget.html",{exists:$('#account').val()},function(ret){
+					if(ret.status>0){
+						$('#ia').show();
+						$('#ia').html(ret.info);
+					}
+				},'json');
+			}else{
+				$('#ia').hide();
+			}
+		});
+
+		$('#oneBtn').click(function(){
+			var canDo = true;
+			if(!$('#account').val()){
+				$('#ia').show();
+				$('#ia').html('请填写您在{$param['web_name']}绑定的'+method);
+				canDo = false;
+			}
+
+			if($('#method').val()=='email'){
+				var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+				if(!filter.test($('#account').val())){
+					$('#ia').show();
+					$('#ia').html('邮箱地址格式不正确');
+					canDo = false;
+				}
+				if(!canDo){
+					return false;
+				}
+				$.post("/member/forget.html",{check:$('#smscode').val(),exists:$('#account').val()},function(ret){
+					if(ret.status>0){
+						$('#ic').show();
+						$('#ic').html(ret.info);
+						canDo = false;
+					}else{
+						$('form').submit();
+					}
+				},'json');
+			}else{
+
+				var filter = /^1\d{10}$/;
+				if(!filter.test($('#account').val())){
+					$('#ia').show();
+					$('#ia').html('手机号码格式不正确');
+					canDo = false;
+				}
+				if($('#smscode').val()==''){
+					$('#ic').show();
+					$('#ic').html('请输入手机收到的验证码');
+					canDo = false;
+				}
+				if(!canDo){
+					return false;
+				}
+				$.post("/member/forget.html",{mobile:$('#account').val(),check:$('#smscode').val()},function(ret){
+					if(ret.status>0){
+						$('#ia').show();
+						$('#ia').html(ret.info);
+					}else{
+						$('form').submit();
+					}
+				},'json');
+			}
+			$('#ia').hide();
+
+
+		});
+
+		$('#twoBtn').click(function(){
+			if(!$('#password').val()||$('#password').val().length<6||$('#password').val().length>18){
+				$('#pe').show();
+				$('#pe').html('请输入6-18位的新密码');
+				return false;
+			}
+			$('#pe').hide();
+			if($('#password').val()!=$('#confirm').val()){
+				$('#ce').show();
+				$('#ce').html('两次输入的密码不一致');
+				return false;
+			}
+
+		});
+
+		$('#sendAuthBtn').click(function(){
+			var filter = /^1\d{10}$/;
+			if(!filter.test($('#account').val())){
+				$('#ia').show();
+				$('#ia').html('手机号码格式不正确');
+				return false;
+			}else{
+				$('#ia').hide();
+			}
+
+			$.post("/member/sendsms.html",{mobile:$('#account').val(),forget:'true'},function(ret){
+				if(ret.status>0){
+					rs = 60;
+	                clearInterval(int);
+	                $('#sendAuthBtn').val('发送验证码');
+					$('#ia').show();
+					$('#ia').html(ret.info);
+				}else{
+					$('#sendAuthBtn').val('重新发送('+rs+')');
+					$('#ia').hide();
+				}
+			},'json');
+
+			int = setInterval(function(){
+	            rs--;
+	            if(rs<1){
+	                rs = 60;
+	                clearInterval(int);
+	                $('#sendAuthBtn').val('发送验证码');
+	                $('#sendAuthBtn').removeAttr('disabled');
+	            }else{
+	                $('#sendAuthBtn').attr('disabled',true);
+	                $('#sendAuthBtn').val('重新发送('+rs+')');
+	            }
+	        },1000);
+		});
+	});
+</script>
+<!-- Content End -->
+<include file="default:Public:footer" group="Home" />

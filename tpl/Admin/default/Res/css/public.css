@@ -1,0 +1,63 @@
+@charset "utf-8";
+
+/* CSS Document */
+body { font: 12px Arial, Verdana, Helvetica, sans-serif; text-align: center; color: #333; background-color: #fff }
+body, div, dl, dt, dd, ul, ol, li, pre, form, fieldset, blockquote, h1, h2, h3, h4, h5, h6 { padding: 0; margin: 0 }
+table, td, tr, th { font-size: 12px ;}
+input, select { vertical-align: middles;}
+table { margin: 0 auto }
+img { border: none }
+ol, ul, li { list-style: none }
+em { color: #999; font-family: 'Microsoft yahei', Tahoma, Verdana, helvetica; font-size: 10px; font-style: normal; white-space: nowrap; }
+
+/* 连接 */
+a { color: #005fab; text-decoration: none }
+a:link { color: #3b5999; text-decoration: none }
+a:visited { color: #3b5999; text-decoration: none }
+a:hover { color: #3b5999; text-decoration: underline }
+a:active { color: #3b5999 }
+
+/* 字体颜色 */
+.cWhite, .cWhite:visited, a.cWhite { color: #fff }
+.cYellow, .cYellow:visited { color: #ff0 }
+.cGray, .cGray:visited, a.cGray { color: #333 }
+.cGray2, .cGray2:visited, a.cGray2 { color: #999 }
+.cBlack, .cBlack:visited, a.cBlack { color: #000 }
+.cBlue, .cBlue:visited, a.cBlue { color: #005fab }
+.cRed, .cRed:visited, a.cRed { color: Red }
+.cGreen, a.cGreen:link, a.cGreen:visited { color: #008000; }
+.fn { font-weight: normal; }
+.fI { font-style: italic }
+.fu, .fu a { text-decoration: underline; }
+
+/* 字体大小 */
+.f12px { font-size: 12px }
+.f14px { font-size: 14px }
+.f16px { font-size: 16px }
+.f18px { font-size: 18px }
+
+/*其它样式*/
+.alR { text-align: right; height: 30px }
+.alL { text-align: left; height: 30px }
+.alC { text-align: center }
+.alM { vertical-align: middle; }
+.left { float: left }
+.right { float: right }
+.clear { clear: both; }
+.c { clear: both; font-size: 1px; height: 0; line-height: 0; visibility: hidden; }
+.hidden { display: none }
+.OverH { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hand { cursor: pointer; }
+.WB { word-wrap: break-word; }
+.wn { white-space: nowrap; }
+.lineD { border-bottom: 1px dashed #e2e2e2 }
+.btn_b { background: #00A2FF; border: 0 none; padding: 4px 22px; color: #fff;cursor:pointer; font-size: 16px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+
+.btn_g { background: #f5f5f5; border: 1px solid #eee; padding: 3px 22px;margin-left:5px; color: #333;cursor:pointer; font-size: 16px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+.btn_w { background: #fcfcfc url(../images/btn_w.gif) no-repeat 0 0; border: 0 none;cursor:pointer; width: 60px; height: 24px; color: #333 }
+.alertDiv { margin: 0px auto; border: 1px solid #eeeeee; line-height: 25px; background: #FFFEEF; margin-bottom: 10px; }
+.alertDiv li { margin: 5px 0; list-style-type: decimal; color: #666; padding: 0px; line-height: 20px; }
+.alertDiv ul { text-align: left; list-style-type: decimal; display: block; padding: 0px; margin: 0px 0px 0px 20px; }
+
+#search_div .page_tit{font-size: 16px;font-weight: normal;padding-left:5px;}
+#checkbox_handle{margin-left:9px;}

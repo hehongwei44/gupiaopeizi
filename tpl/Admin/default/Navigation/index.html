@@ -1,0 +1,106 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/add';
+var listUrl = '__URL__/listType';
+var addTitle = '添加导航类别';
+</script>
+<div class="so_main">
+    <div class="page_tit">导航菜单管理</div>
+    <div class="alertDiv">
+        <ul>
+            <li>导航类别指网站的顶部导航菜单，以及网站内功能板块划分。</li>
+            <li>不使用的导航菜单建议不要删除，先隐藏即可，删除后辛苦编辑的页面将无法恢复！</li>
+            <li>如果使用多条网站公告，需要到文章资讯模块添加网站公告栏目的内容。</li>
+        </ul>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+        <htmlA:commonBtn type="href" action="__URL__/add?model=navigation" value="添加分类" />
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l" style="width:80px">ID</th>
+                <th class="line_l" width="20%" style="text-align:left">分类名称</th>
+                <th class="line_l" style="text-align:left">链接路径</th>
+                <th class="line_l">分类排序</th>
+                <th class="line_l">打开方式</th>
+                <th class="line_l">状态</th>
+                <th class="line_l" style="width:80px">操作</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}" class="leve_1" typeid="{$vo.id}" parentid="{$vo.parent_id}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td style="text-align:left">
+                        <eq name="vo.haveson" value="true"><span class="typeson typeon" data="son">&nbsp;</span>
+                            <else/><span class="typeson">&nbsp;</span></eq>{$vo.type_name}</td>
+                    <td style="text-align:left">{$vo.type_url|default='&nbsp;'}</td>
+                    <td>{$vo.sort_order}</td>
+                    <td><eq name="vo['url_target']" value="">原窗口<else/><span style="color:red">新窗口</span></eq></td>
+                    <td>
+                        <eq name="vo['is_hiden']" value="1"><span style="color:red">隐藏</span><else/>显示</eq>
+                    </td>
+                    <td>
+                        <a href="__URL__/edit?id={$vo['id']}&model=navigation">编辑</a>
+                        <a href="javascript:void(0);" onclick="del({$vo['id']});">删除</a>
+                    </td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+        <htmlA:commonBtn type="jsfun" action="del();" value="删除分类" />
+    </div>
+</div>
+<script type="text/javascript">
+$("#area_list").bind("click", function(event) {
+    var _this = $(event.target).parent().parent(); //获取当前点击元素
+    var typeid = $(_this).attr('typeid');
+    if (!$($(event.target)).attr("data")) return; //如果被点击的元素不是span即+-号就不继续执行
+
+    var liid = $("#area_list tr").index(_this); //获取当前元素在listtree li下面的元素索引,供传入后传回,以确定在哪个位置插入
+    var dir = $(_this).attr('typeid');
+
+    var sontree = $("#area_list tr:[parentid=" + typeid + "]");
+
+    //对已获取和没获取的做不同的处理
+    if (sontree.html() == null) {
+        var datas = {
+            'typeid': typeid,
+            'model': 'navigation'
+        };
+        $.post(listUrl, datas, LTResponse, 'json');
+        $($(event.target)).addClass("typeoff");
+        $($(event.target)).removeClass("typeon");
+    } else {
+        if (sontree.css("display") == 'none') {
+            sontree.css("display", "");
+            $($(event.target)).addClass("typeoff");
+            $($(event.target)).removeClass("typeon");
+        } else {
+            sontree.css("display", "none");
+            $($(event.target)).addClass("typeon");
+            $($(event.target)).removeClass("typeoff");
+        }
+    }
+});
+//获取子分类列表后的处理
+function LTResponse(res) {
+    if (res.status == '0') {
+        ui.error(res.data);
+    } else {
+        $("#area_list tr:[typeid=" + res.data.typeid + "]").after(res.data.inner);
+    }
+}
+</script>
+<include file="Public:_footer" />

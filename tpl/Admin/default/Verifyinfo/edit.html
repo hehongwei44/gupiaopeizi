@@ -1,0 +1,28 @@
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">审核资料</div>
+<div class="form2">
+	<form method="post" action="__URL__/doEdit" onsubmit="return subcheck();">
+	<input type="hidden" name="id" value="{$vo.id}" />
+    <input type="hidden" name="type" value="{$vo.type}">
+	<div id="tab_1">
+	
+	<dl class="lineD"><dt>是否通过：</dt><dd><htmlA:radio id="status" value="key|vo.status" default="1|是,2|否"/></dd></dl>
+	<dl class="lineD"><dt>审核说明：</dt><dd><htmlA:input id="deal_info" value="{$vo.deal_info}" tip="简短说明"/></dd></dl>
+	<!--dl class="lineD"><dt>增加会员信用积分：</dt><dd><htmlA:input id="deal_credits" value="{$vo.deal_credits}" tip="如不奖励积分则不用填"/></dd></dl-->
+	
+	</div><!--tab1-->
+	
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<script type="text/javascript">
+function subcheck(){
+	if($("input[name='status']:checked").val()!=1 && $("input[name='status']:checked").val()!=2){ui.error("请选择审核结果");return false;}
+}
+</script>

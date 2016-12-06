@@ -1,0 +1,49 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<div class="so_main">
+<style>
+.ke-toolbar-icon{margin-left:0 !important;}
+</style>
+<div class="page_tit">添加文章分类</div>
+<div class="page_tab"><span data="tab_1" class="active">基本设置</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/doAdd" onsubmit="return subcheck();">
+	<div id="tab_1">
+
+	<dl class="lineD"><dt>名称：</dt><dd><htmlA:input id="type_name" value="" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>上级分类：</dt><dd><htmlA:select id="parent_id" vt='id|type_name' style="width:362px" datakey='type_list' default="顶级分类" tip="顶级分类则无父分类"/></dd></dl>
+	<dl class="lineD"><dt>英文/拼音首字母：</dt><dd><htmlA:input id="type_nid" tip="*分类链接的网址标识"/></dd></dl>
+	<dl class="lineD"><dt>分类属性：</dt><dd><htmlA:radio id="type_set"  default="0|单页,1|列表页" tip='*'/></dd></dl>
+		<dl class="lineD"><dt>单页内容：</dt>
+		  <dd>
+		  	<textarea name="type_content" style="height:360px;width:100%">{$vo['type_content']}</textarea>
+		  </dd>
+		</dl>
+	<dl class="lineD"><dt>分类简介：</dt><dd><htmlA:text id="type_info" value="{$vo.type_info}" tip="SEO元素"/></dd></dl>
+	<dl class="lineD"><dt>跳转路径：</dt><dd><htmlA:input id="type_url" tip='仅在分类属性为跳转时有效'/></dd></dl>
+
+	<dl class="lineD"><dt>排序：</dt><dd><htmlA:input id="sort_order" tip="数字越大越靠前" addstr='onblur="NumberCheck(this);"'/></dd></dl>
+	<dl class="lineD"><dt>状态：</dt><dd><htmlA:radio id="is_hiden" value="key|vo.is_hiden" default="0|显示,1|隐藏" tip='隐藏的分类名称不会自动调用,指定ID才会调用'/></dd></dl>
+
+	</div><!--tab1-->
+
+
+	<div class="page_btm">
+      <input type="hidden" name="model" id="model" value="{$model}" />
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<script type="text/javascript">
+$("input[name='type_nid']").bind("click", function(event){
+	if($(this).val()=="other"){
+		$("#other_nid").css("display","");
+	}else{
+		$("#other_nid").css("display","none");
+	}
+});
+var editor = KindEditor.create('textarea[name="type_content"]');
+</script>
+<include file="Public:_footer" />

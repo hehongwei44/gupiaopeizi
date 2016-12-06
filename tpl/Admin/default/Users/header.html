@@ -1,0 +1,1 @@
+<iframe width="450px" scrolling="no" height="485px" frameborder="0" marginwidth="0" marginheight="0" src="__URL__/memberheaderuplad/?uid={$kfuid}"></iframe>

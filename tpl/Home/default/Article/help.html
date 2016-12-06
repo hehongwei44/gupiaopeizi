@@ -1,0 +1,38 @@
+<include file="Public:header"/>
+<link href="{$res}css/article.css" rel="stylesheet" type="text/css" media="screen,projection" />
+<!-- Content Start -->
+<div class="bar">
+	<div class="aboutNav">
+		<notempty name="param['ad']['left-top']">
+		<ul>{$param['ad']['left-top']}</ul>
+		</notempty>
+		<ul>
+			<volist name="param['left_menu']" id="menu">
+			<li <eq name="data['id']" value="$menu['id']">class="now"</eq>><a href="{$menu['type_url']}">{$menu['type_name']}</a></li>
+			</volist>
+		</ul>
+		<notempty name="param['ad']['left-bottom']">
+		<ul>{$param['ad']['left-bottom']}</ul>
+		</notempty>
+	</div>
+	<div class="aboutMain">
+		<p class="title1"><b>{$data['title']}</b></p>
+		<div class="aboutM">{$data['content']}</div>
+	</div>
+</div>
+<!-- Content End -->
+<script type="text/javascript">
+$(function(e) {
+  $(window).scroll(function(){
+    if($(document).scrollTop()>140){
+      $('.aboutNav').css('position','fixed');
+      $('.aboutNav').css('top','0px');
+      $('.aboutMain').css('margin-left','190px');
+    }else{
+      $('.aboutNav').css('position','');
+      $('.aboutMain').css('margin-left','');
+    }      
+  });
+});
+</script>
+<include file="Public:footer"/>

@@ -1,0 +1,224 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<div class="so_main">
+  <div class="page_tit">通知信息接口管理</div>
+  <div class="page_tab"><span data="tab_1" class="active">邮箱信息</span><span data="tab_2">手机参数</span><span data="tab_3" style="display:none">百度云推送参数</span></div>
+  <div class="form2">
+    <form method="post" action="__URL__/save" >
+      <div id="tab_1">
+        <dl class="lineD">
+          <dt>SMTP服务器：</dt>
+          <dd>
+            <htmlA:input id="msg[stmp][server]" value="{$stmp_config.server}" tip="如:smtp.idccenter.net"/>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>SMTP服务器端口：</dt>
+          <dd>
+            <htmlA:input id="msg[stmp][port]" value="{$stmp_config.port}" tip="如:25"/>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>SMTP用户名：</dt>
+          <dd>
+            <htmlA:input id="msg[stmp][user]" value="{$stmp_config.user}" tip="如:123456@abc.com"/>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>SMTP密码：</dt>
+          <dd>
+            <input type="password" name="msg[stmp][pass]" id="stmpPass" value="{$stmp_config.pass}" class="input" />
+          </dd>
+        </dl>
+      </div>
+      <!--tab1-->
+      <div id="tab_2" style="display:none">
+        <div class="alertDiv">
+          <ul>
+            <li>本系统提供三个短信提供商接口（吉信通、漫道和亿美软通短信接口）,客户可根据喜好自行选择任意短信接口！</li>
+            <li>吉信通官网访问地址：http://www.winic.org/ &nbsp;&nbsp;漫道短信官网访问地址：http://www.zucp.net/&nbsp;&nbsp;亿美软通短信官网访问地址：http://www.emay.cn/</li>
+            <li>当您需要短信充值时，可直接去相应的短信提供商官网开通账户并充值！</li>
+            <li>当您所选择的短信平台出现故障时，您可以选择”关闭短信平台服务”来暂时停止向会员发送短信的服务,以保证您系统其他操作的正常使用！</li>
+          </ul>
+        </div>
+        <dl class="lineD">
+          <dt>当前短信提供商：</dt>
+          <dd> <span style="color:red;margin:0"><b>
+            <if condition="$sms_config_type eq 0">吉信通短信提供商
+              <elseif condition="$sms_config_type eq 1"/>
+              漫道短信提供商
+              <elseif condition="$sms_config_type eq 2"/>
+              亿美软通短信提供商
+              <else/>
+              短信服务已关闭</if>
+            </b></span> </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>请选择短信提供商：</dt>
+          <dd>
+            <htmlA:radio id="msg[sms][type]" name="msg[sms][type]" datakey="type_list" value="key|sms_config.type"/>
+          </dd>
+        </dl>
+        <div id="close">
+          <dl class="lineD">
+            <dt>当前短信服务状态:</dt>
+            <dd>关闭</dd>
+          </dl>
+          <dl class="lineD">
+            <dt>友情提示:</dt>
+            <dd>当您停止短信服务时，系统中所有的操作都将不再向会员发送短信通知！</dd>
+          </dl>
+        </div>
+        <div id="winic">
+          <dl class="lineD">
+            <dt>短信请到</dt>
+            <dd> <a href="http://www.winic.org/" target="_blank">http://www.winic.org/</a>&nbsp;&nbsp;购买</dd>
+          </dl>
+          <dl class="lineD">
+            <dt>当前短信帐户余额:</dt>
+            <dd>{$winic|default="0"}</dd>
+          </dl>
+          <dl class="lineD">
+            <dt>用户名：</dt>
+            <dd>
+              <htmlA:input id="msg[sms][user1]" value="{$sms_config.user1}" />
+            </dd>
+          </dl>
+          <dl class="lineD">
+            <dt>密　码：</dt>
+            <dd>
+              <input type="password" name="msg[sms][pass1]" id="stmpPass" value="{$sms_config.pass1}" class="input" />
+            </dd>
+          </dl>
+        </div>
+        <div id="zucp" style="display:none;">
+          <dl class="lineD">
+            <dt>短信请到</dt>
+            <dd> <a href="http://www.zucp.net/" target="_blank">http://www.zucp.net/</a>购买</dd>
+          </dl>
+          <dl class="lineD">
+            <dt>当前剩余短信条数:</dt>
+            <dd> {$zucp|default="0"}</dd>
+          </dl>
+          <dl class="lineD">
+            <dt>sn：</dt>
+            <dd>
+              <htmlA:input id="msg[sms][user2]" value="{$sms_config.user2}" />
+            </dd>
+          </dl>
+          <dl class="lineD">
+            <dt>密码：</dt>
+            <dd>
+              <input type="password" name="msg[sms][pwd]" id="pwd" value="{$sms_config.pwd}" class="input" />
+            </dd>
+          </dl>
+        </div>
+        <div id="emay" style="display:none;">
+          <dl class="lineD">
+            <dt>短信请到</dt>
+            <dd> <a href="http://www.emay.cn/" target="_blank">http://www.emay.cn/</a>购买</dd>
+          </dl>
+          <dl class="lineD">
+            <dt>当前剩余短信条数:</dt>
+            <dd>{$emay|default="0"}</dd>
+          </dl>
+          <dl class="lineD">
+            <dt>cdkey：</dt>
+            <dd>
+              <htmlA:input id="msg[sms][user3]" value="{$sms_config.user3}" />
+            </dd>
+          </dl>
+          <dl class="lineD">
+            <dt>密　码：</dt>
+            <dd>
+              <input type="password" name="msg[sms][pass3]" id="pwd" value="{$sms_config.pass3}" class="input" />
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <!--tab2-->
+      <div id="tab_3"  style="display:none;">
+        <dl class="lineD">
+          <dt>百度云消息推送API_KEY：</dt>
+          <dd>
+            <htmlA:input id="msg[baidu][apiKey]" value="{$baidu_config.apiKey}" tip=""/>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>百度云消息推送secretKey：</dt>
+          <dd>
+            <htmlA:input id="msg[baidu][secretKey]" value="{$baidu_config.secretKey}" tip=""/>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>手机客户端最新版本：</dt>
+          <dd>
+            <htmlA:input id="msg[baidu][apkVersion]" value="{$baidu_config.apkVersion}" tip=""/>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>手机客户端最新版本下载路径：</dt>
+          <dd>
+            <htmlA:input id="msg[baidu][apkPath]" value="{$baidu_config.apkPath}" tip=""/>
+          </dd>
+        </dl>
+      </div>
+      <!--tab1-->
+      <div class="page_btm"><input type="submit" class="btn_b" value="确定" /></div>
+    </form>
+  </div>
+  <script language=javascript type="text/javascript" src="__ROOT__/res/js/jquery.js"></script>
+  <script language=javascript type="text/javascript" >
+$(document).ready(function() {
+	var b_type = $(":input[name='msg[sms][type]']:checked").val();
+	if(b_type==0){
+		$("#winic").show();
+		$("#zucp").hide(); 
+		$("#emay").hide();
+		$("#close").hide();
+	}else if(b_type==1){
+		$("#winic").hide();
+		$("#zucp").show(); 
+		$("#emay").hide();
+		$("#close").hide();
+	}else if(b_type==2){
+		$("#winic").hide(); 
+		$("#zucp").hide();
+		$("#emay").show();
+		$("#close").hide();
+	}else{
+		$("#winic").hide(); 
+		$("#zucp").hide();
+		$("#emay").hide();
+		$("#close").show();
+	}
+});
+$(function(){
+   $(":input[name='msg[sms][type]']").click(function(){
+  if($(this).attr("value")=="0"){
+   		$("#winic").show();
+		$("#zucp").hide(); 
+		$("#emay").hide();
+		$("#close").hide();
+  }else if($(this).attr("value")=="1"){
+		$("#winic").hide();
+		$("#zucp").show(); 
+		$("#emay").hide();
+		$("#close").hide();
+  }else if($(this).attr("value")=="2"){
+		$("#winic").hide();
+		$("#zucp").show(); 
+		$("#emay").hide();
+		$("#close").hide();
+  }else{
+		$("#winic").hide(); 
+		$("#zucp").hide();
+		$("#emay").hide();
+		$("#close").show();
+  }
+ });
+});
+
+</script>
+</div>
+<include file="Public:_footer" />

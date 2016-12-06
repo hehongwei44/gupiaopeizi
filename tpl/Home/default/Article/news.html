@@ -1,0 +1,35 @@
+<include file="Public:header" />
+<link href="{$res}css/article.css" rel="stylesheet" type="text/css" media="screen,projection" />
+<!-- Content Start -->
+<div class="bar">
+    <div class="aboutNav">
+        <ul>
+            <volist name="param['left_menu']" id="menu">
+                <li <eq name="menu['id']" value="10">class="now"</eq>><a href="{$menu['type_url']}">{$menu['type_name']}</a></li>
+            </volist>
+        </ul>
+		<notempty name="param['ad']['left-bottom'][0]">
+		<ul style="height:320px">{$param['ad']['left-bottom'][0]}</ul>
+		</notempty>
+    </div>
+    <div class="aboutMain">
+        <p class="title1"><b>网站公告</b></p>
+        <ul class="news">
+            <volist name="data" id="event">
+                <li>
+                    <notempty name="event['art_img']">
+                        <a href="/news/{$event['id']}.html"><img src="{$event['art_img']}" /></a>
+                    </notempty>
+                    <div class="text">
+                        <h2><a href="/news/{$event['id']}.html">{$event['title']}</a></h2>
+                        <p class="jj">{$event['art_info']}</p>
+                        <p class="item"><span class="time">{$event['art_time']|date='Y年m月d日',###}</span><span class="number">{$event['art_click']} 次</span></p>
+                    </div>
+                </li>
+            </volist>
+        </ul>
+        <p class="page">{$param['pages']}</p>
+    </div>
+</div>
+<!-- Content End -->
+<include file="Public:footer" />

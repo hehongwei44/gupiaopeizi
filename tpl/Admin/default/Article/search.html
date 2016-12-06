@@ -1,0 +1,31 @@
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<div id="search_div" style="display:none">
+    <div class="page_tit">设置搜索条件</div>
+    <div class="form2">
+        <form method="get" action="__URL__/{$xaction}">
+            <if condition="$search.customer_id gt 0">
+                <input type="hidden" name="customer_id" value="{$search.customer_id}" />
+            </if>
+            <if condition="$search.uid gt 0">
+                <input type="hidden" name="uid" value="{$search.uid}" />
+                <input type="hidden" name="olduname" value="{$search.uname}" />
+            </if>
+            <dl class="lineD">
+                <dt>文章标题：</dt>
+                <dd>
+                    <input name="title" style="width:190px" id="title" type="text" value="{$title}">
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt>所属分类：</dt>
+                <dd>
+                    <htmlA:select id="type_id" value="id|type_id" datakey='type_list' vt='id|type_name' />
+                </dd>
+            </dl>
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+                <input type="button" class="btn_g" value="取消" onclick="dosearch();" />
+            </div>
+        </form>
+    </div>
+</div>

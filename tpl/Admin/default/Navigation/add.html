@@ -1,0 +1,89 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<div class="so_main">
+    <div class="page_tit">添加导航菜单</div>
+    <div class="page_tab">
+        <span data="tab_1" class="active">基本设置</span>
+        <span data="tab_2">单页内容</span>
+    </div>
+    <div class="form2">
+        <form method="post" action="__URL__/doAdd" onsubmit="return subcheck();">
+            <div id="tab_1">
+                <dl class="lineD">
+                    <dt>名称：</dt>
+                    <dd>
+                        <htmlA:input id="type_name" value="" tip="*" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>上级菜单：</dt>
+                    <dd>
+                        <htmlA:select id="parent_id" vt='id|type_name' datakey='type_list' style="width:362px" default="顶级菜单" tip="顶级菜单则无父菜单" />
+                    </dd>
+                </dl>
+
+                <dl class="lineD">
+                    <dt>链接路径：</dt>
+                    <dd>
+                        <htmlA:input id="type_url" tip='*' />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>排序：</dt>
+                    <dd>
+                        <htmlA:input id="sort_order" tip="数字越大越靠前" addstr='onblur="NumberCheck(this);"' />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>页面布局：</dt>
+                    <dd>
+                        <htmlA:radio id="layout" value="key|vo.layout" default="0|常规带菜单显示,1|全屏显示单页内容,2|隐藏左侧导航" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>打开方式：</dt>
+                    <dd>
+                        <htmlA:radio id="url_target" value="key|vo.url_target" default="|原窗口,new|新窗口" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>状态：</dt>
+                    <dd>
+                        <htmlA:radio id="is_hiden" value="key|vo.is_hiden" default="0|显示,1|隐藏" tip='隐藏的菜单名称不会自动调用,指定ID才会调用' />
+                    </dd>
+                </dl>
+            </div>
+            <!--tab1-->
+            <div id="tab_2" style="display:none">
+                <include file="./res/editor/kissy.html" />
+                <textarea name="type_content" style="height:360px;width:100%">{$vo['type_content']}</textarea>
+            </div>
+            <!--tab2-->
+            <div class="page_btm">
+                <input type="hidden" name="model" id="model" value="{$model}" />
+                <input type="submit" class="btn_b" value="确定" />
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+$("input[name='type_nid']").bind("click", function(event) {
+    if ($(this).val() == "other") {
+        $("#other_nid").css("display", "");
+    } else {
+        $("#other_nid").css("display", "none");
+    }
+})
+var editor = KindEditor.create('textarea[name="type_content"]',{allowFileManager : true});
+</script>
+<style type="text/css">
+body .ke-container td {
+    padding: 0;
+}
+.form2 textarea {
+    width: 100%;
+    margin-top: 10px;
+    resize: none;
+}
+</style>
+<include file="Public:_footer" />

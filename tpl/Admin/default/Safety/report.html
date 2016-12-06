@@ -1,0 +1,53 @@
+<include file="../Public/_header" />
+<style type="text/css">
+.dirBox{
+    width:300px; 
+    height:230px;
+    overflow:auto;
+}
+.dirBox input, .dirBox img{
+    vertical-align: middle;
+}
+</style>
+<div class="so_main">
+  <div class="page_tit">查杀报告</div>
+
+  <div class="Toolbar_inbox">
+      <div class="page right"></div>
+    <a onclick="addWebSetting();" class="btn_a" href="{:U('index')}">
+        <span class="searchUser_action">木马查杀</span>
+    </a>
+    <a onclick="addWebSetting();" class="btn_a" href="{:U('scanReport')}">
+        <span class="searchUser_action">查杀报告</span>
+    </a>
+  </div>
+  
+  <div class="list">
+  <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th class="line_l" style="text-align:left">文件名</th>
+    <th class="line_l">特征函数次数</th>
+    <th class="line_l">特征函数</th>
+    <th class="line_l">特征代码次数</th>
+    <th class="line_l">特征代码</th>
+    <th class="line_l">操作</th>
+  </tr>
+  <volist empty="$empty" id="vo" name="list" >
+      <tr>
+        <td style="text-align:left">{$key}</td>
+        <td>{$vo.func_num}</td>
+        <td><font color='red'>{$vo.func}</font></td>
+        <td>{$vo.code_num}</td>
+        <td><font color='red'>{$vo.code}</font></td>
+        <td><a href="javascript:void()" onclick="ui.box.load('/admin/scan/view?file={$key}&func={$vo.func}&code={$vo.code}', {title:'查看源码'})">查看</a></td>
+      </tr>
+  </volist>
+  </table>
+
+  </div>
+  <div class="Toolbar_inbox">
+
+    
+  </div>
+</div>
+<include file="Public:_footer" />

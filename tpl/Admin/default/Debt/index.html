@@ -1,0 +1,81 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+    var delUrl = '__URL__/doDel';
+    var addUrl = '__URL__/add';
+    var isSearchHidden = 1;
+</script>
+<div class="so_main">
+  <div class="page_tit">债权转让</div>
+<!--搜索/筛选会员-->
+  <include file="search" />
+<!--搜索/筛选会员-->
+
+  <div class="Toolbar_inbox">
+      <div class="page right">{$list.page}</div>
+    <a href="__URL__/index" class="btn_a"><span class="search_action">所有债权转让</span></a>
+    <a href="__URL__/index?status=1,4" class="btn_a"><span class="search_action">转让成功的债权</span></a>
+    <a href="__URL__/index?status=2" class="btn_a"><span class="search_action">正在转让的债权</span></a>
+    <a href="__URL__/index?status=3" class="btn_a"><span class="search_action">撤销的债权</span></a>
+  </div>
+  
+  <div class="list">
+  <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:22px;">
+        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+        <label for="checkbox"></label>
+    </th>
+    <th class="line_l">ID</th>
+    <th class="line_l">转让人</th>
+    <th class="line_l" style="text-align:left">投资标题</th>
+    <th class="line_l" style="text-align:right">利率</th>
+    <th class="line_l" style="text-align:right">待收期数</th>
+    <th class="line_l" style="text-align:right">转让期数</th>
+    <th class="line_l">总期数</th>
+    <th class="line_l" style="text-align:right">待收本金</th>
+    <th class="line_l" style="text-align:right">待收利息</th>
+    <th class="line_l" style="text-align:right">转让价格</th>
+    <th class="line_l">提交时间</th>
+    <th class="line_l">状态</th>  
+  </tr>
+  <volist empty="$empty" id="vo" name="list.data">
+      <tr overstyle='on' id="list_{$vo.id}">
+        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
+        <td>{$vo.debt_id}</td>
+        <td><htmlA:user id="vo.mid" uname="vo.user_name" /></td>
+        <td style="text-align:left"><a href="{$vo.id|getInvestUrl=###}" title="{$vo.borrow_name}" target="_blank">{$vo.borrow_name|cnsubstr=###,12}</a></td>
+        <td style="text-align:right">{$vo.borrow_interest_rate}%</td>
+        <td style="text-align:right">{$vo['total']-$vo['has_pay']}期</td>
+        <td style="text-align:right">{$vo.period}期</td>
+        <td>{$vo.total}期</td>
+        <td style="text-align:right">￥{$vo.capital|default=0}</td>
+        <td style="text-align:right">￥{$vo.interest|default=0}</td>
+        <td style="text-align:right">￥{$vo.transfer_price|default=0}</td>
+        <td>{$vo.addtime|date="y-m-d H:i",###}</td> 
+        <td>
+            <if condition="$vo.status eq '99'"> 
+                <a href="javascript:void(0)" onclick="ui.box.load('/admin/debt/audit?debt_id={$vo.debt_id}', {title:'债权转让审核'})">审核</a> 
+            <elseif condition="$vo.status eq 1" /> 
+                转让成功
+            <elseif condition="$vo.status eq 2" /> 
+                转让中
+            <elseif condition="$vo.status eq 3" /> 
+                撤销 
+            <elseif condition="$vo.status eq 4" /> 
+                还款结束
+            </if>
+        </td> 
+      </tr>
+  </volist>
+  </table>
+
+  </div>
+  
+  <div class="Toolbar_inbox" style="overflow: hidden;">
+      <div class="page right">{$list.page}</div>
+  </div>
+</div>
+
+
+<include file="Public:_footer" />

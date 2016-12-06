@@ -1,0 +1,21 @@
+    <span style="float:right">
+      <notempty name="export">
+      <a href="__URL__/{$export}?{$query}" title="导出数据">
+      <img style="padding:9px 0 9px 5px;height:18px;width:18px;border:0px;cursor:pointer" src="__ROOT__/tpl/Admin/default/Res/images/icon_export.png">
+      </a>
+      </notempty>
+      <a href="/Admin/Analyse/{$Think.const.MODULE_NAME}" title="报表分析">
+      <img style="padding:9px 0 9px 5px;height:18px;width:18px;border:0px;cursor:pointer" src="__ROOT__/tpl/Admin/default/Res/images/icon_report.png">
+      </a>
+      <img style="padding:9px 0 9px 5px;height:18px;width:18px;border:0px;cursor:pointer" src="__ROOT__/tpl/Admin/default/Res/images/icon_print.png" onclick="window.print()"  title="打印内容">
+      <img id="add_menu" style="padding:9px 0 9px 5px;height:18px;width:18px;border:0px;cursor:pointer" src="__ROOT__/tpl/Admin/default/Res/images/icon_quick.png" title="添加到工作台">
+    </span>
+    <script>
+    $(function(){
+      $('#add_menu').click(function(){
+        $.post(top.location.href,{menu:$('.page_tit>span').text(),url:location.href,add:1},function(ret){
+          //alert(ret);
+        });
+      });
+    });
+    </script>

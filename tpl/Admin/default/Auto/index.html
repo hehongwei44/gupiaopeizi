@@ -1,0 +1,43 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">自动执行参数</div>
+<div class="page_tab"><span data="tab_1" class="active">自动执行参数</span><span data="tab_2">程序运行状态</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/save" onsubmit="return subcheck();" enctype="multipart/form-data">
+	<div id="tab_1">
+		<dl class="lineD"><dt>执行时间：</dt><dd><htmlA:input id="o_time" value="{$vo.0}" tip="填两位整数,24小时制,如02表示凌晨两点"/></dd></dl>
+		<dl class="lineD"><dt>执行方式：</dt><dd><htmlA:input id="o_rate" value="{$vo.1}" tip="1:连续执行 2:整点执行"/></dd></dl>
+		<dl class="lineD"><dt>密钥：</dt><dd><htmlA:input id="o_key" value="{$vo.2}" tip="越复杂越好,长度不大于100个字符即可,不要使用 | 符号"/></dd></dl>
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" /><span style="color:#CCCCCC">(所有方式修改提交一次即可)</span>
+	</div>
+	</div><!--tab1-->
+	<div id="tab_2" style="display:none">
+		<dl class="lineD"><dt>当前运行状态：</dt><dd><input type="button" onclick="doaction('showstatus')" class="btn_b" value="查看" /></dd></dl>
+		<dl class="lineD"><dt>开启程序：</dt><dd><input type="button" onclick="doaction('start')" class="btn_b" value="开启" /></dd></dl>
+		<dl class="lineD"><dt>关闭程序：</dt><dd><input type="button" onclick="doaction('close')" class="btn_b" value="关闭" />修改配置参数后需要关闭程序再开启才会生效</dd></dl>
+		<dl class="lineD"><dt>开启服务：</dt><dd><input type="button" onclick="doaction('startServer')" class="btn_b" value="开启" />开启服务后重启会自动启动程序</dd></dl>
+		<dl class="lineD"><dt>卸载服务：</dt><dd><input type="button" onclick="doaction('stopServer')" class="btn_b" value="卸载" />卸载服务后重启不会自动启动程序</dd></dl>
+	</div><!--tab1-->
+	</form>
+</div>
+
+</div>
+<script type="text/javascript">
+function doaction(action){
+	$.ajax({
+		url: "__URL__/"+action,
+		data: {},
+		timeout: 5000,
+		cache: false,
+		type: "get",
+		dataType: "html",
+		success: function (d, s, r) {
+			alert(d);
+		}
+	});
+}
+</script>
+<include file="Public:_footer" />

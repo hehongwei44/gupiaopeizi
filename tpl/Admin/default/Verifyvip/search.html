@@ -1,0 +1,47 @@
+  
+  <div id="search_div" style="display:none">
+  	<div class="page_tit"><script type="text/javascript">document.write(searchName);</script> [ <a href="javascript:void(0);" onclick="dosearch();">隐藏</a> ]</div>
+	
+	<div class="form2">
+	<form method="get" action="__URL__/index">
+    <if condition="$search.uid gt 0"><input type="hidden" name="uid" value="{$search.uid}" /></if>
+    <if condition="$search.customer_id gt 0"><input type="hidden" name="customer_id" value="{$search.customer_id}" /></if>
+    <dl class="lineD">
+      <dt>会员名：</dt>
+      <dd>
+        <input name="uname" style="width:190px" id="title" type="text" value="{$search.uname}">
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>真实姓名：</dt>
+      <dd>
+        <input name="realname" style="width:190px" id="title" type="text" value="{$search.realname}">
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>所选客服(用户名)：</dt>
+      <dd>
+        <input name="customer_name" style="width:190px" id="title" type="text" value="{$search.customer_name}">
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+	
+	<dl class="lineD"><dt>申请时间(开始)：</dt><dd><htmlA:timer id="start_time" tip='只选开始时间则查询从开始时间往后所有' arg="{maxDate:'#F{$dp.$D(\\\\'end_time\\\\')||\\\\'2020-10-01\\\\'}',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true}"  class="Wdate" value="{$search.start_time|mydate='Y-m-d H:i:s',###}"/></dd></dl>
+	<dl class="lineD"><dt>申请时间(结束)：</dt><dd><htmlA:timer id="end_time" tip='只选结束时间则查询从结束时间往前所有' arg="{minDate:'#F{$dp.$D(\\\\'start_time\\\\')}',maxDate:'2020-10-01',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true}" class="Wdate" value="{$search.end_time|mydate='Y-m-d H:i:s',###}"/></dd></dl>
+	
+    <dl class="lineD">
+      <dt>申请状态：</dt>
+      <dd>
+      <htmlA:select datakey="status" id="status" value="key|search.status" style="width:150px"/>
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+	</form>
+  </div>
+  </div>

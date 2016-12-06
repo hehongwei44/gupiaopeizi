@@ -1,0 +1,75 @@
+<include file="Public:_header" />
+<link href="__ROOT__/res/Swfupload/swfupload.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__ROOT__/res/Swfupload/handlers.js"></script>
+
+<style type="text/css">
+.albCt{height:200px}
+option{padding:3px 5px;}
+</style>
+<tagLib name="htmlA" />
+<div class="so_main">
+  <div class="page_tab"><span data="tab_1" class="active">基本信息</span></div>
+  <div class="alertDiv">
+    <ul>
+      <li>配资人 <span style="color:red;font-size:17px">{$data['user_name']}</span> 于 {$data['add_time']|date='Y年m月d日H时i分',###} 申请按月配资 <span style="color:red;font-size:17px">{$data['borrow_money']|number_format}</span> 元</li>
+      <li>交易时间为 <span style="color:red">{$data['deal_day']}</span>；保证金 <span style="color:red">{$data['deposit']|number_format}</span> 元；配资期限为 <span style="color:red">{$data['borrow_duration']}</span> <eq name="data['borrow_type']" value="9">月<else/>天</eq>；
+      <eq name="data['borrow_type']" value="8">
+      管理费 <span style="color:red">{$data['borrow_fee']|number_format}</span> 元；风险倍数 <span style="color:red">{$data['risk_rate']|number_format}</span> 倍；
+      <else/>
+      利息 <span style="color:red">{$data['borrow_interest']|number_format}</span>；月利率 <span style="color:red">{$data['borrow_interest_rate']|number_format}%</span>；
+      </eq>
+      </li>
+      <li>如果审核通过将从 {$data['user_name']} 账户内扣除 <span style="color:red;font-size:17px">{$data['total']|number_format}</span> 元 </li>
+    </ul>
+  </div>
+  <div class="form2">
+    <form method="post" action="__URL__/audit" onsubmit="return subcheck();">
+      <input type="hidden" name="id" value="{$data.id}" />
+      <div id="tab_1">
+        <dl class="lineD">
+          <dt>标题：</dt>
+          <dd>
+            <htmlA:input id="borrow_name" value="{$data.borrow_name}" tip="*"/>
+            <input type="hidden" value="{$data.total}" name="total">
+            <input type="hidden" value="{$data.id}" name="id">
+          </dd>
+        </dl>
+
+        <dl class="lineD">
+          <dt>恒生账户：</dt>
+          <dd>
+            <htmlA:select id="homs"  class="select" datakey="data['homs']" tip="*"/>
+          </dd>
+        </dl>
+
+        <dl class="lineD">
+          <dt>配资结束时间：</dt>
+          <dd>
+            <input type="text" value="{$data['deadline']|date='Y-m-d H:i:s',###}" name="deadline" class="input">
+          </dd>
+        </dl>
+
+        <dl class="lineD">
+          <dt>处理结果：</dt>
+          <dd>
+            <label><input type="radio" value="6" name="status" checked="true"> 通过 </label>
+            <label><input type="radio" value="1" name="status"> 拒绝，并作废</label>
+          </dd>
+        </dl>
+
+        <dl>
+          <dt>简要说明：</dt>
+          <dd>
+            <htmlA:text id="borrow_info" value="{$data['borrow_info']}"/>
+          </dd>
+        </dl>
+      </div>
+      <div class="page_btm">
+        <input type="submit" class="btn_b" value="确定" />
+        <input type="button" class="btn_g" value="取消" onclick="ui.box.close()"/>
+      </div>
+    </form>
+  </div>
+</div>
+
+<include file="Public:_footer" />

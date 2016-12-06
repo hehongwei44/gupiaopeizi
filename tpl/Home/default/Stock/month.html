@@ -1,0 +1,404 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="{$res}css/stock.css">
+<script type="text/javascript" src="{$res}js/stock.js"></script>
+<script type="text/javascript">
+
+<if condition="$principal neq ''">
+	$(function(){
+		var principal_a = {$principal};
+		moneyChange(principal_a);
+		$("#principal").focus();
+		$("#pz_sel").css("display","block");
+		$("#pz_inp").css("display","none");
+
+	});
+</if>
+
+var schemeConfig={minMoney:1000,maxMoney:1000000,minIntention:100,maxIntention:1000,minRenewalDuration:1,maxRenewalDuration:24,minWithdrawProfit:100,minInterestRate:2,maxInterestRate:2,minLever:1,maxLever:6,maxDuration:12,moneyUnit:100,intentionPercent:1.00,statusBinding:'1',statusLoan:'4',interest:0};
+var dfInterest = schemeConfig.interest<1?1.6:schemeConfig.interest;
+var maxPrincipal = {$param['stock_month'][0][1]};
+var maxMoney = {$param['stock_month'][0][1]};
+var blankTip = "请输入投资本金，最少{$param['stock_month'][0][0]}，最多"+$.formatMoney({$param['stock_month'][0][1]}/10000)+"万";
+
+function checkAndNext(){
+	var data = getFormData();
+	var money = parseInt($('#principal').val().replace(',',''))+0;
+    if (money < {$param['stock_month'][0][0]} || money > {$param['stock_month'][0][1]}||isNaN(money)||money % 1000 != 0) {
+        dialog('请输入最少 {$param['stock_month'][0][0]} 元 最多 {$param['stock_month'][0][1]/10000}万元，并且为 1000 的倍数。');
+        return false;
+    }
+    if($('#risk').val()<1){
+        dialog('请选择您需要的配资金额。');
+        return false;
+    }
+	$("form").submit();
+}
+
+function getFormData(){
+	var data = {};
+	var p = $.trim($("#principal").val());
+	data.principal = p==blankTip?"":p.replace(/,/g,'');
+	data.lever = $.trim($("li[class='curr'] em[name='lever']").attr('data'));
+	data.duration = $("#duration").val();
+	data.tradeStart = $.trim($("input[name='start']:checked").val());
+	return data;
+}
+
+function checkLever(principal){
+	if(principal>0){
+		$("#pz_sel li").removeClass("disable");
+		var lever = $.trim($("li[class='curr'] em[name='lever']").attr('data'));
+		for(var i=2;i<=6;i++){
+			if(principal*i>maxMoney){
+				$("#lever"+i).parent().parent().addClass("disable");
+			}
+		}
+		if(principal*lever>maxMoney){
+			for(var i=1;i<=lever;i++){
+				if(principal*i<=maxMoney){
+					$("#lever"+i).parent().click();
+					break;
+				}
+			}
+		}
+	}
+}
+
+function checkTodayShowable(money){
+	if(money>={$param['stock_month'][1]}){
+		hideToday();
+	}else{
+		showToday();
+	}
+}
+
+function showToday(){
+	var tday = $("#tday");
+	if(tday.length>0){
+		tday.show();
+	}
+}
+
+function hideToday(){
+	var tday = $("#tday");
+	if(tday.length>0){
+		tday.hide();
+		$("#nday").click();
+	}
+}
+
+
+function getPrincipal(){
+	var p = $.trim($("#principal").val());
+	return p==blankTip?"":p.replace(/,/g,'');
+}
+
+</script>
+
+<!--中部开始-->
+
+<include file="step"/>
+
+<div class="peizibox conbox pt20" style="margin-top:10px;">
+    <form action="/stock/confirm.html" method="POST">
+        <input type="hidden" value="9" name="type">
+        <input type="hidden" value="0" name="quota" id="quota">
+        <input type="hidden" value="0" name="deposit" id="deposit">
+        <input type="hidden" value="0" name="risk" id="risk">
+        <input type="hidden" value="0" name="fee">
+        <div class="pl50 pr50">
+            <div class="clearfix">
+                <div class="ddw_l">
+                    <h3>您的投资本金</h3>
+                    <div class="benjin">
+                        <input type="text" autocomplete="off" value="" class="ui-input" id="principal">
+                        <div>元</div>
+                    </div>
+                    <h3>您可以配资：</h3>
+                    <ul style="_margin-right:-20px; display:none;" class="pz_sel clearfix" id="pz_sel">
+                        <li>
+                            <p class="m"><em id="lever1" data="1" name="lever">0</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li>
+                            <p class="m"><em id="lever2" data="2" name="lever">0</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li>
+                            <p class="m"><em id="lever3" data="3" name="lever">0</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li>
+                            <p class="m"><em id="lever4" data="4" name="lever">0</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <!--li class="curr">
+                            <p class="m"><em id="lever5" data="5" name="lever">0</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li>
+                            <p class="m"><em id="lever6" data="6" name="lever">0</em>元</p>
+                            <p>配资金额</p>
+                        </li-->
+                    </ul>
+                    <div class="pz_inp" id="pz_inp">
+                        <p>请先输入您的投资本金
+                            <br>根据您的本金可配资1-6倍的资金</p>
+                    </div>
+                </div>
+                <div class="ddw_r">
+                    <h3>确认操盘规则</h3>
+                    <table width="100%" cellspacing="0" cellpadding="0" class="sure">
+                        <tbody>
+                            <tr>
+                                <td class="title">操盘须知</td>
+                                <td>
+                                    <div style="line-height:130%;">投资沪深A股，<span id="noneLimit">仓位不限制</span><span style="color:#CC0000;display:none;" id="hasLimit">仓位有限制</span>，盈利全归您
+                                        <br><span style="color:#CC0000;" id="limitInfo"></span></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">总操盘资金</td>
+                                <td><em id="money">0</em>元</td>
+                            </tr>
+                            <tr>
+                                <td class="title">亏损警告线</td>
+                                <td><em id="warningLine">0</em>元
+                                    <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text="当总操盘资金低于警戒线以下时，我们有权把您的股票减仓，请时刻关注本金是否充足" id="tip_1"></span></td>
+                            </tr>
+                            <tr>
+                                <td class="title">亏损平仓线</td>
+                                <td><em id="openLine" style="color:#CC0000;">0</em>元
+                                    <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text="当总操盘资金低于平仓线以下时，我们将有权把您的股票进行平仓，为避免平仓发生，请时刻关注本金是否充足" id="tip_2"></span></td>
+                            </tr>
+                            <tr>
+                                <td class="title">资金使用期限</td>
+                                <td>
+                                    <select class="sel-b" name="duration" id="duration">
+                                        <option value="1">1个月</option>
+                                        <option value="2">2个月</option>
+                                        <option value="3">3个月</option>
+                                        <option value="4">4个月</option>
+                                        <option value="5">5个月</option>
+                                        <option value="6">6个月</option>
+                                        <option value="7">7个月</option>
+                                        <option value="8">8个月</option>
+                                        <option value="9">9个月</option>
+                                        <option value="10">10个月</option>
+                                        <option value="11">11个月</option>
+                                        <option value="12">12个月</option>
+                                    </select>
+                                    <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text="按自然月计算，如使用1个月，1月8日到2月8日，当月日期没有按月的最后一天计算，包含各类节假日" id="tip_3"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">借款月利率</td>
+                                <td>
+                                	<!--
+                                    <select class="sel-b" name="interest">
+                                    	<volist name="param['stock_month'][4]" id="rate">
+                                        <option value="{$rate}">{$rate}%</option>
+                                        </volist>
+                                    </select>
+                                    -->
+                                    <input type="hidden" value="1.5" name="interest" id="interest_rate" readonly="true">
+                                    <b id="interest_show">1.5</b>%
+                                    <i id="interest" class="fs20" style="display:none;"></i>
+                                    <span style="cursor: pointer;" class="icon icon-help-s ml5 mr5" data-text="借款月利率" id="tip_4"></span>
+                                    <i class="grey1" style="display:none;">借款多、期限长、越优惠</i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">开始交易时间</td>
+                                <td>
+                                    <label id="nday">
+                                        <input type="radio" style="vertical-align:0px;" value="1" name="start" checked>下个交易日</label>
+                                    <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text="一般选择下个交易日，如看中行情急需交易，可直接选择今天交易（今天开始计算利息）" id="tip_5"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">还款方式</td>
+                                <td>
+                                    <label id="nday">每月还息，到期还本。</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="lh text-center">如您不清楚规则，或有其它疑问，请联系{$param['web_name']}客服：{$param['web_phone']} (免长途费)</div>
+            <div class="y_btn">
+                <a href="javascript:void(0);" onclick="checkAndNext()" id="initBtn">我要配资<!--已售完，预约下期--></a>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="items">
+<div class="pzdesc clearfix">
+        <ul>
+            <li style="background-position:0px 0px;">即时申请，即时交易</li>
+            <li style="background-position:0px -64px;">当日收益最多增加50%</li>
+            <li style="background-position:0px -128px;">100%真实的实盘交易</li>
+            <li style="background-position:0px -192px;">最低1000元起即可申请</li>
+            <li style="background-position:0px -256px;">1-12月，出入自由</li>
+            <li style="background-position:0px -320px;">严格止损，控制资金风险</li>
+        </ul>
+    </div>
+    <div class="ddwdetail" style="clear:both">
+        <h3>配资须知</h3>
+		<span>
+        1. 不得购买S、ST、*ST、S*ST、SST、以及被交易所特别处理的股票；<br />
+        2. 不得购买权证类可以T+0交易的证券；<br />
+        3. 不得购买首日上市新股（或复牌首日股票）等当日不设涨跌停板限制的股票；<br />
+        4. 借款金额500万以上或以下授控60%，单只股票不得超过账户总资产的50%（500万或以授控60%）；<br />
+        5. 借款金额1000万以上创业板单只股票不得超过账户总资产的30%。<br />
+        6. 不得进行坐庄、对敲、接盘、大宗交易、内幕信息等违反股票交易法律法规及证券公司规定的交易。操盘前必读<br />
+        7. 创业板持仓不得超过总资金的20%。 </span>
+		<p>温馨提示：股市有风险，入市需谨慎！</p>
+        <p style="display:none;"><a target="_blank" href="__ROOT__/help/funding.html#pz-step1">更多规则说明</a></p>
+    </div>
+    <div class="pzlx" style="display:none;">
+        <table width="80%">
+            <tbody>
+                <tr>
+                    <td>借款月利率表</td>
+                    <td>借款10万以下</td>
+                    <td>借款10万-100万以下</td>
+                    <td>借款100万或以上</td>
+                </tr>
+                <tr>
+                    <td>借款1-2个月</td>
+                    <td>1.9分</td>
+                    <td>1.8分</td>
+                    <td>1.7分</td>
+                </tr>
+                <tr>
+                    <td>借款3-6个月</td>
+                    <td>1.8分</td>
+                    <td>1.7分</td>
+                    <td>1.6分</td>
+                </tr>
+                <tr>
+                    <td colspan="4">注：月利率1.6分，就是每月支付借款资金的1.6%的利息，如借款1万，每月利息160元</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <div class="download"><a href="http://www.ihoms.com/file/xunlei/downloadxunlei/HOMS_QiJian/ZhengShi/BiaoZhun/HOMS_Installer_SC.exe?fileCode=2&sourceType=4" target="_blank" title="交易软件下载" class="d">交易软件下载</a></div>
+</div>
+
+<script type="text/jscript">
+	$(function(){
+		$("#principal").keypress(X.keypress.numKeyPress).keyup(function(){
+			var v = $.trim($(this).val()).replace(/,/g,'');
+			moneyChange(v);
+			$(this).focus();
+		}).blur(function(){
+			var v = $(this).val();
+			if(v=="" || v==blankTip){
+				$("#pz_sel").hide();
+				$("#pz_inp").show();
+			}
+		}).focus(function(){
+			$("#pz_sel").show();
+			$("#pz_inp").hide();
+		});
+
+		$(".ddw_l").find("li[class!=disable]").on("click",function(){
+			$(this).addClass("curr").siblings().removeClass("curr");
+			moneyChange();
+			$("#principal").focus();
+		});
+
+		$("#duration").change(moneyChange);
+
+		$("input[name='tradeStart']").first().click();
+
+
+	});
+
+	function moneyChange(principal){
+		var principal = /^\d+$/.test(principal)?principal:$.trim($.v("principal")).replace(/,/g,"");
+		if(/^\d+$/.test(principal)){
+			if(principal>maxPrincipal){
+				principal = maxPrincipal;
+			}
+			principal = parseInt(principal,10);
+
+			var p = $.round(principal/10000,8);
+			$("#lever1").html(p*3>=1?$.formatMoney(p*1)+"万":$.formatMoney(principal*1));
+			$("#lever2").html(p*3>=1?$.formatMoney(p*2)+"万":$.formatMoney(principal*2));
+			$("#lever3").html(p*3>=1?$.formatMoney(p*3)+"万":$.formatMoney(principal*3));
+			$("#lever4").html(p*3>=1?$.formatMoney(p*4)+"万":$.formatMoney(principal*4));
+			$("#lever5").html(p*3>=1?$.formatMoney(p*5)+"万":$.formatMoney(principal*5));
+			$("#lever6").html(p*3>=1?$.formatMoney(p*6)+"万":$.formatMoney(principal*6));
+
+			$.v("principal",$.formatMoney(principal,0));
+
+			var lever = $.trim($("li[class='curr'] em[name='lever']").attr('data'));
+			var duration = $("#duration").val();
+			var money = principal*lever;
+
+			//贷乐网
+			if(lever=='4'){
+				$('#interest_rate').val('1.6');
+			}else{
+				$('#interest_rate').val('1.5');
+
+			}
+
+			$('#interest_show').html($('#interest_rate').val());
+
+
+			$("#money").text($.formatMoney(money+principal));
+			$("#quota").val(money);
+			$("#risk").val(lever);
+			$("#deposit").val(principal);
+			$("#openLine").text($.formatMoney($.round(money*{$param['stock_month'][3]},0)));
+			$("#warningLine").text($.formatMoney($.round(money*{$param['stock_month'][2]},0)));
+			$("#interest").text($.formatMoney($.round(cfg.interest/100.0,2)));
+
+			var info = X.scheme.getStockLimit(money);
+			if(''!=info){
+				$("#noneLimit").hide();
+				$("#hasLimit").show();
+				$("#limitInfo").html(info);
+			}else{
+				$("#noneLimit").show();
+				$("#hasLimit").hide();
+				$("#limitInfo").html('');
+			}
+			checkLever(principal);
+			checkTodayShowable(money);
+		}else{
+			$("#lever1").html("0");
+			$("#lever2").html("0");
+			$("#lever3").html("0");
+			$("#lever4").html("0");
+			$("#lever5").html("0");
+			$("#lever6").html("0");
+
+			$("#money").text("0");
+			$("#openLine").text("0");
+			$("#warningLine").text("0");
+			$("#interest").text(dfInterest);
+			checkLever(0);
+			checkTodayShowable(0);
+		}
+
+	}
+
+    X.init();
+	X.slideUP.init("pz_scroll");
+	X.prompt.init('tip_1','',{width:250,close:false,dire:4,reget:true});
+	X.prompt.init('tip_2','',{width:250,close:false,dire:4,reget:true});
+	X.prompt.init('tip_3','',{width:250,close:false,dire:4,reget:true});
+	X.prompt.init('tip_4','',{width:250,close:false,dire:4,reget:true});
+	X.prompt.init('tip_5','',{width:250,close:false,dire:4,reget:true});
+
+	X.form.inputR('principal',blankTip,'#FF6600','#666666','24px');
+	</script>
+
+<!--中部结束-->
+<include file="Public:footer" />

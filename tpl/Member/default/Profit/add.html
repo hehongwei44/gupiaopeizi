@@ -1,0 +1,15 @@
+<include file="Public:dialog" />
+<form action="/member/profit/save.html">
+    <div class="tip" id="message">温馨提示：<br/>盈利提取请确保您的股票账户中有可取余额；<br/>当日卖出股票，需要下个交易日才能提取盈利。 </div>
+    <table>
+        <tr>
+            <th>提取金额：</th>
+            <td><input class="text" type="text" name="total"> 元</td>
+        </tr>
+    </table>
+    <div class="actions">
+        <input type="hidden" name="borrow" value="{$data['borrow']}">
+        <input class="submit" type="button" value="确认">
+        <input class="cancel" type="button" value="取消" onclick="dlg.destroy()">
+    </div>
+</form>

@@ -1,0 +1,42 @@
+<tagLib name="htmlA" />
+<div class="so_main" style="width:620px">
+<div class="form2">
+	<form method="post" action="__URL__/doMoneyEdit" onsubmit="return subcheck();">
+	<input type="hidden" name="id" value="{$id}" />
+	<div id="tab_1">
+	
+	<dl class="lineD"><dt>可用余额：</dt><dd><htmlA:input id="account_money" value="" style="width:170px" tip="如果是减少请填负数，如'-1000'"/></dd></dl>
+	<dl class="lineD"><dt>冻结金额：</dt><dd><htmlA:input id="money_freeze" value="" style="width:170px" tip="如果是减少请填负数，如'-1000'"/></dd></dl>
+	<dl class="lineD"><dt>待收金额：</dt><dd><htmlA:input id="money_collect" value="" style="width:170px" tip="如果是减少请填负数，如'-1000'"/></dd></dl>
+	<dl class="lineD"><dt>变动原因：</dt><dd><htmlA:input id="info" value="" style="width:170px" tip="请填写变动原因，以备查核"/></dd></dl>
+	
+	</div><!--tab1-->
+	
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	  <input type="button" class="btn_g" value="取消" onclick="ui.box.close()" />
+	</div>
+	</form>
+</div>
+
+</div>
+<script type="text/javascript">
+var cansub = true;
+function subcheck(){
+	if(!cansub){
+		alert("请不要重复提交，如网速慢，请等待！");
+		return false;	
+	}
+	
+	if($("#account_money").val()=="" && $("#money_freeze").val()=="" && $("#money_collect").val()==""){
+		ui.error("如果不做任何修改，请点关闭按钮退出！");
+		return false;
+	}else if($("#info").val()==""){
+		ui.error("变动原因不允许为空！");
+		return false;
+	}else{
+		cansub = false;
+		return true;
+	}
+}
+</script>

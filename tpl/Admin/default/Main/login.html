@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>管理员登录 - 一诺网安全网贷系统</title>
+<link href="css/style.css" type="text/css" rel="stylesheet" />
+<style type="text/css">
+* { border: medium none; margin: 0; padding: 0; }
+body, button, input { font: 12px "微软雅黑", '宋体', Arial, Verdana, tahoma, Srial, helvetica, sans-serif; color: #444; background: #fff; }
+body { background: url(/tpl/Admin/default/Res/images/loginBg.jpg) center -50px repeat-x #f7f7f7; }
+img { border: 0; font-size: 0; vertical-align: top; }
+.box { width: 100%; height: 100%; display: inline-block; background: url(/tpl/Admin/default/Res/images/loginBar.jpg) no-repeat center -50px; }
+dl { width: 350px; height: 340px; margin: 250px auto 0; }
+dt, dd { padding-top: 15px; }
+dt { float: left; width: 80px; line-height: 30px; text-align: right; font-size: 14px; color: #1188cd; }
+dd { padding-left: 90px; display: block; }
+input { width: 200px; height: 20px; line-height: 20px; padding: 4px 5px; border: 1px solid #99bdd2; background: url(/tpl/Admin/default/Res/images/loginInput.gif); font-size: 14px; }
+.code { width: 125px; }
+img { display: inline-block; margin-left: 10px; vertical-align: top; }
+#btnReg { width: 137px; height: 45px; display: inline-block; margin-top: 10px; text-indent: -999px; overflow: hidden; cursor: pointer; background: url(/tpl/Admin/default/Res/images/loginBtn.gif); }
+.copyright { width: 100%; display: inline-block; text-align: center; line-height: 24px; position: fixed; left: 0; bottom: 30px; color: #aaa; }
+</style>
+</head>
+
+<body>
+<div class="box">
+<form method="post" action="/admin/main/login" name="form" id="form"> 
+<dl>
+	<dt>用户名：</dt>	<dd><input name="admin_name" type="text" /></dd>
+	<dt>密   码：</dt>	<dd><input name="admin_pass" type="password" /></dd>
+	<dt>口   令：</dt>	<dd><input name="user_word" type="text" /></dd>
+	<dt>验证码：</dt>	<dd><input class="code" name="code" type="text" /><img src="/admin/main/verify"  onclick="javascript:this.src='/admin/main/verify?'+new Date().getTime()"/></dd>
+	<dd><a id="btnReg" onclick="javascript:subform();" onfocus="this.blur();" title="登陆">登陆</a></dd>
+</dl>
+</form>
+<p class="copyright">COPYRIGHT &copy; yinuowang.com All Rights Reserved. 京ICP备12012345号<br />公司地址：北京朝阳区 网址：www.yinuowang.com E-mail：sale@yinuowang.com</p>
+</div>
+</body>
+<script type="text/javascript">
+	function subform(){
+		var frm = document.forms['form'];
+		frm.submit();
+	}
+
+	function keyUp(e) {  
+		var currKey=0,e=e||event; 
+		currKey=e.keyCode||e.which||e.charCode;
+		if(currKey==13){
+			document.getElementById("btnReg").click();
+		}
+	} 
+
+	document.getElementById("form").onkeydown = keyUp;
+   </script>
+</html>

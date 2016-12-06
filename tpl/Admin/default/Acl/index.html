@@ -1,0 +1,51 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+var delUrl = '__URL__/doDelete';
+</script>
+<div class="so_main">
+    <div class="page_tit">{$position}管理</div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+        <htmlA:commonBtn type="href" action="__URL__/add" value="添加用户组" />
+        <htmlA:commonBtn type="jsfun" action="del();" value="删除用户组" />
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l" style="width:70px;">ID</th>
+                <th class="line_l" style="width:180px;">用户组</th>
+                <th class="line_l" style="text-align:left">管辖范围说明</th>
+                <th class="line_l" style="width:80px;">操作</th>
+            </tr>
+            <php>
+              $_REQUEST['p'] = isset($_REQUEST['p'])?$_REQUEST['p']:0; 
+              $cpage = (intval($_REQUEST['p'])<=1)?0:intval($_REQUEST[ 'p']); 
+              $j=($cpage*C( 'ADMIN_PAGE_SIZE') + 1);
+            </php>
+                    <volist empty="$empty" id="vo" name="acl_list">
+                        <tr overstyle='on' id="list_{$vo.id}">
+                            <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
+                            <td><php>echo $j;</php></td>
+                            <td><span id="name_{$vo['id']}">{$vo.name}</span></td>
+                            <td style="text-align:left">{$vo.intro}</td>
+                            <td>
+                                <a href="__URL__/edit?a_id={$vo.id}">编辑</a>
+                                <a href="javascript:void(0);" onclick="del({$vo['id']});">删除</a>
+                            </td>
+                        </tr>
+                        <php>$j++;</php>
+                    </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+        <htmlA:commonBtn type="href" action="__URL__/add" value="添加用户组" />
+        <htmlA:commonBtn type="jsfun" action="del();" value="删除用户组" />
+    </div>
+</div>
+<include file="Public:_footer" />

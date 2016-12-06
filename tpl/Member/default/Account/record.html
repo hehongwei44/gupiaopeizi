@@ -1,0 +1,44 @@
+<include file="Public:header" />
+<h2><strong>提款记录</strong></h2>
+<div class="ms-c6">
+    <div class="ms-c6-t">
+        <ul>
+            <li><a href="/member/account/withdraw.html">我要提款</a></li>
+            <li class="current"><a href="/member/account/record.html">提款记录</a></li>
+            <li><a href="/member/account/bank.html">银行卡管理</a></li>
+        </ul>
+    </div>
+    <div class="ms-c6-m">
+        <div class="ms-c6-table clearfix">
+            <form id="payOnlineLogs" name="payOnlineLogs" action="http://www.miniu98.com/myspace/fund/pay_online_log.htm">
+            </form>
+            <table>
+                <tbody>
+                    <tr>
+                        <th style="width:180px">提现时间</th>
+                        <th>提现银行卡</th>
+                        <th style="text-align:right;width:90px">金额(元)</th>
+                        <th style="width:120px">状态</th>
+                    </tr>
+                    <volist name="data" id="log">
+                    <tr>
+                        <td>{$log.add_time|date='y-m-d H:i:s',###}</td>
+                        <td>{$param['banks'][$log['bank']]['name']}({$param['banks'][$log['bank']]['number']})</td>
+                        <td class="r">{$log.withdraw_money|number_format=2}</td>
+                        <td>
+                        <switch name="log['withdraw_status']" >
+                        <case value="0" break="1">待审核</case>
+                        <case value="1" break="1">处理中</case>
+                        <case value="2" break="1">已完成</case>
+                        </switch>
+                        </td>
+                    </tr>
+                    </volist>
+                </tbody>
+            </table>
+
+            <div id="_page" class="n-pages">{$param['pages']}</div>
+        </div>
+    </div>
+</div>
+<include file="Public:footer" />

@@ -1,0 +1,59 @@
+<include file="Public:header" />
+<h2><strong>债权转让</strong></h2>
+<div class="ms-c6">
+    <div class="ms-c6-t">
+        <ul>
+            <li <if condition="$_GET['tab'] EQ '' OR $_GET['tab'] EQ 'can'">class="current"</if>><a href="./transfer.html?tab=can">可转让</a></li>
+            <li <eq name="_GET['tab']" value="ing">class="current"</eq>><a href="./transfer.html?tab=ing">转让中</a></li>
+            <li <eq name="_GET['tab']" value="out">class="current"</eq>><a href="./transfer.html?tab=out">转出记录</a></li>
+            <li <eq name="_GET['tab']" value="in">class="current"</eq>><a href="./transfer.html?tab=in">转入记录</a></li>
+        </ul>
+    </div>
+
+    <div class="ms-c6-m">
+        <div class="ms-c6-table clearfix">
+            <table>
+                <tbody>
+                    <tr>
+                        <th style="text-align:left;padding-left:5px">投资项目编号（借款总额）</th>
+                        <th style="text-align:right">投资金额</th>
+                        <th style="text-align:right">年化利率</th>
+                        <th style="text-align:right">总期数</th>
+                        <th>开始时间</th>
+                        <th>到期时间</th>
+                        <th>操作</th>
+                    </tr>
+                    <volist name="data" id="di">
+                    <tr>
+                        <td style="text-align:left;line-height:20px">
+                            <a href="/invest/{$di['borrow']}.html" target="_blank">JK{$di['borrow_id']} ( {$di['borrow_money']|number_format}元 )</a>
+                        </td>
+                        <td class="r">{$di['investor_capital']|number_format}</td>
+                        <td class="r">{$di['investor_interest']|number_format}%</td>
+                        <td class="r">
+                            {$di['total']}
+                        </td>
+                        <td>{$di['add_time']|date='y-m-d',###}</td>
+                        <td>{$di['deadline']|date='y-m-d',###}</td>
+                        <td>
+                            <a href="/member/invest/transfer.html" in="pop" data="{$di['id']}" target="_blank" title="债权转让（JK{$di['borrow_id']}）">转让</a>
+                        </td>
+                    </tr>
+                    </volist>
+                </tbody>
+            </table>
+            <empty name="data">{$empty}<else/><div id="_page" class="n-pages">{$param['pages']}</div></empty>
+        </div>
+        
+        <div class="ms-c6-b">
+            <dl>
+                <dt>温馨提示</dt>
+                <dd>1、持有的投标项目在投标成功后15天可转让</dd>
+                <dd>2、转让时按照您持有该投标项目的时间段按天计息，持有时间越长您获得的利息越多</dd>
+                <dd>3、{$param.web_name}推荐的建议转让价格是本次转让的最高价格</dd>
+                <dd>4、如果当天不能转让完成，请在第二天撤消后继续转让，避免影响收益</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<include file="Public:footer" />

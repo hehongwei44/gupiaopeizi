@@ -1,0 +1,75 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">编辑定投宝</div>
+<div class="page_tab"><span data="tab_1" class="active">基本信息</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/doEdit" onsubmit="return subcheck();" enctype="multipart/form-data">
+	<input type="hidden" name="id" value="{$vo.id}"/>
+	<input type="hidden" name="progress" value="{$vo.progress}"/>
+	<div id="tab_1">
+	<dl class="lineD"><dt>是否显示：</dt><dd><htmlA:radio id="on_off" value="key|vo.on_off" default="1|显示,0|不显示" tip="是否在列表显示出来"/></dd></dl>
+	<dl class="lineD"><dt>借款人：</dt><dd><span class="tip">{$vo.borrow_user.user_name}</span></dd></dl>
+	<dl class="lineD"><dt>产品编号：</dt><dd><span class="tip">{$vo.borrow_name}</span></dd></dl>
+	<dl class="lineD"><dt>起点金额：</dt><dd>{$vo.per_transfer}</dd></dl>
+    <dl class="lineD"><dt>上线时间：</dt><dd>
+       <htmlA:timer id="online_time" tip='上线时间' arg="{dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true}"  class="Wdate" value="{$vo.online_time|mydate='Y-m-d H:i:s',###}"/>
+      </dd></dl>
+	<dl class="lineD"><dt>总认购份数：</dt><dd>{$vo.transfer_total}</dd></dl>
+	<dl class="lineD"><dt>总筹集额度：</dt><dd>{$vo.borrow_money}</dd></dl>
+	<dl class="lineD"><dt>年化利率：</dt><dd>{$vo.borrow_interest_rate}%</dd></dl>
+	<dl class="lineD"><dt>认购期限：</dt><dd>{$vo.borrow_duration}个月</dd></dl>
+	<dl class="lineD"><dt>单人最大购买份数：</dt><dd><htmlA:input id="borrow_max" value="{$vo.borrow_max}" tip="0表示无限制"/></dd></dl>
+	<dl class="lineD"><dt>借款管理费：</dt><dd><htmlA:input id="borrow_fee" value="{$vo.borrow_fee}" tip="*" /></dd></dl>
+    <dl class="lineD"><dt>项目介绍：</dt><dd><htmlA:text id="borrow_breif" value="{$vo.borrow_breif}" tip="*"/></dd></dl>
+    <dl class="lineD">
+	  <dt>担保机构：</dt>
+	  <dd>
+	  <htmlA:select id="danbao" value="key|vo.danbao"  datakey='danbao_list' addstr='title="设置此次借款融资的担保投资公司"' />
+	  </dd>
+	</dl>
+<script type="text/javascript">
+function summoney(){
+ 	var pertr = $("#per_transfer").val();
+	$("#borrow_money").val(parseFloat(pertr) * parseInt($("#transfer_total").val()));
+	$("#vouch_money").val(parseFloat(pertr) * parseInt($("#transfer_total").val()));
+}
+</script>	
+	
+	</div><!--tab1-->
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<script type="text/javascript">
+//获取会员用户名
+getusername();
+function getusername(){
+	var uid = $("#borrow_uid").val();
+	$(".userinfo").html("加载中...");
+
+	var datas = {'uid':uid};
+	$.post("__URL__/getusername", datas, uidResponse,'json');
+}
+
+function uidResponse(res){
+	$(".userinfo").html(res.uname);
+}
+
+var cansub = true;
+function subcheck(){
+	if(!cansub){
+		alert("请不要重复提交，如网速慢，请耐心等待！");
+		return false;	
+	}
+	cansub = false;
+	return true;
+}
+</script>
+<include file="Public:_footer" />

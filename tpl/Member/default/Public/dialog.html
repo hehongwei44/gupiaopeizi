@@ -1,0 +1,26 @@
+<link href="{$res}css/dialog.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
+    $(function(){
+        $('.submit').click(function(){
+            $.post($('form').attr('action'), $('form').serialize(),function(res){
+                if(res.status==0){
+                    if(res.info=='pop'){
+                        dlg.setContent(res.data.content);                       
+                    }else{
+                        try{
+                            top.dlg.destroy();
+                        }catch(e){}
+                        top.dialog(res.info,'success',function(){
+                            if(res.data != ''){
+                                top.$('#mainFrame').attr('src',res.data);
+                            } 
+                        });
+                    }
+                }else{
+                    $('#message').attr('class','err');
+                    $('#message').html('错误：'+res.info);
+                }                
+            },'json');
+        });
+    });
+</script>

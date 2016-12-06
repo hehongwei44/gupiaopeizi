@@ -1,0 +1,358 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="{$res}css/stock.css">
+<script type="text/javascript" src="{$res}js/stock.js"></script>
+<style>
+h4 { margin: 30px 0 15px 25px; font-size: 18px }
+table { margin-top: 2px }
+td option { padding: 3px 15px 3px 3px }
+.pz_sel { padding: 30px 0px 0px 45px; background: #f5f5f5; height: 345px; }
+.ddw_l .pz_sel li { width: 100px; height: 80px; margin-right: 20px; margin-bottom: 15px; border: 1px solid #D7D7D7; background: #fff; float: left; text-align: center; cursor: pointer }
+.ddw_l .pz_sel li p.m { padding-top: 20px }
+.sure td { padding-left: 15px; border-bottom: 1px solid #E4E4E4; height: 44px; line-height: 44px }
+.sure .title { font-size: 14px }
+.ddw_r { width: 435px; float: left; margin-bottom: 20px; margin-left: 10px; }
+.ddw_l { width: 440px; float: left; margin-right: 10px; }
+.ddw_l .pz_sel li.curr { background: url("/tpl/Home/default/Res/img/stock/icon-curr.png") no-repeat scroll right bottom #FFC; }
+.pz_inp { width: 438px; height: 372px; border: 1px solid #D7D7D7 }
+.pt10 { padding-top: 20px; }
+</style>
+<!--中部开始-->
+
+<include file="step"/>
+<div class="peizibox conbox pt20" style="margin-top:10px;">
+    <form action="/stock/confirm.html" method="POST" id="stock">
+        <input type="hidden" value="8" name="type">
+        <input type="hidden" value="0" name="fee" id="fee">
+        <input type="hidden" value="0" name="deposit" id="ideposit">
+        <input type="hidden" value="0" name="interest">
+        <input type="hidden" value="0" name="risk">
+        <div class="pl50 pr50">
+            <div class="clearfix">
+                <div class="ddw_l">
+                    <h3>申请实盘资金 <a href="#nogo" id="qt">其他实盘资金»</a></h3>
+                    <ul style="_margin-right:-20px;display:" class="pz_sel clearfix" id="pz_sel">
+                        <li data="10000">
+                            <p class="m"><em name="lever">1万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="20000">
+                            <p class="m"><em name="lever">2万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="30000">
+                            <p class="m"><em name="lever">3万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="50000">
+                            <p class="m"><em name="lever">5万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="100000">
+                            <p class="m"><em name="lever">10万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="200000">
+                            <p class="m"><em name="lever">20万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="300000">
+                            <p class="m"><em name="lever">30万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="500000">
+                            <p class="m"><em name="lever">50万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="1000000">
+                            <p class="m"><em name="lever">100万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                    </ul>
+                    <div class="pz_inp" id="pz_inp" style="display:none">
+                        <h4>请输入您需要多少实盘资金</h4>
+                        <div style="position:relative;margin-left:20px">
+                            <input type="text" style="height: 37px; line-height: 37px; width: 320px; text-align: center; color: rgb(102, 102, 102);" autocomplete="off" value="{$param['stock_day'][0][0]}" class="ui-input" id="money" name="quota">
+                            <div style="width:20px; line-height:42px; height:42px; position:absolute; right:28px; _right:28px; top:0px; _top:3px;">元</div>
+                        </div>
+                        <h4 style="margin-top:10px;color:#999;font-size:13px">最少 {$param['stock_day'][0][0]} 最多 {$param['stock_day'][0][1]/10000}万，并且为1000的整数倍</h4>
+                    </div>
+                </div>
+                <div class="ddw_r">
+                    <h3>确认操盘规则</h3>
+                    <table width="100%" cellspacing="0" cellpadding="0" class="sure" style="height:335px">
+                        <tbody>
+                            <tr>
+                                <td class="title">风险倍数</td>
+                                <td>
+                                    <select class="sel-b" name="risk" id="risk">
+                                        <option value="1">1 倍</option>
+                                        <option value="2">2 倍</option>
+                                        <option value="3">3 倍</option>
+                                        <option value="4">4 倍</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">风险保证金</td>
+                                <td>
+                                    <em id="deposit">0</em>元
+                                    <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text="借款人提供的自有资金，作为股票配资业务的优先级，除缴纳利息及管理费外，盈利全部归借款人所有" id="tip_0"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">总操盘资金</td>
+                                <td><em id="cpj">0</em>元</td>
+                            </tr>
+                            <tr>
+                                <td class="title">亏损警告线</td>
+                                <td><em id="jgx">0</em>元
+                                    <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text="当总操盘资金低于警戒线以下时，我们有权把您的股票减仓，请时刻关注本金是否充足" id="tip_1"></span></td>
+                            </tr>
+                            <tr>
+                                <td class="title">亏损平仓线</td>
+                                <td><em id="pcx" style="color:#CC0000;">0</em>元
+                                    <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text="当账户总资产低于平仓线以下时，贷乐网将有权把您的股票进行平仓，为避免平仓发生，请时刻关注风险保证金是否充足" id="tip_2"></span></td>
+                            </tr>
+                            <tr>
+                                <td class="title">资金使用期限</td>
+                                <td>
+                                    <select class="sel-b" name="duration">
+                                        <option value="2">2 天</option>
+                                        <option value="3">3 天</option>
+                                        <option value="4">4 天</option>
+                                        <option value="5">5 天</option>
+                                        <option value="6">6 天</option>
+                                        <option value="7">7 天</option>
+                                        <option value="8">8 天</option>
+                                        <option value="9">9 天</option>
+                                        <option value="10">10 天</option>
+                                        <option value="11">11 天</option>
+                                        <option value="12">12 天</option>
+                                        <option value="13">13 天</option>
+                                        <option value="14">14 天</option>
+                                        <option value="15">15 天</option>
+                                        <option value="16">16 天</option>
+                                        <option value="17">17 天</option>
+                                        <option value="18">18 天</option>
+                                        <option value="19">19 天</option>
+                                        <option value="20">20 天</option>
+                                        <option value="21">21 天</option>
+                                        <option value="22">22 天</option>
+                                        <option value="23">23 天</option>
+                                        <option value="24">24 天</option>
+                                        <option value="25">25 天</option>
+                                        <option value="26">26 天</option>
+                                        <option value="27">27 天</option>
+                                        <option value="28">28 天</option>
+                                        <option value="29">29 天</option>
+                                        <option value="30">30 天</option>
+                                    </select>
+                                    <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text="资金使用按日计算，最低2日，最高30日，到期后可根据需求申请续约" id="tip_3"></span>&nbsp;&nbsp;用几天算几天账户管理费
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">账户管理费</td>
+                                <td>
+                                    <i id="glf" class="fs20">36</i>元 / 每天　<i class="red">按天收取，周末节假日免费</i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">开始交易时间</td>
+                                <td>
+                                    <!--
+                                    <label id="tday">
+                                        <input type="radio" style="vertical-align:0px;" value="0" checked="true" name="start"> 今天
+                                    </label>
+                                    -->
+                                    <label id="nday">
+                                        <input type="radio" style="vertical-align:0px;" value="1" name="start" checked> 下个交易日
+                                    </label>
+                                    <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text="一般选择下个交易日，如看中行情急需交易，可直接选择今天交易（今天开始计算利息）" id="tip_5"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="lh text-center">如您不清楚规则，或有其它疑问，请联系{$param['web_name']}客服：{$param['web_phone']} (免长途费)</div>
+            <div class="y_btn">
+                <a href="javascript:void(0);" onclick="checkAndNext()" id="initBtn">我要配资<!--已售完，预约下期--></a>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<div class="items">
+    <div class="pzdesc clearfix">
+        <ul>
+            <li style="background-position:0px 0px;">即时申请，即时交易</li>
+            <li style="background-position:0px -64px;">当日收益最多增加50%</li>
+            <li style="background-position:0px -128px;">100%真实的实盘交易</li>
+            <li style="background-position:0px -192px;">最低1000元起即可申请</li>
+            <li style="background-position:0px -256px;">2天-30天，想用几天就几天</li>
+            <li style="background-position:0px -320px;">严格止损，控制资金风险</li>
+        </ul>
+    </div>
+    <div class="ddwdetail" style="clear:both">
+        <h3>配资须知</h3>
+        <span>
+        1. 不得购买S、ST、*ST、S*ST、SST、以及被交易所特别处理的股票；<br />
+        2. 不得购买权证类可以T+0交易的证券；<br />
+        3. 不得购买首日上市新股（或复牌首日股票）等当日不设涨跌停板限制的股票；<br />
+        4. 借款金额500万以上或以下授控60%，单只股票不得超过账户总资产的50%（500万或以授控60%）；<br />
+        5. 借款金额1000万以上创业板单只股票不得超过账户总资产的30%。<br />
+        6. 不得进行坐庄、对敲、接盘、大宗交易、内幕信息等违反股票交易法律法规及证券公司规定的交易。操盘前必读<br />
+        7. 创业板持仓不得超过总资金的20%。 </span>
+        <p>温馨提示：股市有风险，入市需谨慎！</p>
+        <p style="display:none;"><a target="_blank" href="__ROOT__/help/funding.html#pz-step1">更多规则说明</a></p>
+    </div>
+    <div class="pzlx" style="display:none;">
+        <table width="80%">
+            <tbody>
+                <tr>
+                    <td>借款月利率表</td>
+                    <td>借款10万以下</td>
+                    <td>借款10万-100万以下</td>
+                    <td>借款100万或以上</td>
+                </tr>
+                <tr>
+                    <td>借款1-2个月</td>
+                    <td>1.9分</td>
+                    <td>1.8分</td>
+                    <td>1.7分</td>
+                </tr>
+                <tr>
+                    <td>借款3-6个月</td>
+                    <td>1.8分</td>
+                    <td>1.7分</td>
+                    <td>1.6分</td>
+                </tr>
+                <tr>
+                    <td colspan="4">注：月利率1.6分，就是每月支付借款资金的1.6%的利息，如借款1万，每月利息160元</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <div class="download"><a href="http://www.ihoms.com/file/xunlei/downloadxunlei/HOMS_QiJian/ZhengShi/BiaoZhun/HOMS_Installer_SC.exe?fileCode=2&sourceType=4" target="_blank" title="交易软件下载" class="d">交易软件下载</a></div>
+</div>
+<script type="text/jscript">
+$(function() {
+    $(".ddw_l").find("li[class!=disable]").on("click", function() {
+        $(this).addClass("curr").siblings().removeClass("curr");
+        moneyChange();
+    });
+
+    $('#risk').change(function() {
+        moneyChange();
+    });
+
+    $('#money').keyup(function(e) {
+        if (isNaN($(this).val())||$(this).val()=='') {
+            $(this).val(0);
+            return false;
+        }
+        $(this).val(parseInt($(this).val()));
+        if ($(this).val() > {$param['stock_day'][0][0]} && $(this).val() < {$param['stock_day'][0][1]}) {
+            moneyChange();
+        }
+    });
+
+    $('#money').change(function() {
+        if (isNaN($(this).val())) {
+            $(this).val(0);
+            return false;
+        }
+        if ($(this).val() < {$param['stock_day'][0][0]} || $(this).val() > {$param['stock_day'][0][1]}||$(this).val() % 1000 != 0) {
+            dialog('请输入最少 {$param['stock_day'][0][0]} 元最多 {$param['stock_day'][0][1]/10000}万元，并且为 1000 的倍数。');
+        } else if (isNaN($(this).val())) {
+            $(this).val(0);
+        } else {
+            $(this).val(parseInt($(this).val()));
+            $('#pz_sel>.curr').removeClass('curr');
+            moneyChange();
+        }
+
+    });
+
+    $('#qt').click(function() {
+        $('#pz_sel').slideToggle('fast', function() {
+            $('#pz_inp').toggle();
+            moneyChange();
+        });
+
+    });
+
+    $('#pz_sel>li').first().click();
+
+    $('#initBtn').click(function() {
+        if ($('#money').val() < {$param['stock_day'][0][0]} || $('#money').val() > {$param['stock_day'][0][1]}||$(this).val() % 1000 != 0) {
+            dialog('请输入最少 {$param['stock_day'][0][0]} 元最多 {$param['stock_day'][0][1]/10000}万元，并且为 1000 的倍数。');
+            return false;
+        }
+
+        if($('#pz_sel').css('display')=='block'){
+            $('#money').val($('#pz_sel>.curr').attr('data'));
+        }
+
+        $('#stock').submit();
+    });
+});
+
+
+
+function moneyChange() {
+
+    money = $('#pz_inp').css('display') == 'block' ? $('#money').val() : $('#pz_sel>.curr').attr('data');
+    deposit = Math.floor(money / $('#risk').val());
+    $('#deposit').text($.formatMoney(deposit));
+    $('#cpj').text($.formatMoney(parseInt(deposit) + parseInt(money)));
+    $('#jgx').text($.formatMoney(parseInt(money * {$param['stock_day'][2]})));
+    $('#pcx').text($.formatMoney(parseInt(money * {$param['stock_day'][3]})));
+    $('#glf').text($.formatMoney(parseFloat(money * {$param['stock_day'][1]})));
+
+    $('#ideposit').val($('#deposit').text().replace(',',''));
+    $('#fee').val($('#glf').text().replace(',',''));
+}
+
+X.init();
+X.prompt.init('tip_0', '', {
+    width: 250,
+    close: false,
+    dire: 4,
+    reget: true
+});
+X.prompt.init('tip_1', '', {
+    width: 250,
+    close: false,
+    dire: 4,
+    reget: true
+});
+X.prompt.init('tip_2', '', {
+    width: 250,
+    close: false,
+    dire: 4,
+    reget: true
+});
+X.prompt.init('tip_3', '', {
+    width: 250,
+    close: false,
+    dire: 4,
+    reget: true
+});
+X.prompt.init('tip_4', '', {
+    width: 250,
+    close: false,
+    dire: 4,
+    reget: true
+});
+X.prompt.init('tip_5', '', {
+    width: 250,
+    close: false,
+    dire: 4,
+    reget: true
+});
+</script>
+<!--中部结束-->
+<include file="Public:footer" />

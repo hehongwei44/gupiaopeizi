@@ -1,0 +1,244 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/js/highcharts.js"></script>
+<script type="text/javascript" src="__ROOT__/res/js/exporting.js"></script>
+<tagLib name="htmlA" />
+<include file="style" />
+<div class="so_main">
+    <div class="page_tit">
+      投资者收益分析
+      <span><include file="Public:quick" /></span>
+    </div>
+
+    <div class="page_tab" style="margin-bottom:15px;margin-top:15px">
+      <a href="__ACTION__?tab=all">
+        <span data="tab_day" <eq name="_GET[tab]" value='all'>class="active"</eq><eq name="_GET[tab]" value=''>class="active"</eq>>全部</span>
+      </a>
+      <a href="__ACTION__?tab=month">
+        <span data="tab_month" <eq name="_GET[tab]" value='month'>class="active"</eq>>本月</span>
+      </a>
+      <a href="__ACTION__?tab=last">
+        <span data="tab_month" <eq name="_GET[tab]" value='last'>class="active"</eq>>上个月</span>
+      </a>
+      <a href="__ACTION__?tab=year">
+        <span data="tab_day" <eq name="_GET[tab]" value='year'>class="active"</eq>>本年</span>
+      </a>
+    </div>
+
+    <div>
+        <table width="95%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+              <td class="chart" id="fee_money_pie"></td>
+              <td>
+                <ul class="list">
+                <li class="title">时间：{$param['region']}</li> 
+                <php>foreach($chart['type'] as $key=>$val){</php>
+                <li><php>echo $type['fee'][$key]</php> ：<php>echo number_format($val)</php> 元</li>
+                <php>$profit_area += $val;</php>
+                <php>}</php>  
+                <li class="sum">总计：<php>echo number_format($profit_area)</php> 元</li>        
+                </ul>
+              </td>
+          </tr>
+          <tr>
+              <td colspan="2" class="trend" id="fee_sum_trend"></td>
+          </tr>
+          <tr>
+              <td class="chart" id="borrow_fee_pie"></td>
+              <td>
+                <ul class="list">
+                <li class="title">时间：{$param['region']}</li> 
+                <php>foreach($chart['borrow']['type'] as $val){</php>
+                <li><php>echo $type['borrow'][$val['type']]</php> ：<php>echo number_format($val['total'])</php> 元</li>
+                <php>$borrow_fee += $val['total'];</php>
+                <php>}</php>  
+                <li class="sum">总计：<php>echo number_format($borrow_fee)</php> 元</li>        
+                </ul>
+              </td>
+          </tr>
+          <tr>
+              <td colspan="2" class="trend" id="borrow_fee_trend"></td>
+          </tr>
+        </table>
+    </div>
+
+    <div class="list" style="width:98%" id="trends"></div>
+
+</div>
+<script type="text/javascript">
+$(function () {
+    $('#fee_money_pie').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '网站各项收益占比'
+        },
+        tooltip: {
+            pointFormat: '{series.name} <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b> {point.percentage:.1f} %'
+                }
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        series: [{
+            type: 'pie',
+            name: '占比',
+            data: [
+                <php>foreach($chart['type'] as $key => $val){</php>
+                ['<php>echo $type['fee'][$key]</php>', <php>echo $val</php>],
+                <php>}</php>
+            ]
+        }]
+    });
+
+    $('#fee_sum_trend').highcharts({
+        chart: {type: 'spline'},
+        title: {text: '网站各项收益走势'},
+        xAxis: {
+            min: 0,
+            categories: [<php>echo implode(',',$param['day'])</php>]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '收益金额'
+            },
+            labels: {
+                formatter: function() {
+                    return this.value;
+                }
+            }
+        },            
+        subtitle: {
+            y: +33,
+            text: '{$param['region']}'
+        },
+        tooltip: {
+            enabled: true,
+            formatter: function() {
+              var s = '<b class="tips">'+this.series.name+'</b><br/><php>echo $param['prefix']</php>' + this.x  +'<php>echo $param['postfix']</php>  ：共 '+ this.y +' 元';
+              return s;                                     
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        textShadow: '0 0 3px white, 0 0 3px white'
+                    }
+                },
+                enableMouseTracking: true
+            }
+        }, series: [
+        <php>foreach($chart['fee']['sum']['trend'] as $key => $val){</php>
+              {name: '<php>echo $type["fee"][$key]</php>',data: [<php>echo implode(',',$val)</php>]},
+        <php>}</php>
+        ]
+    });
+
+    $('#borrow_fee_pie').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '借款类型收益占比'
+        },
+        tooltip: {
+            pointFormat: '{series.name} <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b> {point.percentage:.1f} %'
+                }
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        series: [{
+            type: 'pie',
+            name: '占比',
+            data: [
+                <php>foreach($chart['borrow']['type'] as $val){</php>
+                ['<php>echo $type['borrow'][$val['type']]</php>', <php>echo $val['total']</php>],
+                <php>}</php>
+            ]
+        }]
+    });
+
+    $('#borrow_fee_trend').highcharts({
+        chart: {type: 'spline'},
+        title: {text: '借款类型收益走势'},
+        xAxis: {
+            min: 0,
+            categories: [<php>echo implode(',',$param['day'])</php>]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '收益金额'
+            },
+            labels: {
+                formatter: function() {
+                    return this.value;
+                }
+            }
+        },            
+        subtitle: {
+            y: +33,
+            text: '{$param['region']}'
+        },
+        tooltip: {
+            enabled: true,
+            formatter: function() {
+              var s = '<b class="tips">'+this.series.name+'</b><br/><php>echo $param['prefix']</php>' + this.x  +'<php>echo $param['postfix']</php>  ：共 '+ this.y +' 元';
+              return s;                                     
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        textShadow: '0 0 3px white, 0 0 3px white'
+                    }
+                },
+                enableMouseTracking: true
+            }
+        }, series: [
+        <php>foreach($chart['borrow']['fee']['trend'] as $key => $val){</php>
+              {name: '<php>echo $type["borrow"][$key]</php>',data: [<php>echo implode(',',$val)</php>]},
+        <php>}</php>
+        ]
+    });
+});
+</script>
+<include file="Public:_footer" />

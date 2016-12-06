@@ -1,0 +1,69 @@
+<include file="Public:header" />
+<h2><strong>绑定邮箱</strong></h2>
+<script type="text/javascript">
+submitForm();
+function submitForm(){
+        if(!$('#email').val()){
+            top.dialog('请输入要绑定的邮箱地址。');
+            return false;
+        }
+        if(!$('#verifyCode').val()){
+            top.dialog('请输入邮箱收到的验证码。');
+            return false;
+        }
+
+        $.post('./email.html',$('form').serialize(),function(res){
+            top.dlg.destroy();
+            if(res.status==0){       
+                top.mainFrame.location.reload();                         
+                top.dialog(res.info,'success');                    
+            }else{
+                top.dialog(res.info,'error');
+            }                
+        },'json');
+
+}
+
+function sendEmailCode(){
+    $('#emailError').val()
+    $.post('./email.html',{email:$('#email').val(),action:'send'},function(res){
+        top.dlg.destroy();
+        if(res.status==0){        
+            top.dialog(res.info,'success');                    
+        }else{
+            top.dialog(res.info,'error'); 
+        }                
+    },'json');
+}
+</script>
+<div class="formbox">
+    <form method="post">
+        <table>
+            <tbody>
+                <tr>
+                    <th><empty name="_SESSION['MEMBER']['STATUS']['EMAIL']">待<else/>已</empty>绑定邮箱：</th>
+                    <td>
+                        <input id="email" name="email" value="{$data['user_email']}" class="inp" type="text" <notempty name="_SESSION['MEMBER']['STATUS']['EMAIL']">readonly="true"</notempty>>
+                        <input onclick="sendEmailCode()" class="mailcode" value="发送验证码" type="button">
+                        <span id="emailError" style="color:red"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>验证码：</th>
+                    <td>
+                        <input id="verifyCode" name="verifyCode" class="inp" type="text">
+                        <span id="verifyCodeErr" style="color:red"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <button type="button" class="btn-b" onclick="submitForm()"><empty name="_SESSION['MEMBER']['STATUS']['EMAIL']">绑定<else/>解绑</empty>邮箱</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<include file="Public:footer" />

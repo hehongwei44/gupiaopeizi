@@ -1,0 +1,91 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/add';
+var isSearchHidden = 1;
+var searchName = "搜索/筛选会员";
+</script>
+<div class="so_main">
+    <div class="page_tit">
+        <span>VIP申请列表</span>
+        <include file="Public:quick" />
+    </div>
+    <div class="page_tab">
+        <a href="__ACTION__?type={$_GET['type']}">
+            <span data="tab_1" <eq name="_GET['status']" value=''>class="active"</eq>>全部</span>
+        </a>
+        <a href="__URL__/index?status=0">
+            <span data="tab_1" <eq name="_GET['status']" value='0'>class="active"</eq>>待审核</span>
+        </a>
+        <a href="__URL__/index?status=1">
+            <span data="tab_1" <eq name="_GET['status']" value='1'>class="active"</eq>>已通过审核</span>
+        </a>
+        <a href="__URL__/index?status=2">
+            <span data="tab_1" <eq name="_GET['status']" value='2'>class="active"</eq>>未通过审核</span>
+        </a>
+        <span data="tab_search" onclick="dosearch()"><b class="tab_search"></b></span>
+    </div>
+    <!--搜索/筛选会员-->
+    <include file="search" />
+    <!--搜索/筛选会员-->
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l">ID</th>
+                <th class="line_l">用户名</th>
+                <th class="line_l">真实姓名</th>
+                <th class="line_l">所选客服</th>
+                <th class="line_l">申请说明</th>
+                <th class="line_l">申请时间</th>
+                <th class="line_l">状态</th>
+                <th class="line_l">操作</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>
+                        <htmlA:user id="vo.uid" uname="vo.uname" />
+                    </td>
+                    <td>{$vo.real_name|default="&nbsp;"}</td>
+                    <td>{$vo.a_kfName|default="&nbsp;"}</td>
+                    <td>{$vo.des|cnsubstr=###,20}</td>
+                    <td>{$vo.add_time|date="Y-m-d H:i",###}</td>
+                    <td>
+                        <if condition="$vo['status'] eq 0"><span style="color:#F00">待审核</span>
+                            <elseif condition="$vo['status'] eq 1" /><span style="color:#090">审核通过</span>
+                            <else/>审核未通过</if>
+                    </td>
+                    <td>
+                        <if condition="$vo['status'] eq 0">
+                            <a href="__URL__/edit?id={$vo['id']}">审核</a>
+                            <else/> --
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+</div>
+<script type="text/javascript">
+function showurl(url, Title) {
+    ui.box.load(url, {
+        title: Title
+    });
+}
+</script>
+<include file="Public:_footer" />

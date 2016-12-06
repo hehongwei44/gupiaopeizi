@@ -1,0 +1,43 @@
+<include file="Public:header" />
+<h2><strong>债权转让</strong></h2>
+<div class="ms-c6">
+    <div class="ms-c6-t">
+        <ul>
+            <li <if condition="$_GET['tab'] EQ '' OR $_GET['tab'] EQ 'can'">class="current"</if>><a href="./transfer.html?tab=can">可转让</a></li>
+            <li <eq name="_GET['tab']" value="ing">class="current"</eq>><a href="./transfer.html?tab=ing">转让中</a></li>
+            <li <eq name="_GET['tab']" value="out">class="current"</eq>><a href="./transfer.html?tab=out">转出记录</a></li>
+            <li <eq name="_GET['tab']" value="in">class="current"</eq>><a href="./transfer.html?tab=in">转入记录</a></li>
+        </ul>
+    </div>
+    <form id="id_transfer_list" action="http://www.miniu98.com/myspace/financial/transfer_list/hold.htm">
+    </form>
+    <div class="ms-c6-m">
+        <div class="ms-c6-table clearfix">
+            <table>
+                <tr>
+                    <th>转出人</th>
+                    <th>转让期数</th>
+                    <th>总期数</th>
+                    <th>转让价格</th>
+                    <th>转入人</th>
+                    <th>购买时间</th>
+                    <th>转让时间</th>
+                </tr>
+                <volist name="data" id="log">
+                <tr>
+                    <td><eq name="_GET['tab']" value="out">我<else/>{$log.user_name}</eq></td>
+                    <td>{$log.period}</td>
+                    <td>{$log.total_period}</td>
+                    <td>{$log.transfer_price|number_format}</td>
+                    <td><eq name="_GET['tab']" value="in">我<else/>{$log.user_name}</eq></td>
+                    <td>{$log.buy_time|date='y-m-d',###}</td>
+                    <td>{$log.addtime|date='y-m-d',###}</td>
+                </tr>
+                </volist>
+            </table>
+
+            <empty name="data">{$empty}<else/><div id="_page" class="n-pages">{$param['pages']}</div></empty>
+        </div>
+    </div>
+</div>
+<include file="Public:footer" />

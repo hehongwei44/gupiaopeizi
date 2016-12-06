@@ -1,0 +1,73 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+	var setUrl = '__URL__/set';
+	var tableUrl = '__URL__/tables';
+	var setTitle = '备份参数';
+	var strTitle = '查看表结构';
+</script>
+<div class="so_main">
+  <div class="page_tit">数据库管理</div>
+
+  <div class="Toolbar_inbox">
+    <htmlA:commonBtn type="jsfun" action="javascript:bakup();" value="备份所选表"/>
+  </div>
+  
+  <div class="list">
+  <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:22px;">
+        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+        <label for="checkbox"></label>
+    </th>
+    <th class="line_l">序号</th>
+    <th class="line_l" style="text-align:left">表名</th>
+    <th class="line_l">引擎</th>
+    <th class="line_l">编码</th>
+    <th class="line_l" style="text-align:right">记录数</th>
+    <th class="line_l" style="text-align:right">大小</th>
+    <th class="line_l">最后更新时间</th>
+    <th class="line_l">操作</th>
+  </tr>
+  <volist empty="$empty" id="vo" name="tablelist">
+      <tr overstyle='on' id="list_{$vo.Name}">
+        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.Name}"></td>
+        <td>{$key+1}</td>
+        <td style="text-align:left">{$vo.Name|str_replace='ynw_','',###}</td>
+        <td>{$vo.Engine}</td>
+        <td>{$vo.Collation|default='--'}</td>
+        <td style="text-align:right">{$vo.Rows}</td>
+        <td style="text-align:right"><php>echo getMb($vo['Data_length']+$vo['Index_length']);$total_szie+=$vo['Data_length']+$vo['Index_length'];</php></td>
+        <td>{$vo.Update_time}</td>
+        <td>
+            <a href="javascript:showtable('{$vo.Name}')">表结构</a> 
+        </td>
+      </tr>
+  </volist>
+  <tr><td colspan="9"  style="text-align:left;height:32px">数据库总大小：<php>echo getMb($total_szie);</php></td></tr>
+  </table>
+
+  </div>
+  
+  <div class="Toolbar_inbox">
+    <htmlA:commonBtn type="jsfun" action="javascript:bakup();" value="备份所选表"/>
+  </div>
+</div>
+<script type="text/javascript">
+function bakup(){
+	var table = getChecked();
+	if(table=="") {
+		alert("请选择要备份的表");
+		return false;
+	}
+	ui.box.load(setUrl, {title:setTitle},"POST",{"tables":table});
+}
+function showtable(table){
+	if(table=="") {
+		return false;
+	}
+	ui.box.load(tableUrl+"?tables="+table, {title:strTitle});
+}
+</script>
+
+<include file="Public:_footer" />

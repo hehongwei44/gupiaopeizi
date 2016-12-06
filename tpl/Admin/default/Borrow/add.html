@@ -1,0 +1,185 @@
+<include file="Public:_header" />
+<link href="__ROOT__/res/Swfupload/swfupload.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__ROOT__/res/Swfupload/handlers.js"></script>
+<script type="text/javascript" src="__ROOT__/res/Swfupload/swfupload.js"></script>
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		//swf上传图片
+		swfu = new SWFUpload(
+		{
+			// Backend Settings
+			upload_url: "swfupload",
+			post_params: {"PHPSESSID": "<php> echo session_id(); </php>", "dopost" : ""},
+
+			// File Upload Settings
+			file_size_limit : "2 MB",	// 2MB
+			file_types : "*.jpg; *.gif; *.png",
+			file_types_description : "选择 JPEG/GIF/PNG 格式图片",
+			file_upload_limit : "0",
+
+			file_queue_error_handler : fileQueueError,
+			file_dialog_complete_handler : fileDialogComplete,
+			upload_progress_handler : uploadProgress,
+			upload_error_handler : uploadError,
+			upload_success_handler : uploadSuccess,
+			upload_complete_handler : uploadComplete,
+
+			button_image_url : "../images/SmallSpyGlassWithTransperancy_17x18.png",
+			button_placeholder_id : "spanButtonPlaceholder",
+			button_width: 250,
+			button_height: 18,
+			button_text : '<span class="button">选择本地图片 <span class="buttonSmall">(单图最大为 2 MB，支持多选)</span></span>',
+			button_text_style : '.button { font-family: "宋体", sans-serif; font-size: 12px; } .buttonSmall { font-size: 10pt; }',
+			button_text_top_padding: 0,
+			button_text_left_padding: 18,
+			button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+			button_cursor: SWFUpload.CURSOR.HAND,
+			
+			// Flash Settings
+			flash_url : "__ROOT__/res/Swfupload/swfupload.swf",
+
+			custom_settings : {
+				upload_target : "divFileProgressContainer"
+			},
+			
+			// Debug Settings
+			debug: false
+		});
+		//swf上传图片
+	});
+
+</script>
+<script type="text/javascript">
+//swf上传后排序
+function rightPic(o){
+	 var o = $("#albCtok"+o);
+	 if( o.next().length > 0) {
+		  var tmp = o.clone();
+		  var oo = o.next();
+		  o.remove();
+		  oo.after(tmp);
+	 }else{
+		alert("已经是最后一个了"); 
+	 }
+}
+//swf上传后排序
+function leftPic(o){
+	 var o = $("#albCtok"+o);
+	 if( o.prev().length > 0) {
+		  var tmp = o.clone();
+		  var oo = o.prev();
+		  o.remove();
+		  oo.before(tmp);
+	 }else{
+		alert("已经是第一个了"); 
+	 }
+}
+//swf上传后删除图片start
+function delPic(id){
+	var imgpath = $("#albCtok"+id).find("input[type='hidden']").eq(0).val();
+	var datas = {'picpath':imgpath,'oid':id};
+	$.post("__URL__/swfupload?delpic", datas, picdelResponse,'json');
+}
+
+function picdelResponse(res){
+	var imgdiv = $("#albCtok"+res.data);
+		imgdiv.remove();
+		ui.success(res.info);
+		ui.box.close();
+}
+//swf上传后删除图片end
+</script>
+<style type="text/css">
+.albCt{height:200px}
+</style>
+<tagLib name="htmlA" />
+<div class="so_main">
+  <div class="page_tit">
+    <empty name="member">
+    新增借款
+    <else/>
+    为 {$member['user_name']} 新增借款
+    </empty>
+  </div>
+  <div class="page_tab"><span data="tab_1" class="active">基本信息</span></div>
+  <div class="form2">
+    <form method="post" action="" onsubmit="return subcheck();" enctype="multipart/form-data">
+      <input type="hidden" name="id" value="{$vo.id}" />
+      <div id="tab_1">
+        <dl class="lineD">
+          <dt>类型：</dt>
+          <dd>
+            <htmlA:select id="borrow_type" value="key|vo.borrow_type" class="select" datakey='borrow_type' tip="*"/>
+          </dd>
+        </dl>
+        
+        <dl class="lineD">
+          <dt>借款人：</dt>
+          <dd>
+            <empty name="member">
+            <htmlA:select id="borrow_user" value="key|vo.members" class="select" datakey='data["member"]' tip="*"/>
+            <else/>
+              <input type="text" value="{$member['user_name']}" name="borrow_user_name" class="input" readonly="true" style="background:#f3f3f3"/>
+              <input type="hidden" value="{$member['id']}" name="borrow_user" />
+            </empty>
+          </dd>
+        </dl>
+
+        <dl class="lineD">
+          <dt>借款标题：</dt>
+          <dd>
+            <htmlA:input id="borrow_name" value="{$vo.borrow_name}" tip="*"/>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>还款方式：</dt>
+          <dd>
+            <htmlA:select id="repayment_type" value="key|vo.repayment_type" class="select" datakey='type_list' tip="*"/>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>借款金额：</dt>
+          <dd>
+            <htmlA:input id="borrow_money" value="{$vo.borrow_money}" tip="*"/>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>年化利率：</dt>
+          <dd>
+            <htmlA:input id="borrow_interest_rate" value="{$vo.borrow_interest_rate}" tip="*"/>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>借款期限：</dt>
+          <dd>
+            <htmlA:input id="borrow_duration" value="{$vo.borrow_duration}" tip="*"/>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>借款说明：</dt>
+          <dd>
+            <htmlA:text id="borrow_info" value="{$vo.borrow_info}" tip="*"/>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>募集时间(天)：</dt>
+          <dd>
+            <htmlA:input id="collect_day" value="{$vo.collect_day}" tip="在前台展示天数，如在担心在设定时间内不能募集完成，可修改延长" />
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>最多投标总额：</dt>
+          <dd>
+            <htmlA:input id="borrow_max" value="{$vo.borrow_max}" tip="0表示无限制" />
+          </dd>
+        </dl>
+      </div>
+      <div class="page_btm">
+        <input type="submit" class="btn_b" value="确定" />
+      </div>
+    </form>
+  </div>
+</div>
+
+<include file="Public:_footer" />

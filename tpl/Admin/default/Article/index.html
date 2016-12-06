@@ -1,0 +1,69 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/add';
+var isSearchHidden = 1;
+var addTitle = '添加分类';
+</script>
+<div class="so_main">
+    <div class="page_tit">
+     <span>文章管理</span>
+    <include file="Public:quick" />
+    </div>
+    <div class="page_tab">
+        <a href="__URL__/index">
+            <span data="tab_1" <eq name="_GET[type_id]" value=''>class="active"</eq>>全部</span>
+        </a>
+        <php>foreach($tArr as $kds=>$vds){</php>
+        <a href="__URL__/index?type_id={$kds}">
+            <span data="tab_1" <eq name="_GET[type_id]" value='$kds'>class="active"</eq>>{$vds}</span>
+        </a>
+        <php>}</php>
+        <span data="tab_search" onclick="dosearch()"><b class="tab_search"></b></span>
+    </div>
+    <include file="search" />
+    <div class="Toolbar_inbox">
+        <div class="pages" style="float:right; padding:0px;">{$pagebar}</div>
+        <htmlA:commonBtn type="href" action="__URL__/add" value="添加文章" />
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l">ID</th>
+                <th class="line_l" style="text-align:left">文章标题</th>
+                <th class="line_l">所属栏目</th>
+                <th class="line_l">所属顺序</th>
+                <th class="line_l">发布人</th>
+                <th class="line_l">添加时间</th>
+                <th class="line_l" style="width:90px">操作</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td style="text-align:left">{$vo.title}</td>
+                    <td>{$vo.type_name}</td>
+                    <td>{$vo.sort_order}</td>
+                    <td>{$vo.art_writer|default='匿名'}</td>
+                    <td>{$vo.art_time|date='m月d日H时',###}</td>
+                    <td>
+                        <a href="__URL__/edit?id={$vo['id']}">编辑</a>
+                        <a href="javascript:void(0);" onclick="del({$vo['id']});">删除</a>
+                    </td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="pages" style="float:right; padding:0px;">{$pagebar}</div>
+        <htmlA:commonBtn type="jsfun" action="del();" value="删除文章" />
+    </div>
+</div>
+<include file="Public:_footer" />

@@ -1,0 +1,61 @@
+<include file="Public:header" />
+<h2><strong>我的红包</strong></h2>
+<div class="ms-c6">
+    <div class="ms-c6-t">
+        <ul id="accountLogTypes">
+            <li <empty name="_GET['tab']">class="current"</empty>>
+                <a href="/member/account/coupon.html">未使用</a>
+            </li>
+            <li <eq name="_GET['tab']" value="used">class="current"</eq>>
+                <a href="/member/account/coupon.html?tab=used">已使用</a>
+            </li>
+            <li <eq name="_GET['tab']" value="expire">class="current"</eq>>
+                <a href="/member/account/coupon.html?tab=expire">已过期</a>
+            </li>
+        </ul>
+    </div>
+    <div id="accountLogList">
+        <div class="ms-c6-m">
+            <div class="ms-c6-table clearfix">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>编号</th>
+                            <th style="text-align:left;padding-left:5px">名称</th>
+                            <th>使用限制</th>
+                            <th style="text-align:right;">红包面值</th>                            
+                            <th>领取日期</th>
+                            <th>有效期</th>
+                        </tr>
+                        <volist name="data" id="coupon">
+                        <tr>
+                            <td>{$coupon.id}</td>
+                            <td style="text-align:left;padding-left:5px">{$coupon.name}</td>
+                            <td>
+                                <switch name="coupon['limit']" >
+                                <case value="0" break="1">通用</case>
+                                <case value="1" break="1">配资</case>
+                                <case value="2" break="1">投标</case>
+                                </switch>
+                            </td>
+                            <td style="text-align:right;">{$coupon.total|number_format=2} 元</td>        
+                            <td>{$coupon.take|date='Y-m-d',###}</td>
+                            <td>{$coupon.expire|date='Y-m-d',###|default='始终有效'}</td>
+                        </tr>
+                        </volist>
+                    </tbody>
+                </table>
+                <div id="_page" class="n-pages">{$param['pages']}</div>
+            </div>
+            <div class="ms-c6-b">
+                <dl>
+                    <dt>温馨提示</dt>
+                    <dd>1、通用红包可以用来投标抵扣或配资保证金抵扣，需使用后才能提现。</dd>
+                    <dd>2、所有红包的有效期限均为30个自然日。</dd>
+                    <dd>&nbsp;&nbsp; 例：预投标50元，使用红包55元，抵扣完成后,55元红包被标记为已使用，有效投标金额为50元</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="Public:footer" />

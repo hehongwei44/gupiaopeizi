@@ -1,0 +1,118 @@
+<include file="Public:_header" />
+<div class="so_main">
+  <div class="page_tit">偏好设置</div>
+  <div id="addAttr_div">
+    
+    <div class="form2">
+      <form method="post" action="">
+        <dl class="lineD">
+          <dt>左侧菜单：</dt>
+          <dd>
+          <select class="c_select" name="menustyle">
+            <option value="one" <eq name="data['menustyle']" value="one">selected</eq>>展开第一个（默认）</option>
+            <option value="all" <eq name="data['menustyle']" value="all">selected</eq>>全部展开</option>
+          </select>
+          <span>如果屏幕足够大可以使用全部展开</span>
+          </dd>
+        </dl>
+        <!--
+        <dl class="lineD">
+          <dt>菜单切换：</dt>
+          <dd>
+          <select class="c_select" name="menuswitch">
+            <option value="one" <eq name="data['menuswitch']" value="one">selected</eq>>每次只展开一个菜单组</option>
+            <option value="all" <eq name="data['menuswitch']" value="all">selected</eq>>可以展开多个</option>
+          </select>
+          <span>如果屏幕不够大可以使用每次展开一个菜单组</span>
+          </dd>
+        </dl>
+        -->
+        <dl class="lineD">
+          <dt>我的工作台：</dt>
+          <dd>
+          <select class="c_select" name="menutype">
+            <option value="auto" <eq name="data['menutype']" value="auto">selected</eq>>自动记录</option>
+            <option value="add" <eq name="data['menutype']" value="add">selected</eq>>手动添加</option>
+          </select>
+          <span>系统默认记录每次单击过的菜单，使用次数越多越靠前</span>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>工作台常用菜单数量：</dt>
+          <dd>
+          <input name="iconcount" class="input" id="iconcount" type="text" value="{$data['iconcount']|default=7}">
+          <span>最好不要超过12个，系统默认为7个</span>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>列表内容条数：</dt>
+          <dd>
+          <input name="pagesize" class="input" id="pagesize" type="text" value="{$data['pagesize']|default=10}">
+          <span>请根据当前的屏幕大小调整，不能超过30</span>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>提醒内容设置：</dt>
+          <dd>
+          <volist name="data['check']" id="vo">  
+            <in name="key" value="0,1">
+            <br/>
+            <else/> 
+            <label><input name="nContent[]" type="checkbox" value="{$key}" <in name='key' value="$data['nContent']">checked</in>> {$vo['name']}</label>
+            </in>         
+          </volist>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>提醒内容检查频率：</dt>
+          <dd>
+          <select class="c_select" name="nPeriod">
+            <option value="60" <eq name="data['nPeriod']" value="60">selected</eq>>1分钟</option>
+            <option value="180" <eq name="data['nPeriod']" value="180">selected</eq>>3分钟</option>
+            <option value="300" <eq name="data['nPeriod']" value="300">selected</eq>>5分钟</option>
+            <option value="600" <eq name="data['nPeriod']" value="600">selected</eq>>10分钟</option>
+            <option value="1800" <eq name="data['nPeriod']" value="1800">selected</eq>>30分钟</option>
+          </select>
+          <span>内容检查频率，请根据交易量设置时间，避免影响用户体验</span>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>提醒显示时间：</dt>
+          <dd>
+          <select class="c_select" name="nKeep">
+            <option value="5" <eq name="data['nKeep']" value="5">selected</eq>>5秒</option>
+            <option value="10" <eq name="data['nKeep']" value="10">selected</eq>>10秒</option>
+            <option value="30" <eq name="data['nKeep']" value="30">selected</eq>>30秒</option>
+            <option value="60" <eq name="data['nKeep']" value="60">selected</eq>>1分钟</option>
+            <option value="300" <eq name="data['nKeep']" value="300">selected</eq>>5分钟</option>
+            <option value="600" <eq name="data['nKeep']" value="600">selected</eq>>10分钟</option>
+          </select>
+          <span>如果检查到新的内容，左上角提示信息显示多久后自动关闭</span>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>操作提示时间：</dt>
+          <dd>
+          <select class="c_select" name="pagewait">
+            <option value="1" <eq name="data['pagewait']" value="1">selected</eq>>1秒</option>
+            <option value="3" <eq name="data['pagewait']" value="3">selected</eq>>3秒</option>
+            <option value="5" <eq name="data['pagewait']" value="5">selected</eq>>5秒</option>
+            <option value="10" <eq name="data['pagewait']" value="10">selected</eq>>10秒</option>
+            <option value="15" <eq name="data['pagewait']" value="15">selected</eq>>15秒</option>
+            <option value="30" <eq name="data['pagewait']" value="30">selected</eq>>30秒</option>
+          </select>
+          <span>数据提交后的提示信息显示时间，及多长时间后自动跳转</span>
+          </dd>
+        </dl>
+        <div class="page_btm">
+          <input type="hidden" name="uid" id="uid" value="" disabled="disabled" />
+          <input type="submit" class="btn_b" id="showwait" value="保存" />
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  
+</div>
+</div>
+<include file="Public:_footer" />

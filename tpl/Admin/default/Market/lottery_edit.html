@@ -1,0 +1,82 @@
+<include file="Public:_header" />
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#imgfile").uploadPreview({width:230,height:155,imgDiv:"#imgDiv",imgType:["bmp","gif","png","jpg"],maxwidth:3169,maxheight:4759});
+	});
+</script>
+<script type="text/javascript" src="__ROOT__/tpl/Admin/default/Res/js/uploadPreview.js"></script>
+<tagLib name="htmlA" />
+<div class="so_main">
+<div class="page_tit">添加/编辑商城抽奖物品信息</div>
+<div class="page_tab"><span data="tab_1" class="active">基本设置</span></div>
+<div class="form2">
+<div class="alertDiv">
+	<ul>
+		<li>抽奖物品分为两类，即金钱和投资积分</li>
+		<li>当会员抽中礼金后，系统会自动给该中奖会员资金账户增加相应的奖金金额！</li>
+		<li>当会员抽中积分后，系统会自动给该中奖会员增加相应的投资积分！</li>
+	</ul>
+</div>
+	<form method="post" id="LotteryForm" action="__URL__/doLotteryEdit" enctype="multipart/form-data" >
+	<input type="hidden" name="id" value="{$vo.id}" />
+	<div id="tab_1">
+		<dl class="lineD"><dt>所属类别：</dt><dd><htmlA:radio id="category" value="key|vo.category" default="1|礼金,2|积分,3|奖品"/></dd></dl>
+		<dl class="lineD"><dt>奖品名称：</dt><dd><htmlA:input id="title" value="{$vo.title}"/></dd></dl>
+        <dl class="lineD" style="overflow:hidden"><dt>奖品图片：</dt>
+		  <dd>
+			<input type="file" id="imgfile" name="imgfile" style="float:left"/>
+			<span style="float:left"><div style="text-align:left; clear:both; "><div id="imgDiv" style="float:left"></div><div style="float:left"><if condition="$vo.b_img eq ''"><else/><img src="__ROOT__/{$vo.b_img}" width="100" height="100" /></if></div></div></span>
+		  </dd>
+	    </dl>
+		<dl class="lineD"><dt>奖品数量：</dt><dd><htmlA:input id="num" value="{$vo.num|default=0}" /></dd></dl>
+		<dl class="lineD"><dt>剩余奖品数量：</dt><dd><htmlA:input id="last_num" addstr='readonly="true"' value="{$vo.last_num|default=0}"/></dd></dl>
+		<dl class="lineD"><dt>中奖几率：</dt><dd><htmlA:input id="rate" value="{$vo.rate|default=0}" tip="* 即中奖的概率，数值越小，中奖几率越小"/></dd></dl>
+		<dl class="lineD"><dt>可兑换价值：</dt><dd><htmlA:input id="value" value="{$vo.value|default=0}" tip="* 填写奖励的积分值或金钱，必须是正整数"/></dd></dl>
+		<dl class="lineD"><dt>排序：</dt><dd><htmlA:input id="order_sn" value="{$vo.order_sn|default=0}"/></dd></dl>
+        <dl class="lineD"><dt>是否上线：</dt><dd><htmlA:radio id="is_sys" value="key|vo.is_sys" default="1|上线,0|不上线"/></dd></dl>
+	</div>
+	<div class="page_btm"><input type="button" id="dosubmit"  class="btn_b" value="确定" /></div>
+	</form>
+</div>
+</div>
+<include file="Public:_footer" />
+<script type="text/javascript">
+
+function num(obj)
+{
+        var num = obj.val().replace(/[^0-9]/ig, "");
+        var cnum = parseInt(num); 
+        if(cnum < 0 || !cnum){
+           cnum = 0;
+        }
+        return cnum;
+}
+$(function(){
+    $("#num").blur(function(){
+        var n = num($(this));
+        $(this).val(n);
+        $("#last_num").val(n); 
+    })
+    $("#rate").blur(function(){
+        $(this).val(num($(this)));
+    })
+    $("#value").blur(function(){
+        $(this).val(num($(this)));
+    })
+    $("#order_sn").blur(function(){
+        $(this).val(num($(this)));
+    })
+   $("#dosubmit").click(function(){
+       if(!$("input[name='category']:checked").val()){
+           alert('请选择所属类别');
+           return false;
+       }
+       if(!$.trim($("#title").val())){
+           alert('请输入奖品名称');
+           return false;
+       }
+       $("#LotteryForm").submit();
+   }) 
+    
+})
+</script>

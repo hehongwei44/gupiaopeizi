@@ -1,0 +1,38 @@
+<tagLib name="htmlA" />
+<div class="so_main">
+    <div class="form2">
+        <div id="tab_1" style="overflow:hidden;width:500px">
+            <dl class="lineD" style="color:#FF0000;">为了数据安全，建议下载完成后删除备份</dl>
+            <dl class="lineD">
+                <dt style="text-align:center"><a href="{$downurl}" target="_blank">下载ZIP备份</a></dt>
+                <dt style="text-align:center"><a href="javascript:delzip('{$zipname}');">删除ZIP备份</a></dt>
+            </dl>
+        </div>
+        <!--tab1-->
+        <div class="page_btm" style="text-align:center">
+            <input type="button" onclick="closeui();" class="btn_b" value="关闭" />
+        </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+function delzip(zip) {
+    var datas = {
+        'zipname': zip
+    };
+    $.post("__URL__/delzip", datas, zipdelResponse, 'json');
+}
+
+function zipdelResponse(res) {
+    if (res.status == '0') {
+        ui.error(res.info);
+    } else {
+        ui.success(res.info);
+        ui.box.close();
+    }
+}
+
+function closeui() {
+    ui.box.close();
+}
+</script>

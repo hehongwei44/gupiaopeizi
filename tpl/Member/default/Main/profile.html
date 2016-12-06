@@ -1,0 +1,188 @@
+<include file="Public:header" />
+<h2><strong>个人信息</strong></h2>
+<div class="formbox">
+    <form method="post">
+        <table>
+            <tbody>
+                <tr>
+                    <th>真实姓名：</th>
+                    <td>
+                        <empty name="_SESSION['MEMBER']['STATUS']['IDCARD']">
+                            <span  class="red">未认证</span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/member/validate/idcard.html">去认证</a>
+                        <else/>
+                            {$data['real_name']}
+                        </empty> 
+                    </td>
+                </tr>
+                <tr>
+                    <th>婚姻状况：</th>
+                    <td>
+                        <input id="id_none" name="marriage" value="" <eq name="data['marry']" value="">checked</eq> type="radio">
+                        <label for="id_none">暂不填写</label>
+                        <input id="id_single" name="marriage" value="未婚" type="radio" <eq name="data['marry']" value="未婚">checked</eq>>
+                        <label for="id_single">未婚</label>
+                        <input id="id_married" name="marriage" value="已婚" type="radio" <eq name="data['marry']" value="已婚">checked</eq>>
+                        <label for="id_married">已婚</label>
+                        <input id="id_divorce" name="marriage" value="离异" type="radio" <eq name="data['marry']" value="离异">checked</eq>>
+                        <label for="id_divorce">离异</label>
+                        <input id="id_widowed" name="marriage" value="丧偶" type="radio"> <eq name="data['marry']" value="丧偶">checked</eq>
+                        <label for="id_widowed">丧偶</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>最高学历：</th>
+                    <td>
+                        <div class="sbox">
+                            <select name="education">
+                                <option value="">请选择</option>
+                                <option value="中专" <eq name="data['education']" value="中专">selected</eq>>中专</option>
+                                <option value="大专" <eq name="data['education']" value="大专">selected</eq>>大专</option>
+                                <option value="本科" <eq name="data['education']" value="本科">selected</eq>>本科</option>
+                                <option value="硕士" <eq name="data['education']" value="硕士">selected</eq>>硕士</option>
+                                <option value="博士" <eq name="data['education']" value="博士">selected</eq>>博士</option>
+                                <option value="其它" <eq name="data['education']" value="其它">selected</eq>>其它</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>所在行业：</th>
+                    <td>
+                        <div class="sbox">
+                            <select name="vocation">
+                                <option value="">请选择</option>
+                                <option value="金融业" <eq name="data['zy']" value="金融业">selected</eq>>金融业</option>
+                                <option value="服务业" <eq name="data['zy']" value="服务业">selected</eq>>服务业</option>
+                                <option value="信息产业" <eq name="data['zy']" value="信息产业">selected</eq>>信息产业</option>
+                                <option value="制造业" <eq name="data['zy']" value="制造业">selected</eq>>制造业</option>
+                                <option value="传播业" <eq name="data['zy']" value="传播业">selected</eq>>传播业</option>
+                                <option value="教育" <eq name="data['zy']" value="教育">selected</eq>>教育</option>
+                                <option value="政府机构" <eq name="data['zy']" value="政府机构">selected</eq>>政府机构</option>
+                                <option value="医疗保健" <eq name="data['zy']" value="医疗保健">selected</eq>>医疗保健</option>
+                                <option value="房地产" <eq name="data['zy']" value="房地产">selected</eq>>房地产</option>
+                                <option value="其它" <eq name="data['zy']" value="其它">selected</eq>>其它</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>从事职位：</th>
+                    <td>
+                        <div class="sbox">
+                            <select name="job">
+                                <option value="">请选择</option>
+                                <option value="学生" <eq name="data['job']" value="学生">selected</eq>>学生</option>
+                                <option value="职员" <eq name="data['job']" value="职员">selected</eq>>职员</option>
+                                <option value="经理" <eq name="data['job']" value="经理">selected</eq>>经理</option>
+                                <option value="专业人士" <eq name="data['job']" value="专业人士">selected</eq>>专业人士</option>
+                                <option value="公务员" <eq name="data['job']" value="公务员">selected</eq>>公务员</option>
+                                <option value="私营主" <eq name="data['job']" value="私营主">selected</eq>>私营主</option>
+                                <option value="待业" <eq name="data['job']" value="待业">selected</eq>>待业</option>
+                                <option value="退休" <eq name="data['job']" value="退休">selected</eq>>退休</option>
+                                <option value="其它" <eq name="data['job']" value="其它">selected</eq>>其它</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>月收入</th>
+                    <td>
+                        <div class="sbox">
+                            <select name="income">
+                                <option value="">请选择</option>
+                                <option value="6000以上" <eq name="data['income']" value="6000以上">selected</eq>>6000以上</option>
+                                <option value="4001-6000" <eq name="data['income']" value="4001-6000">selected</eq>>4001-6000</option>
+                                <option value="2001-4000" <eq name="data['income']" value="2001-4000">selected</eq>>2001-4000</option>
+                                <option value="1001-2000" <eq name="data['income']" value="1001-2000">selected</eq>>1001-2000</option>
+                                <option value="501-1000" <eq name="data['income']" value="501-1000">selected</eq>>501-1000</option>
+                                <option value="500以下" <eq name="data['income']" value="500以下">selected</eq>>500以下</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>居住省份：</th>
+                    <td>
+                        <select class="province" style="width:120px" init="{$data.province_now}" name="liveProvince">
+                        </select>
+                        <select class="city" style="width:120px" init="{$data.city_now}" name="liveCity">
+                        </select>
+                        <select class="district" style="width:120px" init="{$data.area_now}" name="liveArea">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>居住地址：</th>
+                    <td>
+                        <input class="inp" name="liveAddress" value="{$data.address_now}" style="width:250px" type="text">
+                        <font color="red"></font>
+                    </td>
+                </tr>
+                <tr>
+                    <th>工作省份：</th>
+                    <td>
+                        <select class="province" style="width:120px" init="{$data.province}" name="workProvince">
+                        </select>
+                        <select class="city" style="width:120px" init="{$data.city}" name="workCity">
+                        </select>
+                        <select class="district" style="width:120px" init="{$data.area}" name="workArea">
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>工作地址：</th>
+                    <td>
+                        <input class="inp" name="workAddress" value="{$data.address}" style="width:250px" type="text">
+                        <font color="red"></font>
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <button id="submitForm" class="btn-b" type="button">保 存</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+$(function() {
+    var empty = '<option value="">请选择</option>';
+    $('.province').change(function(){
+        var next = $(this).next();
+        $.get('/member/area.html?parent='+$(this).val()+'&init='+$(next).attr('init'), function(data){
+            if($(next).html(empty+data)){
+                next.change();
+            }
+
+        });
+    });
+    $('.city').change(function(){
+        var next = $(this).next();
+        $.get('/member/area.html?parent='+$(this).val()+'&init='+$(next).attr('init'), function(data){
+            $(next).html(empty+data);
+        });
+    });
+    $('.province').each(function(){
+        var province = $(this);
+        $.get('/member/area.html?parent=1&init='+$(this).attr('init'), function(data){
+            if(province.html(empty+data)){
+                province.change();
+            }
+        });
+    });
+
+
+    $('#submitForm').click(function(){
+        $.post('/member/profile.html', $('form').serialize(),function(res){
+            if(res.status==0){                    
+                top.dialog(res.info,'success');                    
+            }else{
+                top.dialog(res.info,'error'); 
+            }                
+        },'json');
+    });
+});
+</script>
+<include file="Public:footer" />

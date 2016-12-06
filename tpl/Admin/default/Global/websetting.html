@@ -1,0 +1,167 @@
+<include file="../Public/_header" />
+<div class="so_main">
+    <div class="page_tit">站点配置</div>
+    <div id="searchUser_div" style="display:none;">
+        <div class="page_tit">添加新参数 [ <a href="javascript:void(0);" onclick="addWebSetting();">隐藏</a> ]</div>
+        <div class="form2">
+            <form method="post" action="__URL__/add" onsubmit="return false;">
+                <dl class="lineD">
+                    <dt>参数名称：</dt>
+                    <dd>
+                        <input name="name" class="input" id="name" type="text" value="">
+                        <span>便于自己知道此参数的作用的名称</span>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>参数代码：</dt>
+                    <dd>
+                        <input name="code" class="input" id="code" type="text" value="">
+                        <span>在模板中引用的代码，尽量不要和系统变更重命，可以加前缀，如ttxf_</span>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>参数类型：</dt>
+                    <dd>
+                        <select name="type" class="input" id="type">
+                            <option value="input">单行文本</option>
+                            <option value="textarea">多行文本</option>
+                        </select>
+                        <span>参数的类型：单行文本所保存内容较小，多行文本可保存较多内容</span>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>参数说明：</dt>
+                    <dd>
+                        <input name="tip" class="input" id="tip" type="text" value="">
+                        <span>用来更详细的说明此参数的作用</span>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>参数排序：</dt>
+                    <dd>
+                        <input name="order_sn" class="input" id="order_sn" type="text" value="0">
+                        <span>参数在管理列表中的排序，越大越靠前</span>
+                    </dd>
+                </dl>
+                <div class="page_btm">
+                    <input type="submit" class="btn_b" id="showwait" onclick="addNewSetting();" value="添加" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+    function addNewSetting() {
+        var name = $("#name").val();
+        var code = $("#code").val();
+        var type = $("#type").val();
+        var tip = $("#tip").val();
+        var order_sn = $("#order_sn").val();
+
+        if (name == "") {
+            ui.error('参数名不能为空');
+            $("#name").focus();
+            return false;
+        } else if (code == "") {
+            ui.error('参数代码不能为空');
+            $("#code").focus();
+            return false;
+        } else if (!order_sn.match(/^[\d]+$/)) {
+            ui.error('参数排序只能为数字');
+            $("#order_sn").focus();
+            return false;
+        }
+
+        var datas = {
+            'name': name,
+            'code': code,
+            'type': type,
+            'order_sn': order_sn,
+            'tip': tip
+        };
+        $.post('__URL__/doAdd', datas, addSettingResponse, 'json');
+    }
+
+    function addSettingResponse(res) {
+        if (!res.status) {
+            ui.error(res.info);
+        } else {
+            var name = $("#name").val('');
+            var code = $("#code").val('');
+            var type = $("#type").val('');
+            var tip = $("#tip").val('');
+            var order_sn = $("#order_sn").val('');
+            ui.success('{$Think.lang.lan_add_success}');
+        }
+    }
+    </script>
+    <div class="Toolbar_inbox">
+        <div class="page right"></div>
+        <a onclick="addWebSetting();" class="btn_a" href="javascript:void(0);">
+            <span class="searchUser_action">添加新参数</span>
+        </a>
+    </div>
+    <div class="form2">
+        <form method="post" action="__URL__/doEdit">
+            <volist name="list" id="vo">
+                <dl class="lineD" id="line_{$vo['id']}">
+                    <a href="javascript:void(0);" onclick="if(confirm('{$Think.lang.lan_del_confirm}')) delx('{$vo['id']}');" class="a_del" title="{$Think.lang.lan_del_do}"></a>
+                    <dt>{$vo['name']}：</dt>
+                    <dd>
+                        <if condition="$vo['type'] eq 'textarea' ">
+                            <textarea name="{$vo['id']}" class="areabox">{$vo['text']}</textarea>
+                            <else />
+                            <input name="{$vo['id']}" class="input" type="text" value="{$vo['text']}">
+                        </if>
+                        <if condition="$vo['tip'] neq ' ' "><span>{$vo['tip']}({$vo['code']})</span>
+                            <else />({$vo['code']})
+                        </if>
+                    </dd>
+                </dl>
+            </volist>
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    $(".lineD").mouseover(function() {
+        $(this).find(".a_del").css("display", "block")
+    })
+    $(".lineD").mouseleave(function() {
+        $(this).find(".a_del").css("display", "none")
+    })
+});
+
+function delx(id) {
+    var datas = {
+        'id': id
+    };
+    $.post('{:U("global/doDelweb")}', datas, delSettingResponse, 'json');
+}
+
+function delSettingResponse(res) {
+    if (res.status) {
+        $("#line_" + res.id).css("display", "none");
+        ui.success('{$Think.lang.lan_del_success}');
+    } else {
+        ui.error(res.message);
+    }
+}
+
+var isSearchHidden = 1;
+
+function addWebSetting() {
+    if (isSearchHidden == 1) {
+        $("#searchUser_div").slideDown("fast");
+        $(".searchUser_action").html("添加完毕");
+        isSearchHidden = 0;
+    } else {
+        $("#searchUser_div").slideUp("fast");
+        $(".searchUser_action").html("添加新参数");
+        isSearchHidden = 1;
+    }
+}
+</script>
+<include file="Public:_footer" />

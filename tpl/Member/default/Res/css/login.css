@@ -1,0 +1,59 @@
+@charset "utf-8";
+/*wyq-150416*/
+
+.login{ width:100%; padding:50px 0px 0 0; display:inline-block; background:url(../img/login.png) no-repeat 451px 0px #fff;}
+.loginBox{ float:right; width:300px; padding:10px 20px 30px; background:#f7f7f7; border:1px solid #e7e7e7; border-bottom-width:2px; margin-bottom: 60px;line-height:24px;border-radius: 3px;}
+.loginBox b{ width:100%; line-height:40px; border-bottom:1px solid #e7e7e7; display:inline-block; text-indent:12px; margin-bottom:10px; font-size:18px; box-shadow: 0 1px 0 0px #fff}
+.loginBox p.inputBox{ margin-top:10px; padding:0 12px;}
+.loginBox p.inputBox span{ display:block; padding-bottom:5px;}
+.loginBox p.inputBox input{ width:255px; height:24px; display:inline-block; padding:5px 10px; border:1px solid #ddd; background:#fff;}
+.loginBox p.inputBox input.yzm{ width:120px; margin-right:20px;}
+.loginBox p.inputBox img.yzmPic{ height:34px;width:105px;cursor:pointer; vertical-align:top;}
+.loginBox p.text{ padding:0 12px;}
+.loginBox p.text.codeimg{ text-align:right;}
+.loginBox p.text span{ float:right;}
+.loginBox .btn{ display:block; margin:20px 12px 0; line-height:36px; font-size:16px;}
+
+.borBox{ margin-top:30px; padding:10px 20px; border-radius:5px;}
+#zhBar .title1{ margin-bottom:40px;}
+.form{ margin-top:30px; line-height:36px;}
+#regBox .form{ background:url(../img/reg.png) no-repeat #fff 680px 0px;}
+#zhBar .form{ width:600px; margin:30px 0 50px 20px; display:inline-block; border-right:1px solid #ddd;}
+.form dt{ width:120px; float:left; text-align:right;}
+.form dd{ display:block; padding-left:130px; margin-bottom:20px;}
+.form dd input.text{ width:220px; height:24px; display:inline-block; padding:5px 10px; border:1px solid #ddd; margin-right:20px; background:#fff; vertical-align:top;}
+.form dd select{ width:242px; height:36px; display:inline-block; border:1px solid #ddd; background:#fff;}
+.form dd #sendAuthBtn{ margin-right:20px; line-height:36px; width:110px; vertical-align:top;}
+.form dd span{ color:#aaa; display:inline-block; margin-right:20px;}
+.form dd span.error{ color:#f00;}
+.form dd span.pass{ color:#0cba04;}
+.form dd #register{ width:242px; line-height:36px; font-size:16px; margin-right:20px;}
+
+.zhR{ display:inline-block; margin-top:30px; padding:20px 0 20px 50px; vertical-align:top; line-height:20px;}
+.zhR b{ font-size:18px; font-weight:bold;}
+.zhR p{ display:block; margin-top:15px; font-size:16px;}
+.zhR p span{ width:40px; height:20px; line-height:20px; display:inline-block; padding-right:4px; color:#fff; margin-right:10px; text-align:center; vertical-align:middle; background:url(../img/icoZh.png) no-repeat; color:#fff;}
+.zhR p span.now{ background-image:url(../img/icoZh2.png);}
+form i{font-size: 13px;color:red;display:inline;border:0;padding:0;margin:0;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

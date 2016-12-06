@@ -1,0 +1,90 @@
+<include file="Public:_header" />
+<style type="text/css">
+.lineD dt b {
+    color: #0C0
+}
+</style>
+<div class="so_main">
+    <div class="page_tit">用户级权限配置</div>
+    <div class="page_tab">
+        <span data="tab_1" <eq name="_GET['category']" value=''>class="active"</eq>>基本信息</span>
+        <span data="tab_2" <eq name="_GET['category']" value='1'>class="active"</eq>>权限设置</span>
+    </div>
+    <form method="post" action="__URL__/doEdit">
+        <div class="form2" id="tab_1">
+            <input type="hidden" name="aid" value="{$aid}" />
+            <dl class="lineD">
+                <dt class="t">用户组名称：</dt>
+                <dd>
+                    <input type="text" name="name" id="name" class="input" value="{$acldata.name}" />
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt class="t">管辖范围说明：</dt>
+                <dd>
+                    <input type="text" name="intro" id="intro" class="input" value="{$acldata.intro}" />
+                </dd>
+            </dl>
+
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="修改" />
+            </div>
+        </div>
+        <div class="form2" id="tab_2" style="display:none">
+            <php>foreach($acl_list as $ke => $vo){</php>
+            <dl class="lineD">
+                <dt class="t"><b>{$vo['low_title']['0']}</b></dt>
+                <dd>请选择相关权限
+                    <input type="checkbox" onclick="select_all('fa{$ke}');" id="fa{$ke}" />
+                    <label for="fa{$ke}">全选</label>
+                </dd>
+            </dl>
+            <php>foreach($vo['low_leve'] as $fmodel => $vs){</php>
+            <php>foreach($vs as $keyname => $item){</php>
+            <php>if($keyname != "data"){ </php>
+            <dl class="lineD">
+                <dt>{$keyname}：</dt>
+                <dd>
+                    <php>foreach($item as $itemname => $itemkey){</php>
+                    <input data="fa{$ke}_son" type="checkbox" name="model[{$fmodel}][]" <php>if(is_array($acldata['controller'][$fmodel]) && array_keys($acldata['controller'][$fmodel],$itemkey)) echo 'checked="checked"';</php> class="check" value="{$itemkey}" id="{$fmodel}{$itemkey}">
+                    <label for="{$fmodel}{$itemkey}">{$itemname}</label>
+                    <php>}</php>
+                </dd>
+            </dl>
+            <php>}</php>
+            <php>}</php>
+            <php>}</php>
+            <php>}</php>
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="修改" />
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+function select_all(id) {
+    var se = id + "_son";
+    if ($("#" + id).attr('checked')) {
+        $("input:[data=" + se + "]").each(function(i, obj) {
+            $(obj).attr('checked', 'true');
+
+        });
+    } else {
+        $("input:[data=" + se + "]").each(function(i, obj) {
+            $(obj).attr('checked', '');
+
+        });
+    }
+
+}
+
+$(document).ready(function() {
+    $(".lineD").mouseover(function() {
+        $(this).find(".a_del").css("display", "block")
+    })
+    $(".lineD").mouseleave(function() {
+        $(this).find(".a_del").css("display", "none")
+    })
+});
+</script>
+<include file="Public:_footer" />

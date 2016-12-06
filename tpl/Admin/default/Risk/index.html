@@ -1,0 +1,115 @@
+<empty name="_GET['do']">
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<div class="so_main">
+  <div class="page_tit">
+    <span>配资风控方案</span>
+    <include file="Public:quick" />
+  </div>
+  <div class="page_tab">
+      <a href="__ACTION__?status={$_GET['status']}"><span data="tab_1" <eq name="_GET['type']" value=''>class="active"</eq>>全部</span></a>
+      <a href="__ACTION__?status={$_GET['status']}&type=9"><span data="tab_1" <eq name="_GET['type']" value='9'>class="active"</eq>>按月配资</span></a>
+      <a href="__ACTION__?status={$_GET['status']}&type=8"><span data="tab_1" <eq name="_GET['type']" value='8'>class="active"</eq>>按天配资</span></a>
+  </div>
+  <div class="Toolbar_inbox">
+  	<div class="page right">{$pagebar}</div>
+  </div>
+  <div class="list">
+  <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:22px;">
+        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+        <label for="checkbox"></label>
+    </th>
+    <th class="line_l" style="width:90px">方案号</th>
+    <th class="line_l" style="width:70px">真实姓名</th>
+    <th class="line_l">恒生帐号</th>
+    <th class="line_l" style="text-align:right">配资金额</th>
+    <th class="line_l" style="text-align:right">保证金</th>
+    <th class="line_l" style="text-align:right">年化率</th>
+    <th class="line_l" style="text-align:right">警告线</th>
+    <th class="line_l" style="text-align:right">平仓线</th>
+    <th class="line_l" style="text-align:right">资产总值</th>
+    <th class="line_l" style="text-align:right">股票市值</th>
+    <th class="line_l">到期时间</th>
+    <th class="line_l" style="width:160px">操作</th>
+  </tr>
+  <volist empty="$empty" id="vo" name="list">
+      <tr overstyle='on' id="list_{$vo.id}" style="">
+        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
+        <td>PZ{$vo.id|str_pad=###,6,0,0}</td>
+        <td><htmlA:user id="vo.borrow_uid" uname="vo.real_name" /></td>
+        <td>{$vo.account|default='暂无分配'}</td>
+        <td style="text-align:right">{$vo.borrow_money|number_format=2}</td>
+        <td style="text-align:right">{$vo.deposit|number_format=2}</td>
+        <td style="text-align:right">{$vo.borrow_interest_rate|intval}%</td>
+        <td style="text-align:right">{$vo.warning|default='/'}</td>
+        <td style="text-align:right">{$vo.finish|default='/'}</td>
+        <td style="text-align:right">0.00</td>
+        <td style="text-align:right">0.00</td>
+        <td>{$vo.deadline|date='y-m-d',###}</td>
+        <td>
+          <input value="完结方案" onclick="ui.box.load('__URL__/?do=audit&id={$vo['id']}',{title:'完结配资方案'})" type="button">
+          <input value="持仓查询" onclick="alert('需要接入HOMS系统，才能查询持仓情况。')" type="button">
+        </td>
+      </tr>
+  </volist>
+  </table>
+  </div>
+  <div class="Toolbar_inbox">
+  	<div class="page right">{$pagebar}</div>
+  </div>
+</div>
+<include file="Public:_footer" />
+<else/>
+<div class="so_main">
+  <div class="alertDiv">
+    <ul>
+      <li>配资人 <span style="color:red;font-size:17px">{$borrow['real_name']}</span>（{$borrow['user_name']}）于 {$borrow['add_time']|date='Y年m月d日H时i分',###} 申请{$borrow.borrow_type} <span style="color:red;font-size:17px">{$borrow['borrow_money']|number_format=2}</span> 元</li>
+      <li>交易时间为 <span style="color:red">{$borrow['deal_start']|date='Y-m-d',###}</span>；保证金 <span style="color:red">{$borrow['deposit']|number_format=2}</span> 元；配资期限为 <span style="color:red">{$borrow['borrow_duration']}</span> {$borrow.postfix}；
+      <eq name="borrow['borrow_type']" value="8">
+      管理费 <span style="color:red">{$borrow['borrow_fee']|number_format=2}</span> 元；风险倍数 <span style="color:red">{$borrow['risk_rate']|number_format=2}</span> 元；
+      <else/>
+      利息 <span style="color:red">{$borrow['borrow_interest']|number_format=2}</span>；月利率 <span style="color:red">{$borrow['borrow_interest_rate']|number_format}%</span>；
+      </eq>
+      </li>
+      <li>完结方案需要返还用户保证金及盈利，返回金额超过保证金额度，剩余部分作为盈利返还。</li>
+    </ul>
+  </div>
+  <div class="form2">
+    <form method="post" action="" onsubmit="return subcheck();">
+      <input type="hidden" name="id" value="{$borrow.id}" />
+      <div id="tab_1">
+        <dl class="lineD">
+          <dt>会员：</dt>
+          <dd>{$borrow['real_name']}（{$borrow['user_name']}）</dd>
+        </dl>
+
+        <dl class="lineD">
+          <dt>保证金：</dt>
+          <dd style="color:#FF0000;font-size:18px">{$borrow['deposit']|number_format=2}</dd>
+        </dl>
+        <dl class="lineD">
+          <dt>返还金额：</dt>
+          <dd><input type="input" value="{$borrow['deposit']}" name="total" style="font-size:24px;padding:3px 5px">&nbsp;&nbsp;<span style="color:red">超出保证金的部分作为盈利返还</span></dd>
+        </dl>
+        <dl class="lineD">
+          <dt>恒生账户：</dt>
+          <dd>{$borrow.homs.name|default='未分配'}</dd>
+        </dl>
+        <dl>
+          <dt>简要说明：</dt>
+          <dd>
+            <htmlA:text id="info" value=""/>
+          </dd>
+        </dl>
+      </div>
+      <div class="page_btm">
+        <input type="submit" class="btn_b" value="确定完结" />
+        <input type="button" class="btn_g" value="取消" onclick="ui.box.close()"/>
+      </div>
+    </form>
+  </div>
+</div>
+
+</empty>

@@ -1,0 +1,318 @@
+<include file="Public:_header" />
+<link href="__ROOT__/res/Swfupload/swfupload.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__ROOT__/res/Swfupload/handlers.js"></script>
+<script type="text/javascript" src="__ROOT__/res/Swfupload/swfupload.js"></script>
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    //swf上传图片
+    swfu = new SWFUpload({
+        // Backend Settings
+        upload_url: "swfupload",
+        post_params: {
+            "PHPSESSID": "<php> echo session_id(); </php>",
+            "dopost": ""
+        },
+
+        // File Upload Settings
+        file_size_limit: "2 MB", // 2MB
+        file_types: "*.jpg; *.gif; *.png",
+        file_types_description: "选择 JPEG/GIF/PNG 格式图片",
+        file_upload_limit: "0",
+
+        file_queue_error_handler: fileQueueError,
+        file_dialog_complete_handler: fileDialogComplete,
+        upload_progress_handler: uploadProgress,
+        upload_error_handler: uploadError,
+        upload_success_handler: uploadSuccess,
+        upload_complete_handler: uploadComplete,
+
+        button_image_url: "../images/SmallSpyGlassWithTransperancy_17x18.png",
+        button_placeholder_id: "spanButtonPlaceholder",
+        button_width: 250,
+        button_height: 18,
+        button_text: '<span class="button">选择本地图片 <span class="buttonSmall">(单图最大为 2 MB，支持多选)</span></span>',
+        button_text_style: '.button { font-family: "宋体", sans-serif; font-size: 12px; } .buttonSmall { font-size: 10pt; }',
+        button_text_top_padding: 0,
+        button_text_left_padding: 18,
+        button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+        button_cursor: SWFUpload.CURSOR.HAND,
+
+        // Flash Settings
+        flash_url: "__ROOT__/res/Swfupload/swfupload.swf",
+
+        custom_settings: {
+            upload_target: "divFileProgressContainer"
+        },
+
+        // Debug Settings
+        debug: false
+    });
+    //swf上传图片
+});
+</script>
+<script type="text/javascript">
+//swf上传后排序
+function rightPic(o) {
+        var o = $("#albCtok" + o);
+        if (o.next().length > 0) {
+            var tmp = o.clone();
+            var oo = o.next();
+            o.remove();
+            oo.after(tmp);
+        } else {
+            alert("已经是最后一个了");
+        }
+    }
+    //swf上传后排序
+function leftPic(o) {
+        var o = $("#albCtok" + o);
+        if (o.prev().length > 0) {
+            var tmp = o.clone();
+            var oo = o.prev();
+            o.remove();
+            oo.before(tmp);
+        } else {
+            alert("已经是第一个了");
+        }
+    }
+    //swf上传后删除图片start
+function delPic(id) {
+    var imgpath = $("#albCtok" + id).find("input[type='hidden']").eq(0).val();
+    var datas = {
+        'picpath': imgpath,
+        'oid': id
+    };
+    $.post("__URL__/swfupload?delpic", datas, picdelResponse, 'json');
+}
+
+function picdelResponse(res) {
+        var imgdiv = $("#albCtok" + res.data);
+        imgdiv.remove();
+        ui.success(res.info);
+        ui.box.close();
+    }
+    //swf上传后删除图片end
+</script>
+<style type="text/css">
+.albCt {
+    height: 200px
+}
+</style>
+<tagLib name="htmlA" />
+<div class="so_main">
+    <div class="page_tit">审核借款</div>
+    <div class="page_tab"><span data="tab_1" class="active">基本信息</span><span data="tab_2">审核信息</span><span data="tab_3">借款方图片资料</span></div>
+    <div class="form2">
+        <form method="post" action="__URL__/doEdit{$xact}" onsubmit="return subcheck();" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{$vo.id}" />
+            <div id="tab_1">
+                <dl class="lineD">
+                    <dt>借款标题：</dt>
+                    <dd>
+                        <htmlA:input id="borrow_name" value="{$vo.borrow_name}" tip="*" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>还款方式：</dt>
+                    <dd>
+                        <htmlA:select id="repayment_type" value="key|vo.repayment_type" datakey='type_list' tip="*" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>借款金额：</dt>
+                    <dd>
+                        <htmlA:input id="borrow_money" value="{$vo.borrow_money}" tip="*" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>年化利率：</dt>
+                    <dd>
+                        <htmlA:input id="borrow_interest_rate" value="{$vo.borrow_interest_rate}" tip="*" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>借款期限：</dt>
+                    <dd>
+                        <htmlA:input id="borrow_duration" value="{$vo.borrow_duration}" tip="*" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>借款说明：</dt>
+                    <dd>
+                        <htmlA:text id="borrow_info" value="{$vo.borrow_info}" tip="*" />
+                    </dd>
+                </dl>
+            </div>
+            <!--tab1-->
+            <div id="tab_2" style="display:none">
+                <dl class="lineD">
+                    <dt>是否允许自动投标：</dt>
+                    <dd>
+                        <htmlA:radio id="can_auto" value="key|vo.can_auto" default="0|否,1|是" />
+                    </dd>
+                </dl>
+                <!-- <dl class="lineD">
+          <dt>是否设为推荐：</dt>
+          <dd>
+            <htmlA:radio id="is_tuijian" value="key|vo.is_tuijian" default="0|否,1|是" />
+          </dd>
+        </dl>-->
+                <dl class="lineD">
+                    <dt>借款标分类：</dt>
+                    <dd>
+                        {$borrow_type[$vo['borrow_type']]}
+                    </dd>
+                </dl>
+                <if condition="$vo['borrow_type'] eq 2">
+                    <div id="danbaojigou">
+                        <dl class="lineD">
+                            <dt>担保机构：</dt>
+                            <dd>
+                                <htmlA:select id="danbao" value="key|vo.danbao" datakey='danbao_list' addstr='title="设置此次借款融资的担保投资公司"' />
+                            </dd>
+                        </dl>
+                        <dl class="lineD">
+                            <dt>担保金额：</dt>
+                            <dd>
+                                <htmlA:input id="vouch_money" value="{$vo.vouch_money}" tip="设置担保金额" />
+                            </dd>
+                        </dl>
+                    </div>
+                </if>
+                <dl class="lineD">
+                    <dt>借款管理费：</dt>
+                    <dd>
+                        <htmlA:input id="borrow_fee" value="{$vo.borrow_fee}" tip="默认为按后台设置计算出来的，如果私下有协议可以改" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>募集时间(天)：</dt>
+                    <dd>
+                        <htmlA:input id="collect_day" value="{$vo.collect_day}" tip="在前台展示天数，如在担心在设定时间内不能募集完成，可修改延长" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>最多投标总额：</dt>
+                    <dd>
+                        <htmlA:input id="borrow_max" value="{$vo.borrow_max}" tip="0表示无限制" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>投标待收金额限制设置：</dt>
+                    <dd>
+                        <htmlA:input id="money_collect" value="{$vo.money_collect}" tip="0.00表示无限制" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>是否通过：</dt>
+                    <dd>
+                        <htmlA:radio id="borrow_status" datakey="borrow_status" value="key|vo.borrow_status" />
+                    </dd>
+                </dl>
+                <if condition="$vo.borrow_status lt '3' || $vo.borrow_status eq '3'">
+                    <dl class="lineD">
+                        <dt>初审处理意见：</dt>
+                        <dd>
+                            <htmlA:text id="deal_info" value="{$vv.deal_info}" tip="*" />
+                        </dd>
+                    </dl>
+                </if>
+                <if condition="$vo.borrow_status gt '3'">
+                    <dl class="lineD">
+                        <dt>复审处理意见：</dt>
+                        <dd>
+                            <htmlA:text id="deal_info_2" value="{$vv.deal_info_2}" tip="*" />
+                        </dd>
+                    </dl>
+                </if>
+            </div>
+            <!--tab3-->
+            <div id="tab_3" style="display:none">
+                <dl class="lineD">
+                    <dt>商品图片：</dt>
+                    <dd>
+                        <div style="display: inline; border: solid 1px #7FAAFF; background-color: #C5D9FF; padding: 2px;"><span id="spanButtonPlaceholder"></span></div>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>图片预览：</dt>
+                    <dd>
+                        <table cellpadding="0" cellspacing="0" width="100%">
+                            <tr id="handfield">
+                                <td colspan="4" class="bline" style="background:url(images/albviewbg.gif) #fff 0 20px no-repeat;">
+                                    <table width='100%' height='160' style="margin:0 0 20px 0">
+                                        <tr>
+                                            <td>
+                                                <div id="divFileProgressContainer" style="height:75px;"></div>
+                                                <div id="thumbnails">
+                                                    <php>$x=1000;foreach(unserialize($vo['updata']) as $v){ $x--;</php>
+                                                    <div class="albCt" id="albCtok<php>echo $x;</php>">
+                                                        <img width="120" height="120" src="__ROOT__/<php>echo get_thumb_pic($v['img']);</php>"><a onclick="javascript:delPic(<php>echo $x;</php>)" href="javascript:;">[删除]</a><a onclick="javascript:leftPic(<php>echo $x;</php>)" href="javascript:;">[前移]</a><a onclick="javascript:rightPic(<php>echo $x;</php>)" href="javascript:;">[后移]</a>
+                                                        <div style="margin-top:10px">注释：
+                                                            <input type="text" style="width:190px;" value="<php>echo $v['info'];</php>" name="picinfo[]">
+                                                            <input type="hidden" value="__ROOT__/<php>echo $v['img'];</php>" name="swfimglist[]">
+                                                        </div>
+                                                    </div>
+                                                    <php> } </php>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </dd>
+                </dl>
+            </div>
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+function addone() {
+    var htmladd = '<dl class="lineD"><dt>资料名称：</dt>';
+    htmladd += '<dd><input type="text" name="updata_name[]" value="" />&nbsp;&nbsp;更新时间:<input type="text" name="updata_time[]" onclick="WdatePicker();" class="Wdate" /></dd>';
+    htmladd += '</dl>';
+    $(htmladd).appendTo("#tab_3");
+}
+var cansub = true;
+
+function subcheck() {
+    if (!cansub) {
+        alert("请不要重复提交，如网速慢，请等待！");
+        return false;
+    }
+    var deal_info = $("#deal_info").val();
+    var deal_info_2 = $("#deal_info_2").val();
+    var borrow_status = {
+        $vo.borrow_status
+    };
+    var borrow_money = $("#borrow_money").val();
+    var vouch_money = $("#vouch_money").val();
+
+    if (vouch_money > borrow_money) {
+        vouch_money = borrow_money;
+        $("#vouch_money").val(borrow_money);
+        ui.error("担保金额不能大于借款金额！");
+        return false;
+    }
+
+    if (borrow_status <= 3) {
+        if (deal_info == "") {
+            ui.error("初审处理意见不能为空！");
+            return false;
+        }
+    } else {
+        if (deal_info_2 == "") {
+            ui.error("复审处理意见不能为空！");
+            return false;
+        }
+    }
+    cansub = false;
+    return true;
+}
+</script>
+<include file="Public:_footer" />

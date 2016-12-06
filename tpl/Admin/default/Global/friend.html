@@ -1,0 +1,379 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/tpl/Admin/default/Res/js/uploadPreview.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#imgfile").uploadPreview({
+        width: 100,
+        height: 50,
+        imgDiv: "#imgDiv",
+        imgType: ["bmp", "gif", "png", "jpg"],
+        maxwidth: 3169,
+        maxheight: 4759
+    });
+});
+</script>
+<div class="so_main">
+    <div class="page_tit">{$position}</div>
+    <div class="page_tab">
+        <a href="/admin/global/friend.html">
+            <span data="tab_1" <eq name="_GET['tab']" value='level'>class="active"</eq><eq name="_GET['tab']" value=''>class="active"</eq>>全部</span>
+        </a>
+        <a href="/admin/global/friend.html?tab=2">
+            <span data="tab_1" <eq name="_GET['tab']" value='2'>class="active"</eq>>合作机构</span>
+        </a>
+        <a href="/admin/global/friend.html?tab=1">
+            <span data="tab_1" <eq name="_GET['tab']" value='1'>class="active"</eq>>友情链接</span>
+        </a>
+    </div>
+    <!-------- 添加编辑链接 -------->
+    <div id="addAttr_div" style="display:none;">
+        <div class="page_tit" id="form_tit">添加链接</div>
+        <div class="form2">
+            <form method="post" action="{:U('global/addFriend')}" onsubmit="return addNewFriend();" enctype="multipart/form-data">
+                <dl class="lineD">
+                    <dt>名称：</dt>
+                    <dd>
+                        <input name="link_txt" class="input" id="link_txt" type="text" value="">
+                        <span>前台显示的链接文字</span>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>链接地址：</dt>
+                    <dd>
+                        <input name="link_href" class="input" id="link_href" type="text" value="http://">
+                        <span>输入完整的链接地址，如果不跳转输入#即可</span>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>链接类型：</dt>
+                    <dd>
+                        <select name="link_type" class="input" id="link_type" style="width:362px" onchange="showgame();">
+                            <volist key="k" name="friend_position" id="vo">
+                                <option value="{$k}">{$vo}</option>
+                            </volist>
+                        </select>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>显示顺序：</dt>
+                    <dd>
+                        <input name="link_order" class="input" id="link_order" type="text" value="0">
+                        <span>数字越大顺序越靠前</span>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>链接网站LOGO：</dt>
+                    <dd style="overflow:hidden; margin-left:5px">
+                        <input type="file" id="imgfile" name="imgfile" style="float:left" />
+                        <span style="float:left"><div style="text-align:left; clear:both; overflow:hidden; width:290px; margin-top:10px;height:50px"><div id="imgDiv"></div></div></span>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>开始显示时间：</dt>
+                    <dd>
+                        <input name="start" class="input" id="link_start" type="text" value="{$start}">
+                        <span>在此时间后显示</span>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>显示结束时间：</dt>
+                    <dd>
+                        <input name="expire" class="input" id="link_expire" type="text" value="{$expire}">
+                        <span>在此时间前显示</span>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>是否显示：</dt>
+                    <dd style="overflow:hidden;">
+                        <input type="radio" name="is_show" id="yes" value="1" checked="checked" />
+                        <label for="yes">是</label>&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="is_show" id="no" value="0" />
+                        <label for="no">否</label>
+                        <span></span>
+                    </dd>
+                </dl>
+                <div class="page_btm">
+                    <input type="hidden" name="fid" id="fid" value="" disabled="disabled" />
+                    <input type="submit" class="btn_b" id="showwait" onclick="addNewSetting();" value="添加" />
+                    <input type="button" class="btn_g" value="取消" onclick="addWebSetting();" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="suggestion_wrap" id="suggestion_wrap" style="display:none">
+        <div class="suggestion_box">
+            <ul id="suggestion_con">
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+    var show_sn;
+
+    function addNewFriend() {
+        var name = $("#link_txt").val();
+        var lhref = $("#link_href").val();
+
+        if (name == "") {
+            ui.error('链接名不能为空');
+            $("#link_txt").focus();
+            return false;
+        } else if (lhref.length < 8) {
+            ui.error('链接地址不能不填');
+            $("#link_href").focus();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    var isSearchHidden = 1;
+
+    function addWebSetting(s) {
+
+        if (!arguments[0]) {
+            F_isSearchHidden = 0;
+            searchFriend(4);
+        }
+
+        if (isSearchHidden == 1) {
+            $("#addAttr_div").slideDown("fast");
+            $(".addAttr_action").html("添加完毕");
+            isSearchHidden = 0;
+        } else {
+            $("#addAttr_div").slideUp("fast");
+            $(".addAttr_action").html("添加链接");
+            isSearchHidden = 1;
+        }
+    }
+    </script>
+    <!--添加链接-->
+    <!-------- 搜索链接 -------->
+    <div id="searchFriend_div" style="display:none;">
+        <div class="page_tit">搜索链接</div>
+        <div class="form2">
+            <form method="post" action="{:U('global/searchFriend')}">
+                <dl class="lineD">
+                    <dt>链接名称：</dt>
+                    <dd>
+                        <input name="link_txt" class="input" id="link_txt" type="text" value="">
+                        <span>不填则不限制</span>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>链接地址：</dt>
+                    <dd>
+                        <input name="link_href" class="input" id="link_href" type="text" value="">
+                        <span>支持模糊查询</span>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>链接类型：</dt>
+                    <dd>
+                        <select name="link_type" class="input" style="width:362px" id="link_type">
+                            <option value="0">请选择</option>
+                            <volist key="k" name="friend_position" id="vo">
+                                <option value="{$k}">{$vo}</option>
+                            </volist>
+                        </select>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>是否显示：</dt>
+                    <dd style="overflow:hidden;">
+                        <input type="radio" name="is_show" id="yes" value="1" />
+                        <label for="yes">是</label>&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="is_show" id="no" value="0" />
+                        <label for="no">否</label>
+                        <span>不选择则不限制</span>
+                    </dd>
+                </dl>
+                <div class="page_btm">
+                    <input type="submit" class="btn_b" id="showwait" onclick="searchFriend();" value="搜索" />
+                    <input type="button" class="btn_g" value="取消" onclick="dosearch();" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+    var F_isSearchHidden = 1;
+
+    function searchFriend(s) {
+
+        if (!arguments[0]) {
+            isSearchHidden = 0;
+            addWebSetting(4);
+        }
+
+        if (F_isSearchHidden == 1) {
+            $("#searchFriend_div").slideDown("fast");
+            $(".searchFriend_action").html("搜索完毕");
+            F_isSearchHidden = 0;
+        } else {
+            $("#searchFriend_div").slideUp("fast");
+            $(".searchFriend_action").html("搜索链接");
+            F_isSearchHidden = 1;
+        }
+    }
+    </script>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+        <a onclick="addWebSetting();" class="btn_a" href="javascript:void(0);">
+            <span class="addAttr_action">添加链接</span>
+        </a>
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l" style="width:60px">ID</th>
+                <th class="line_l" style="width:180px">链接文字</th>
+                <th class="line_l" style="text-align:left">链接地址</th>
+                <th class="line_l">链接图片</th>
+                <th class="line_l">开始显示时间</th>
+                <th class="line_l">显示结束时间</th>
+                <th class="line_l">状态</th>
+                <th class="line_l">排序</th>
+                <th class="line_l" style="width:120px">操作</th>
+            </tr>
+            <php>$_REQUEST['p'] = isset($_REQUEST['p'])?$_REQUEST['p']:0; $cpage = (intval($_REQUEST['p'])
+                <=1)?0:intval($_REQUEST[ 'p']); $j=($cpage*C( 'ADMIN_PAGE_SIZE') + 1);</php>
+                    <volist empty="$empty" id="vo" name="friend_list">
+                        <tr overstyle='on' id="area_{$vo.id}">
+                            <td>
+                                <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                            </td>
+                            <td>
+                                <php>echo $j;</php>
+                            </td>
+                            <td><span id="name_{$vo['id']}">{$vo.link_txt}</span></td>
+                            <td style="text-align:left"><span id="lhref_{$vo['id']}"><a href="{$vo.link_href}" target="_blank">{$vo.link_href}</a></span></td>
+                            <td>
+                                <div id="img_{$vo['id']}">
+                                    <php>if(strlen($vo['link_img']) > 3) echo '<img src="__ROOT__/'.$vo['link_img'].'" height="30" alt="'.$vo['attr_title'].'" />';else echo '无图';</php>
+                                </div>
+                            </td>
+                            <td><span id="link_start_{$vo['id']}">{$vo.start|date='Y-m-d H:i:s',###}</span></td>
+                            <td><span id="link_expire_{$vo['id']}">{$vo.expire|date='Y-m-d H:i:s',###}</span></td>
+                            <td><span id="is_show_{$vo['id']}">{$vo.is_show}</span></td>
+                            <td><span id="link_order_{$vo['id']}">{$vo.link_order}</span></td>
+                            <td>
+                                <a href="javascript:void(0);" onclick="edit_f({$vo['id']});">编辑</a>
+                                <a href="javascript:void(0);" onclick="del_f({$vo['id']});">删除</a>
+                            </td>
+                        </tr>
+                        <php>$j++;</php>
+                    </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+        <a href="javascript:void(0);" class="btn_a" onclick="del();"><span>删除链接</span></a>
+    </div>
+</div>
+<script type="text/javascript">
+var ps = '{$position}';
+var type = '{$type}';
+//编辑地区
+function edit_f(par_id) {
+    $("#fid").attr("disabled", "");
+    var name = $("#name_" + par_id).html();
+    var lhref = $("#lhref_" + par_id).find("a").attr("href");
+    var imgd = $("#img_" + par_id).html();
+    var link_type = $("#link_type_" + par_id).html();
+    var is_show = $("#is_show_" + par_id).html();
+    var link_start = $("#link_start_" + par_id).html();
+    var link_expire = $("#link_expire_" + par_id).html();
+    var link_order = $("#link_order_" + par_id).html();
+    var link_game = $("#link_game_" + par_id).html();
+
+    if (link_type == "友情链接") s_v = 1;
+    else s_v = 2;
+
+    if (is_show == "显示") s_r = 1;
+    else s_r = 0;
+
+    $("#fid").val(par_id);
+    $("#link_txt").val(name);
+    $("#link_href").val(lhref);
+    $("#link_type option[value='" + s_v + "']").attr("selected", "selected");
+    $("#link_order").val(link_order);
+    $("#link_start").val(link_start);
+    $("#link_expire").val(link_expire);
+    $("#imgDiv").html(imgd);
+    $("input:[type=radio]:[value='" + s_r + "']").attr("checked", true); //
+
+    $("#area_" + par_id).remove();
+    $("#showwait").val('编辑');
+    $("#form_tit").html('编辑链接');
+    isSearchHidden = 1;
+    addWebSetting();
+}
+
+//删除
+function del_f(aid) {
+    aid = aid ? aid : getChecked();
+    aid = aid.toString();
+    if (aid == '') return false;
+
+    //提交修改
+    var datas = {
+        'idarr': aid,
+        'type': type
+    };
+    $.post('__URL__/doDeleteFriend', datas, delResponseF, 'json');
+}
+
+function delResponseF(res) {
+        if (res.success == '0') {
+            ui.error('删除失败');
+        } else {
+            aid = res.aid.split(',');
+            $.each(aid, function(i, n) {
+                $('#area_' + n).remove();
+            });
+            ui.success('删除成功');
+        }
+    }
+    //鼠标移动表格效果
+$(document).ready(function() {
+    $("tr[overstyle='on']").hover(
+        function() {
+            $(this).addClass("bg_hover");
+        },
+        function() {
+            $(this).removeClass("bg_hover");
+        }
+    );
+});
+
+function checkon(o) {
+    if (o.checked == true) {
+        $(o).parents('tr').addClass('bg_on');
+    } else {
+        $(o).parents('tr').removeClass('bg_on');
+    }
+}
+
+function checkAll(o) {
+    if (o.checked == true) {
+        $('input[name="checkbox"]').attr('checked', 'true');
+        $('tr[overstyle="on"]').addClass("bg_on");
+    } else {
+        $('input[name="checkbox"]').removeAttr('checked');
+        $('tr[overstyle="on"]').removeClass("bg_on");
+    }
+}
+
+//获取已选择用户的ID数组
+function getChecked() {
+    var gids = new Array();
+    $.each($('input:checked'), function(i, n) {
+        gids.push($(n).val());
+    });
+    return gids;
+}
+</script>
+<include file="Public:_footer" />

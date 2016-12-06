@@ -1,0 +1,82 @@
+<dl style="margin:10px 10px 5px; height:auto; width:440px; overflow:hidden" class="clear">
+  <dt class="left alR " style="width:70px;">原文件：</dt><dd class="left alL"><input disabled="disabled" type="text" id="olddir" value="{$sdir}"></dd>
+  <dt class="left alR " style="width:70px;">新目录：</dt><dd class="left alL"><input type="text" id="newdir" value="/">"/"表示根目录</dd>
+  <input type="hidden" id="sid" value="{$sid}" />
+</dl>
+<div style="background:#F8F8F8; border-top:1px solid #E6E6E6; padding:5px; width:440px" class="alR">
+  <input type="button" class="btn_b" onclick="cMove()" value="确定" />
+</div>
+<div style="background:#F8F8F8; border-top:1px solid #E6E6E6; padding:5px; width:240px" class="listtree">
+  {$listdir}
+</div>
+
+
+<script type="text/javascript">
+
+var listDirUrl="__URL__/listdir";
+var moveDirUrl="__URL__/movedir";
+$(".listtree").bind("click", function(event){
+	var _this = $(event.target);//获取当前点击元素
+	if(!$(_this).attr('data')) return ;//如果被点击的元素不是span即+-号就不继续执行
+	
+	//如果是点文件夹图标就代表选定了
+	if($(_this).attr('src')){
+		$("#newdir").val($(_this).attr('data'));
+		return ;
+	}
+	
+	var liid = $(".listtree li span").index(_this);//获取当前元素在listtree li下面的元素索引,供传入后传回,以确定在哪个位置插入
+	var dir = $(_this).attr('data');
+	var sontree = $(_this.parent("li")).next('ul');
+	//对已获取和没获取的做不同的处理
+	if(sontree.html()==null){
+		var datas = {'l_dir':dir,'li_id':liid};
+		$.post(listDirUrl,datas,LDResponse,'json');
+		$(_this).addClass("diroff");
+		$(_this).removeClass("diron");
+	}else{
+		if(sontree.css("display")=='none'){
+			sontree.css("display","block");
+			$(_this).addClass("diroff");
+			$(_this).removeClass("diron");
+		}else{
+			sontree.css("display","none");
+			$(_this).addClass("diron");
+			$(_this).removeClass("diroff");
+		}
+	}
+});
+//获取子目录列表后的处理
+function LDResponse(res){
+		if (res.status == '0') {
+            ui.error(res.data);
+        }else {
+			$(".listtree li").eq(res.data.liid).after(res.data.inner); 
+           // ui.success(res.data.liid);
+            //ui.box.close();
+        }
+}
+
+function cMove(){
+	var dir=$("#olddir").val();
+	var sid=$("#sid").val();
+	var newdir=$("#newdir").val();
+	var datas = {'olddir':dir,'newdir':newdir,'sid':sid};
+	$.post(moveDirUrl,datas,MDResponse,'json');
+}
+
+function MDResponse(res){
+	if(res.status==1){
+		$("#line_"+res.data).remove();
+		ui.success(res.info);
+		ui.box.close();
+	}else{
+		ui.error(res.info);
+		ui.box.close();
+	}
+}
+
+function cancel() {
+	ui.box.close();
+}
+</script>

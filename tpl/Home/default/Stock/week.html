@@ -1,0 +1,292 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="{$res}css/stock.css">
+<script type="text/javascript" src="{$res}js/stock.js"></script>
+<style>
+h4 { margin: 30px 0 15px 25px; font-size: 18px }
+table { margin-top: 2px }
+td option { padding: 3px 15px 3px 3px }
+.pz_sel { padding: 30px 0px 0px 45px; background: #f5f5f5; height: 405px; }
+.ddw_l .pz_sel li { width: 100px; height: 80px; margin-right: 20px; margin-bottom: 15px; border: 1px solid #D7D7D7; background: #fff; float: left; text-align: center; cursor: pointer }
+.ddw_l .pz_sel li p.m { padding-top: 20px }
+.sure td { padding-left: 15px; border-bottom: 1px solid #E4E4E4; height: 44px; line-height: 44px }
+.sure .title { font-size: 14px }
+.ddw_r { width: 435px; float: left; margin-bottom: 20px; margin-left: 10px; }
+.ddw_l { width: 440px; float: left; margin-right: 10px; }
+.ddw_l .pz_sel li.curr { background: url("/tpl/Home/default/Res/img/stock/icon-curr.png") no-repeat scroll right bottom #FFC; }
+.pz_inp { width: 438px; height: 372px; border: 1px solid #D7D7D7 }
+.pt10 { padding-top: 20px; }
+</style>
+<!--中部开始-->
+
+<include file="step"/>
+<div class="peizibox conbox pt20" style="margin-top:10px;">
+    <form action="/stock/confirm.html" method="POST" id="stock">
+        <input type="hidden" value="7" name="type">
+        <input type="hidden" value="0" name="fee" id="fee">
+        <input type="hidden" value="0" name="deposit" id="ideposit">
+        <input type="hidden" value="0" name="interest">
+        <input type="hidden" value="0" name="risk">
+        <input type="hidden" value="0" name="fee">
+        <div class="pl50 pr50">
+            <div class="clearfix">
+                <div class="ddw_l">
+                    <h3>申请实盘资金 <a href="#nogo" id="qt">其他实盘资金»</a></h3>
+                    <ul style="_margin-right:-20px;display:" class="pz_sel clearfix" id="pz_sel">
+                        <li class="curr" data="2000">
+                            <p class="m"><em name="lever">2000</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="3000">
+                            <p class="m"><em name="lever">3000</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="5000">
+                            <p class="m"><em name="lever">5000</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="10000">
+                            <p class="m"><em name="lever">1万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="20000">
+                            <p class="m"><em name="lever">2万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="30000">
+                            <p class="m"><em name="lever">3万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="50000">
+                            <p class="m"><em name="lever">5万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="100000">
+                            <p class="m"><em name="lever">10万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="200000">
+                            <p class="m"><em name="lever">20万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="300000">
+                            <p class="m"><em name="lever">30万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="500000">
+                            <p class="m"><em name="lever">50万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                        <li data="1000000">
+                            <p class="m"><em name="lever">100万</em>元</p>
+                            <p>配资金额</p>
+                        </li>
+                    </ul>
+                    <div class="pz_inp" id="pz_inp" style="display:none">
+                        <h4>请输入您需要多少实盘资金</h4>
+                        <div style="position:relative;margin-left:20px">
+                            <input type="text" style="height: 37px; line-height: 37px; width: 320px; text-align: center; color: rgb(102, 102, 102);" autocomplete="off" value="{$param['stock_week'][0][0]}" class="ui-input" id="money" name="quota">
+                            <div style="width:20px; line-height:42px; height:42px; position:absolute; right:28px; _right:28px; top:0px; _top:3px;">元</div>
+                        </div>
+                        <h4 style="margin-top:10px;color:#999;font-size:13px">最少 {$param['stock_week'][0][0]} 最多 {$param['stock_week'][0][1]/10000}万，并且为1000的整数倍</h4>
+                    </div>
+                </div>
+                <div class="ddw_r">
+                    <h3>确认操盘规则</h3>
+                    <table width="100%" cellspacing="0" cellpadding="0" class="sure" style="height:435px">
+                        <tbody>
+                            <tr>
+                                <td class="title">风险倍数</td>
+                                <td>
+                                    <select class="sel-b" name="risk" id="risk">
+                                        <option value="1">1 倍</option>
+                                        <option value="2">2 倍</option>
+                                        <option value="3">3 倍</option>
+                                        <option value="4">4 倍</option>
+                                        <option value="5">5 倍</option>
+                                        <option value="6">6 倍</option>
+                                        <option value="7">7 倍</option>
+                                        <option value="8">8 倍</option>
+                                        <option value="9">9 倍</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">风险保证金</td>
+                                <td>
+                                    <em id="deposit">0</em>元
+                                    <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text="在您操盘出现亏损后用于支付亏损金，结束时如无亏损全额退还，保证金越低收益越大，同时风险也越大" id="tip_0"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">总操盘资金</td>
+                                <td><em id="cpj">0</em>元</td>
+                            </tr>
+                            <tr>
+                                <td class="title">亏损警告线</td>
+                                <td><em id="jgx">0</em>元
+                                    <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text="当总操盘资金低于警戒线以下时，只能平仓不能建仓，我们将有权把您的股票减仓到本金余额的6倍" id="tip_1"></span></td>
+                            </tr>
+                            <tr>
+                                <td class="title">亏损平仓线</td>
+                                <td><em id="pcx" style="color:#CC0000;">0</em>元
+                                    <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text="当总操盘资金低于平仓线以下时，我们将有权把您的股票进行平仓，为避免平仓发生，请时刻关注本金是否充足" id="tip_2"></span></td>
+                            </tr>
+                            <tr>
+                                <td class="title">资金使用期限</td>
+                                <td>
+                                    5个交易日
+                                    <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text=" " id="tip_3"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">账户管理费</td>
+                                <td>完全免费</td>
+                            </tr>
+                            <tr>
+                                <td class="title">开始交易时间</td>
+                                <td>
+                                    <!--
+                                    <label id="tday">
+                                        <input type="radio" style="vertical-align:0px;" value="0" checked="true" name="start"> 今天
+                                    </label>
+                                    -->
+                                    <label id="nday">
+                                        <input type="radio" style="vertical-align:0px;" value="1" name="start" checked> 下个交易日
+                                    </label>
+                                    <span style="cursor: pointer;" class="icon icon-help-s ml5" data-text="一般选择下个交易日，如看中行情急需交易，可直接选择今天交易（今天开始计算利息）" id="tip_5"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="lh text-center">如您不清楚规则，或有其它疑问，请联系{$param['web_name']}客服：{$param['web_phone']} (免长途费)</div>
+            <div class="y_btn">
+                <a href="javascript:void(0);" onclick="checkAndNext()" id="initBtn">我要配资<!--已售完，预约下期--></a>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<div class="items">
+    <include file="item" />
+</div>
+<script type="text/jscript">
+$(function() {
+
+
+    $(".ddw_l").find("li[class!=disable]").on("click", function() {
+        $(this).addClass("curr").siblings().removeClass("curr");
+        moneyChange();
+    });
+
+    $('#risk').change(function() {
+        moneyChange();
+    });
+
+    $('#money').keyup(function() {
+        if (isNaN($(this).val())||$(this).val()=='') {
+            $(this).val(0);
+            return false;
+        }
+        $(this).val(parseInt($(this).val()));
+        if ($(this).val() > {$param['stock_week'][0][0]} && $(this).val() < {$param['stock_week'][0][1]}) {
+            moneyChange();
+        }
+    });
+
+    $('#money').change(function() {
+        if (isNaN($(this).val())||$(this).val()=='') {
+            $(this).val(0);
+            return false;
+        }
+        if ($(this).val() < {$param['stock_week'][0][0]} || $(this).val() > {$param['stock_week'][0][1]}||$(this).val() % 1000 != 0) {
+            dialog('请输入最少 {$param['stock_week'][0][0]} 元 最多 {$param['stock_week'][0][1]/10000}万元，并且为 1000 的倍数。');
+        } else if (isNaN($(this).val())) {
+            $(this).val(0);
+        } else {
+            $(this).val(parseInt($(this).val()));
+            moneyChange();
+        }
+
+    });
+
+    $('#qt').click(function() {
+        $('#pz_sel').slideToggle('fast', function() {
+            $('#pz_inp').toggle();
+            moneyChange();
+        });
+
+    });
+
+    $('#pz_sel>li').first().click();
+
+    $('#initBtn').click(function() {
+        if ($('#money').val() < {$param['stock_week'][0][0]} || $('#money').val() > {$param['stock_week'][0][1]}||$(this).val() % 1000 != 0) {
+            dialog('请输入最少 {$param['stock_week'][0][0]} 元 最多 {$param['stock_week'][0][1]/10000}万元，并且为 1000 的倍数。');
+            return false;
+        }
+        if($('#pz_sel').css('display')=='block'){
+            $('#money').val($('#pz_sel>.curr').attr('data'));
+        }
+
+        $('#stock').submit();
+    });
+});
+
+
+
+function moneyChange() {
+
+    money = $('#pz_inp').css('display') == 'block' ? $('#money').val() : $('#pz_sel>.curr').attr('data');
+    deposit = Math.floor(money / $('#risk').val());
+    $('#deposit').text($.formatMoney(deposit));
+    $('#cpj').text($.formatMoney(parseInt(deposit) + parseInt(money)));
+    $('#jgx').text($.formatMoney(parseInt(money * {$param['stock_week'][2]})));
+    $('#pcx').text($.formatMoney(parseInt(money * {$param['stock_week'][3]})));
+    $('#glf').text($.formatMoney(parseFloat(money * {$param['stock_week'][1]})));
+
+    $('#ideposit').val($('#deposit').text().replace(',',''));
+}
+
+X.init();
+X.prompt.init('tip_0', '', {
+    width: 250,
+    close: false,
+    dire: 4,
+    reget: true
+});
+X.prompt.init('tip_1', '', {
+    width: 250,
+    close: false,
+    dire: 4,
+    reget: true
+});
+X.prompt.init('tip_2', '', {
+    width: 250,
+    close: false,
+    dire: 4,
+    reget: true
+});
+X.prompt.init('tip_3', '', {
+    width: 250,
+    close: false,
+    dire: 4,
+    reget: true
+});
+X.prompt.init('tip_4', '', {
+    width: 250,
+    close: false,
+    dire: 4,
+    reget: true
+});
+X.prompt.init('tip_5', '', {
+    width: 250,
+    close: false,
+    dire: 4,
+    reget: true
+});
+</script>
+<!--中部结束-->
+<include file="Public:footer" />

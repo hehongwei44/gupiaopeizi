@@ -1,0 +1,582 @@
+<include file="Public:header"/>
+<script type="text/javaScript">
+$(function(){
+	$(".more-bank").show();
+	//显示更多银行
+	$(".ms-c6-bank .more").click( function(){
+		$(".more-bank").show();
+	});
+	//选择充值方式
+	$(".ms-c6-bank li").click( function(){
+		$(".ms-c6-bank li").removeClass("current");
+		$("div").remove(".ico");
+		$(this).addClass("current").children("input[type='radio']").prop("checked", true);
+		$(this).append("<div class='ico'></div>");
+		$("#selectedBank").val($("input:radio[name='bank']:checked").val());
+		var sel_bank_val= $("input:radio[name='bank']:checked").val();
+		$("#banks_desc").find('table').hide();
+		$("#" + sel_bank_val +"_desc").show();
+	});
+
+	//选择充值方式
+	$(".ms-c6-pay li").click( function(){
+		$(".ms-c6-pay li").removeClass("selected");
+		$(this).addClass("selected");
+	});
+
+	$("#inMoney").keyup(function(){
+		var inMoney = $(this).val();
+		if(inMoney.match(/^\d{1,7}(\.\d{1,2})?$/)){
+			$('#totalPay').html(inMoney-$('#commissionFee').html());
+		}else{
+			$("#inMoneyErr").html('请输入正确的数字');
+		}
+	});
+
+	$('#banks_desc').find('table').hide();
+
+});
+
+function submitForm(){
+	// var chargeBank = $("input:radio[name='bank']:checked").val();
+	// if(typeof(chargeBank) == "undefined" || chargeBank == null){
+	// 	top.dialog("请先选择充值银行");
+	// 	return;
+	// }
+	var inMoney = $("#inMoney").val();
+	if(!inMoney.match(/^\d{1,7}(\.\d{1,2})?$/)){
+		top.dialog("充值金额格式错误");
+	}else if(inMoney < 1){
+		top.dialog("最低充值金额不小于1元");
+
+	}
+
+
+    var money = $("#inMoney").val();
+    var type = $('.ms-c6-pay .selected').attr('id');
+    var bank = $('input:radio[name=bank]:checked').val();
+    if (type=='ips') {
+        if (bank) {
+            bankCode = bank;
+        }else{
+            bankCode = 'ips';
+        }
+        var url = "bankCode=" + bankCode + "&t_money=" + money;
+        window.open("/pay/ips?" + url);
+    }else if (type=='chinabank') {
+        if (bank) {
+            bankCode = bank;
+        }else{
+            bankCode = '';
+        }
+        var url = "bankCode=" + bankCode + "&t_money=" + money;
+        window.open("/pay/chinabank?" + url);
+    }
+	else if (type=='baofoo') {
+        if (bank) {
+            bankCode = bank;
+        }else{
+            bankCode = 'baofoo';
+        }
+        var url = "bankCode=" + bankCode + "&t_money=" + money;
+        window.open("/pay/baofoo?" + url);
+    }else if (type=='guofubao') {
+        if (bank) {
+            bankCode = bank;
+        }else{
+            bankCode = 'guofubao';
+        }
+        var url = "bankCode=" + bankCode + "&t_money=" + money;
+        window.open("/pay/guofubaopay?" + url);
+    }else if (type=='ecpss') {
+        if (bank) {
+            bankCode = bank;
+        }else{
+            bankCode = 'ecpss';
+        }
+        var url = "bankCode=" + bankCode + "&t_money=" + money;
+        window.open("/pay/ecpss?" + url);
+    }else if (type=='tenpay') {
+        if (bank) {
+            bankCode = bank;
+        }else{
+            bankCode = 'tenpay';
+        }
+        var url = "bankCode=" + bankCode + "&t_money=" + money;
+        window.open("/pay/tenpay?" + url);
+    }else if (type=='easypay') {
+        if (bank) {
+            bankCode = bank;
+        }else{
+            bankCode = 'easypay';
+        }
+        var url = "bankCode=" + bankCode + "&t_money=" + money;
+        window.open("/pay/easypay?" + url);
+	}else if (type=='cmpay') {
+        if (bank) {
+            bankCode = bank;
+        }else{
+            bankCode = 'ABC';
+        }
+        var url = "bankCode=" + bankCode + "&t_money=" + money;
+        window.open("/pay/cmpay?" + url);
+	}else if (type=='allinpay') {
+        if (bank) {
+            bankCode = bank;
+        }else{
+            bankCode = 'allinpay';
+        }
+        var url = "bankCode=" + bankCode + "&t_money=" + money;
+        window.open("/pay/allinpay?" + url);
+	}
+}
+</script>
+<h2><strong>账户充值</strong><span></span></h2>
+<div class="ms-c6">
+	<div class="ms-c6-t">
+		<ul>
+			<li class="current">
+				<a href="/member/account/charge.html?money={$_GET['money']}">在线充值</a>
+			</li>
+			<li>
+				<a href="/member/account/transfer.html?money={$_GET['money']}">银行转账充值</a>
+			</li>
+			<li>
+				<a href="/member/account/log.html">充值记录</a>
+			</li>
+		</ul>
+	</div>
+	<div class="ms-c6-m">
+		<div class="more-bank">
+			<!--h3>选择充值银行</h3>
+			<div class="ms-c6-bank">
+				<ul class="clearfix">
+					<li title="工商银行">
+						<input type="radio" name="bank" class="radio" value="icbc"/>
+						<img src="{$res}img/bank/bank_icbc.gif" />
+					</li>
+					<li title="农业银行">
+						<input type="radio" name="bank" class="radio" value="abc"/>
+						<img src="{$res}img/bank/bank_abc.gif" />
+					</li>
+					<li title="中国银行">
+						<input type="radio" name="bank" class="radio" value="boc"/>
+						<img src="{$res}img/bank/bank_boc.gif" />
+					</li>
+					<li title="建设银行">
+						<input type="radio" name="bank" class="radio" value="ccb"/>
+						<img src="{$res}img/bank/bank_ccb.gif" />
+					</li>
+					<li title="招商银行">
+						<input type="radio" name="bank" class="radio" value="cmb"/>
+						<img src="{$res}img/bank/bank_cmb.gif" />
+					</li>
+					<li title="交通银行">
+						<input type="radio" name="bank" class="radio" value="bcom"/>
+						<img src="{$res}img/bank/bank_bcom.gif" />
+					</li>
+					<li title="兴业银行">
+						<input type="radio" name="bank" class="radio" value="cib"/>
+						<img src="{$res}img/bank/bank_cib.gif" />
+					</li>
+					<li title="光大银行">
+						   <input type="radio" name="bank" class="radio" value="ceb"/>
+						   <img src="{$res}img/bank/bank_ceb.gif" />
+					</li>
+					<li title="中信银行">
+						   <input type="radio" name="bank" class="radio" value="citic"/>
+						   <img src="{$res}img/bank/bank_citic.gif" />
+					</li>
+					<li title="民生银行">
+						   <input type="radio" name="bank" class="radio" value="cmbc"/>
+						   <img src="{$res}img/bank/bank_cmbc.gif" />
+					</li>
+					<li title="邮储银行">
+						   <input type="radio" name="bank" class="radio" value="psbc"/>
+						   <img src="{$res}img/bank/bank_psbc.gif" />
+					</li>
+				</ul>
+			</div-->
+			<h3>支付方式</h3>
+			<div class="ms-c6-pay">
+				<ul>
+				<if condition="$data['payment']['baofoo']['enable'] eq '1'">
+					<li class="selected" id="baofoo">宝付支付<i class="iconcheck"></i></li>
+				</if>
+				<if condition="$data['payment']['chinabank']['enable'] eq '1'">
+		            <li id="chinabank" >网银在线<i class="iconcheck"></i></li>
+				</if>
+				<if condition="$data['payment']['cmpay']['enable'] eq '1'">
+					<li id="cmpay">移动支付<i class="iconcheck"></i></li>
+				</if>
+				<if condition="$data['payment']['ips']['enable'] eq '1'">
+		            <li id="ips">环迅支付<i class="iconcheck"></i></li>
+				</if>
+				<if condition="$data['payment']['easypay']['enable'] eq '1'">
+					<li id="easypay">易生支付<i class="iconcheck"></i></li>
+				</if>
+				<if condition="$data['payment']['guofubao']['enable'] eq '1'">
+					<li id="guofubao">国付宝支付<i class="iconcheck"></i></li>
+				</if>
+				<if condition="$data['payment']['ecpss']['enable'] eq '1'">
+					<li id="ecpss">汇潮支付<i class="iconcheck"></i></li>
+				</if>
+				<if condition="$data['payment']['tenpay']['enable'] eq '1'">
+					<li id="tenpay">财付通支付<i class="iconcheck"></i></li>
+				</if>
+				<if condition="$data['payment']['allinpay']['enable'] eq '1'">
+					<li id="allinpay">通联支付<i class="iconcheck"></i></li>
+				</if>
+					<a href="/member/account/transfer.html"><li>线下支付</li></a>
+				</ul>
+			</div>
+		</div>
+
+		<h3>填写充值金额</h3>
+		<div class="formbox">
+			<form id="chargeForm" method="post" target="_blank">
+				<input type="hidden" id="selectedBank" name="selectedBank" value=""/>
+				<table>
+					<tr>
+						<th>账户余额：</th>
+						<td><strong class="c-red">{$data.total|number_format=2}</strong>元</td>
+					</tr>
+					<tr>
+						<th>可用余额：</th>
+						<td><strong class="c-red">{$data.money|number_format=2}</strong>元</td>
+					</tr>
+					<tr>
+						<th>充值金额：</th>
+						<td>
+							<input type="text" id="inMoney" name="inMoney" value="{$_GET['money']}" style="width:100px;" class="inp" maxlength="10" onblur="calcFee();" autocomplete="off"/>元
+							<span id="inMoneyErr" class="red"></span>
+						</td>
+					</tr>
+					<tr>
+						<th>充值手续费：</th>
+						<td>
+							<span id="commissionFee" class="c-f60">0.00</span>元
+							<span class="red" style="font-size:12px">（推广期间，承担在线充值手续费，请放心充值）</span>
+						</td>
+					</tr>
+					<tr>
+						<th>实际支付金额：</th>
+						<td>
+							<span id="totalPay" class="c-f60">0.00</span>元
+						</td>
+					</tr>
+					<tr>
+						<th></th>
+						<td>
+							<button id="addBankBtn" class="btn-b" type="button" onclick="submitForm();">提 交</button>
+						</td>
+					</tr>
+			</table>
+			</form>
+		</div>
+		<div class="ms-c6-b" id="banks_desc">
+			<table  id="icbc_desc">
+				<tr>
+					<th colspan="4">工商银行借记卡支付额度表 / 客服电话 95588</th>
+				</tr>
+				<tr>
+					<td rowspan="2" style="width:250px;">支付方式</td>
+					<td colspan="2">支付限额</td>
+					<td rowspan="2" style="width:180px;">开通方式</td>
+				</tr>
+				<tr>
+					<td>每笔限额</td>
+					<td>每日限额</td>
+				</tr>
+				<tr>
+					<td>存量静态密码</td>
+					<td colspan="2">累计300元</td>
+					<td>已无法申请</td>
+				</tr>
+				<tr>
+					<td>电子银行口令卡</td>
+					<td>500</td>
+					<td>1000</td>
+					<td rowspan="3">500</td>
+				</tr>
+				<tr>
+					<td>电子银行口令卡+手机短信认证</td>
+					<td>2000</td>
+					<td>5000</td>
+				</tr>
+				<tr>
+					<td>U盾</td>
+					<td>不限</td>
+					<td>不限</td>
+				</tr>
+			</table>
+			<table id="abc_desc">
+				<tr>
+					<th colspan="4">农业银行行借记卡支付额度表 / 客服电话 95599</th>
+				</tr>
+				<tr>
+					<td rowspan="2" style="width:250px;">支付方式</td>
+					<td colspan="2">支付限额</td>
+					<td rowspan="2" style="width:180px;">开通方式</td>
+				</tr>
+				<tr>
+					<td>每笔限额</td>
+					<td>每日限额</td>
+				</tr>
+				<tr>
+					<td>浏览器证书+动态口令卡</td>
+					<td>1000</td>
+					<td>3000</td>
+					<td rowspan="2">柜面开通</td>
+				</tr>
+				<tr>
+					<td>Key宝总行证书</td>
+					<td colspan="2">无限额</td>
+				</tr>
+			</table>
+			<table id="cmb_desc">
+				<tr>
+					<th colspan="4">招商银行借记卡支付额度表 / 客服电话 95555</th>
+				</tr>
+				<tr>
+					<td rowspan="2" style="width:250px;">支付方式</td>
+					<td colspan="2">支付限额</td>
+					<td rowspan="2" style="width:180px;">开通方式</td>
+				</tr>
+				<tr>
+					<td>每笔限额</td>
+					<td>每日限额</td>
+				</tr>
+				<tr>
+					<td>大众版</td>
+					<td>500</td>
+					<td>500</td>
+					<td>网上自助开通</td>
+				</tr>
+				<tr>
+					<td>专业版</td>
+					<td>无限额</td>
+					<td>无限额</td>
+					<td>柜面开通</td>
+				</tr>
+			</table>
+
+			<table id="bcom_desc">
+				<tr>
+					<th colspan="4">交通银行借记卡支付额度表 / 客服电话 95559</th>
+				</tr>
+				<tr>
+					<td rowspan="2" style="width:250px;">支付方式</td>
+					<td colspan="2">支付限额</td>
+					<td rowspan="2" style="width:180px;">开通方式</td>
+				</tr>
+				<tr>
+					<td>每笔限额</td>
+					<td>每日限额</td>
+				</tr>
+				<tr>
+					<td>手机注册</td>
+					<td>5000</td>
+					<td>5000</td>
+					<td rowspan="3">柜面开通</td>
+				</tr>
+				<tr>
+					<td>证书支付</td>
+					<td>5万</td>
+					<td>5万</td>
+				</tr>
+			</table>
+			<table id="cmbc_desc">
+				<tr>
+					<th colspan="4">民生银行借记卡支付额度表 / 客服电话 95568</th>
+				</tr>
+				<tr>
+					<td rowspan="2" style="width:250px;">支付方式</td>
+					<td colspan="2">支付限额</td>
+					<td rowspan="2" style="width:180px;">开通方式</td>
+				</tr>
+				<tr>
+					<td>每笔限额</td>
+					<td>每日限额</td>
+				</tr>
+				<tr>
+					<td>贵宾版数字证书</td>
+					<td>5000</td>
+					<td>5000</td>
+					<td rowspan="2">柜面开通</td>
+				</tr>
+				<tr>
+					<td>贵宾版（U宝）</td>
+					<td>2万</td>
+					<td>2万</td>
+				</tr>
+			</table>
+			<table id="ceb_desc">
+				<tr>
+					<th colspan="4">中国光大银行借记卡支付额度表 / 客服电话 95595</th>
+				</tr>
+				<tr>
+					<td rowspan="2" style="width:250px;">支付方式</td>
+					<td colspan="2">支付限额</td>
+					<td rowspan="2" style="width:180px;">开通方式</td>
+				</tr>
+				<tr>
+					<td>每笔限额</td>
+					<td>每日限额</td>
+				</tr>
+				<tr>
+					<td>动态密码支付</td>
+					<td>5000</td>
+					<td>5000</td>
+					<td rowspan="3">柜面开通</td>
+				</tr>
+				<tr>
+					<td>阳光网盾</td>
+					<td>20万</td>
+					<td>20万</td>
+				</tr>
+				<tr>
+					<td>动态口令牌</td>
+					<td>50万</td>
+					<td>50万</td>
+				</tr>
+			</table>
+			<table id="cib_desc">
+				<tr>
+					<th colspan="4">兴业银行借记卡支付额度表 / 客服电话 95561</th>
+				</tr>
+				<tr>
+					<td rowspan="2" style="width:250px;">支付方式</td>
+					<td colspan="2">支付限额</td>
+					<td rowspan="2" style="width:180px;">开通方式</td>
+				</tr>
+				<tr>
+					<td>每笔限额</td>
+					<td>每日限额</td>
+				</tr>
+				<tr>
+					<td>手机验证</td>
+					<td>自选1000/5000</td>
+					<td>自选1000/5000</td>
+					<td rowspan="3">柜面开通</td>
+				</tr>
+				<tr>
+					<td>电子支付卡（e卡）</td>
+					<td>5000</td>
+					<td>5000</td>
+				</tr>
+				<tr>
+					<td>证书支付</td>
+					<td>无限额</td>
+					<td>无限额</td>
+				</tr>
+			</table>
+
+			<table id="psbc_desc" >
+				<tr>
+					<th colspan="4">中国邮政储蓄银行借记卡支付额度表 / 客服电话 95580</th>
+				</tr>
+				<tr>
+					<td rowspan="2" style="width:250px;">支付方式</td>
+					<td colspan="2">支付限额</td>
+					<td rowspan="2" style="width:180px;">开通方式</td>
+				</tr>
+				<tr>
+					<td>每笔限额</td>
+					<td>每日限额</td>
+				</tr>
+				<tr>
+					<td>手机动态密码版</td>
+					<td>3000</td>
+					<td>3000</td>
+					<td>--</td>
+				</tr>
+			</table>
+			<table id="boc_desc">
+				<tr>
+					<th colspan="4">中国银行借记卡支付额度表 / 客服电话 95566</th>
+				</tr>
+				<tr>
+					<td rowspan="2" style="width:250px;">支付方式</td>
+					<td colspan="2">支付限额</td>
+					<td rowspan="2" style="width:180px;">开通方式</td>
+				</tr>
+				<tr>
+					<td>每笔限额</td>
+					<td>每日限额</td>
+				</tr>
+				<tr>
+					<td>动态口令卡</td>
+					<td>5万</td>
+					<td>无限额</td>
+					<td>柜面开通</td>
+				</tr>
+			</table>
+			<table id="ccb_desc">
+				<tr>
+					<th colspan="4">建设银行借记卡支付额度表 / 客服电话 95533</th>
+				</tr>
+				<tr>
+					<td rowspan="2" style="width:250px;">支付方式</td>
+					<td colspan="2">支付限额</td>
+					<td rowspan="2" style="width:180px;">开通方式</td>
+				</tr>
+				<tr>
+					<td>每笔限额</td>
+					<td>每日限额</td>
+				</tr>
+				<tr>
+					<td>验证码</td>
+					<td>1000</td>
+					<td>1000</td>
+					<td rowspan="3">柜面开通</td>
+				</tr>
+				<tr>
+					<td>动态口令卡</td>
+					<td>5万</td>
+					<td>5万</td>
+				</tr>
+				<tr>
+					<td>网银盾（U宝）</td>
+					<td>50万</td>
+					<td>50万</td>
+				</tr>
+			</table>
+
+			<table id="citic_desc">
+				<tr>
+					<th colspan="4">中信银行借记卡支付额度表 / 客服电话 95558</th>
+				</tr>
+				<tr>
+					<td rowspan="2" style="width:250px;">支付方式</td>
+					<td colspan="2">支付限额</td>
+					<td rowspan="2" style="width:180px;">开通方式</td>
+				</tr>
+				<tr>
+					<td>每笔限额</td>
+					<td>每日限额</td>
+				</tr>
+				<tr>
+					<td>文件证书</td>
+					<td>1000</td>
+					<td>5000</td>
+					<td rowspan="2">柜面开通</td>
+				</tr>
+				<tr>
+					<td>移动证书</td>
+					<td>100万</td>
+					<td>100万</td>
+				</tr>
+			</table>
+			<dl>
+				<dt>温馨提示</dt>
+				<dd>1、为了您的资金安全，您的账户资金将专款专户管理</dd>
+				<dd>2、充值前请注意您的银行卡充值限制，以免造成不便</dd>
+				<dd>3、禁止洗钱、信用卡套现、虚假交易等行为，一经发现并确认，将终止该账户的使用</dd>
+				<dd>4、为了您的资金安全，建议充值前进行实名认证、手机绑定、设置提款密码</dd>
+				<dd>5、如果充值遇到任何问题，请联系客服：400-038-9898</dd>
+			</dl>
+		</div>
+	</div>
+</div>
+<include file="Public:footer"/>

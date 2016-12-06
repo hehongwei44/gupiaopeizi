@@ -1,0 +1,47 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<div class="so_main">
+	  <div class="page_tit">文件管理</div>
+
+	<div class="list">
+
+	  <div class="Toolbar_inbox">
+		<htmlA:commonBtn type="href" action="__URL__/?newpath=/" value="根目录"/>
+		<htmlA:commonBtn type="href" action="__URL__/?newpath={$updir}" value="上级目录"/>
+		<htmlA:commonBtn type="jsfun" action="cksize();" value="空间检查" />
+	  </div>
+
+		<table width='100%' border='0' cellspacing='0' cellpadding='2' align='center' style="background:#cfcfcf;">
+		<tr height="28" align="center">
+		  <th width="28%" class="line_l" background="images/wbg.gif" style="text-align:left"><strong>文件名</strong></th>
+		  <th width="16%" class="line_l" background="images/newlinebg3.gif" style="text-align:right"><strong>文件大小</strong></th>
+		  <th class="line_l" background="images/wbg.gif"><center><strong>最后修改时间</strong></center></th>
+		</tr>
+		<volist empty="$empty" id='vo' name='vo'>
+			{$vo}
+		</volist>
+		</table>
+	
+	  <div class="Toolbar_inbox">
+		<htmlA:commonBtn type="href" action="__URL__/?newpath=/" value="根目录"/>
+		<htmlA:commonBtn type="href" action="__URL__/?newpath={$updir}" value="上级目录"/>
+		<htmlA:commonBtn type="jsfun" action="cksize();" value="空间检查" />
+	  </div>
+	</div>
+</div>
+<script type="text/javascript">
+var changeUrl="__URL__/rname";
+var delfileUrl="__URL__/deletefile";
+var deldirUrl="__URL__/deletedir";
+var listdirUrl="__URL__/listdir";
+var editUrl="__URL__/editUrl";
+var addUrl="__URL__/newdir";
+var ckUrl="__URL__/checksize";
+
+//空间检测
+function cksize() {
+	ui.box.load(ckUrl, {title:'检测空间占用大小'});
+}
+
+</script>
+<include file="Public:_footer" />

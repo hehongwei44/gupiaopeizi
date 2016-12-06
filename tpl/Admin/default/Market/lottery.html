@@ -1,0 +1,71 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+  var addUrl = '__URL__/lottery_add';
+  var editUrl = '__URL__/lottery_edit';
+  var editUrl = '__URL__/lottery_del';
+  var isSearchHidden = 1;
+  var searchName = "搜索商品";
+  var addTitle = '添加奖品信息';
+  var editTitle = '编辑奖品信息';
+  var delTitle = '删除奖品信息';
+</script>
+<div class="so_main">
+  <div class="page_tit">商城抽奖列表</div>
+  <include file="search" />
+  <div class="Toolbar_inbox">
+    <div class="pages" style="float:right; padding:0px;">{$pagebar}</div>
+    <htmlA:commonBtn type="href" action="__URL__/lottery_edit" value="添加奖品信息"/>
+  </div>
+  
+  <div class="list">
+  <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:22px;">
+        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+        <label for="checkbox"></label>
+    </th>
+    <th class="line_l">奖品ID</th>
+    <th class="line_l" style="text-align:left">奖品名称</th>
+    <th class="line_l">奖品数量</th>
+    <th class="line_l">中奖几率</th>
+    <th class="line_l">可兑换价值</th>
+	<th class="line_l">物品类型</th>
+	<th class="line_l">剩余数量</th>
+    <th class="line_l">排序</th>
+    <th class="line_l">是否上线</th>
+	<th class="line_l">添加时间</th>
+    <th class="line_l">操作</th>
+  </tr>
+  <if condition="$list eq null ">
+    <tr><td colspan="7"><p style="text-align:center;font-size:18px;">无相关记录</p></td></tr>
+  <else />
+  <volist empty="$empty" id="vo" name="list">
+      <tr overstyle='on' id="list_{$vo.id}">
+        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
+        <td>{$vo.id}</td>
+        <td style="text-align:left">{$vo.title}</td>
+        <td>{$vo.num}</td>
+        <td>{$vo.rate}</td>
+        <td>{$vo.value}</td>
+		    <td>{$vo.category}</td>
+        <td>{$vo.last_num}</td>
+		    <td>{$vo.order_sn}</td>
+		    <td>{$vo.is_sys}</td>
+        <td>{$vo.add_time|date="y-m-d",###}</td>
+        <td>
+            <a href="__URL__/lottery_edit?id={$vo['id']}">编辑</a> | <a href="__URL__/lottery_del?delid={$vo['id']}">删除</a>  
+        </td>
+      </tr>
+  </volist>
+  </if>
+  </table>
+  </div>
+  
+  <div class="Toolbar_inbox">
+    <div class="pages" style="float:right; padding:0px;">{$pagebar}</div>
+    <htmlA:commonBtn type="href" action="__URL__/lottery_edit" value="添加奖品信息"/>
+  </div>
+</div>
+
+<include file="Public:_footer" />

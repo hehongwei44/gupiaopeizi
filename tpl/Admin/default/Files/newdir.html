@@ -1,0 +1,27 @@
+<dl style="margin:10px 10px 5px; height:auto; width:340px; overflow:hidden" class="clear">
+  <dt class="left alR " style="width:30%;">新目录名称：</dt><dd class="left alL" style="width:70%"><input type="text" id="newdir" value="/">"/"表示根目录</dd>
+</dl>
+<div style="background:#F8F8F8; border-top:1px solid #E6E6E6; padding:5px; width:340px" class="alR">
+  <input type="button" class="btn_b" onclick="newDir()" value="确定" />
+</div>
+<script type="text/javascript">
+var newUrl="__URL__/newdir";
+function newDir() {
+	var newname = $('#newdir').val();
+	if(newname=='' || newname.length<2) { ui.error('请输入目录名'); return ; }
+ 	var datas = {'newdir':newname};
+	$.post(newUrl, datas,NDResponse,'json');
+}
+
+function NDResponse(res){
+		if (res.status == '0') {
+            ui.error(res.info);
+        }else {
+            ui.success(res.info);
+            ui.box.close();
+        }
+}
+function cancel() {
+	ui.box.close();
+}
+</script>

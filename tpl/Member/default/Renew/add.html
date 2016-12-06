@@ -1,0 +1,30 @@
+<include file="Public:dialog" />
+<form action="/member/renew/save.html">
+    <div class="tip" id="message">温馨提示：请选择将配资方案续约的时间。 </div>
+    <table>
+        <tr>
+            <th>续约时间：</th>
+            <td>
+                <select name="total">
+                    <option value="1">1个月</option>
+                    <option value="2">2个月</option>
+                    <option value="3">3个月</option>
+                    <option value="4">4个月</option>
+                    <option value="5">5个月</option>
+                    <option value="6">6个月</option>
+                    <option value="7">7个月</option>
+                    <option value="8">8个月</option>
+                    <option value="9">9个月</option>
+                    <option value="10">10个月</option>
+                    <option value="11">11个月</option>
+                    <option value="12">12个月</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <div class="actions">
+        <input type="hidden" name="borrow" value="{$data['borrow']}">
+        <input class="submit" type="button" value="确认">
+        <input class="cancel" type="button" value="取消" onclick="dlg.destroy()">
+    </div>
+</form>

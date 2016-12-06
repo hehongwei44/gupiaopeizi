@@ -1,0 +1,35 @@
+<include file="Public:dialog" />
+<form method="post" action="/member/invest/sell.html">
+    <div class="tip" id="message">温馨提示：转让前请先阅读转让协议<a href="/member/stock/contract.html" target="_blank">《转让协议》</a> </div>
+    <table>
+        <tbody>
+            <tr>
+                <th>债权价值：</th>
+                <td id="currentAmount">{$data.investor_capital|number_format}</td>
+            </tr>
+            <tr>
+                <th>年化利率：</th>
+                <td id="interest">{$data.investor_interest|number_format} %</td>
+            </tr>
+            <tr>
+                <th>总期数：</th>
+                <td id="leftTime">{$data.count.total} 期</td>
+            </tr>
+            <tr>
+                <th>可转让期数：</th>
+                <td id="leftTime">{$data.count.re_num} 期</td>
+            </tr>
+            <tr>
+                <th>转让价格：</th>
+                <td>
+                    <input name="price" class="text" type="text"> 元
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="actions">
+        <input type="hidden" name="invest" value="{$data['invest']}">
+        <input class="submit" type="button" value="确认">
+        <input class="cancel" type="button" value="取消" onclick="dlg.destroy()">
+    </div>
+</form>

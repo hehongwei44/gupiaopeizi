@@ -1,0 +1,75 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/add';
+var isSearchHidden = 1;
+</script>
+<div class="so_main">
+    <div class="page_tit">投资者列表</div>
+    <!--搜索/筛选会员-->
+    <include file="search" />
+    <!--搜索/筛选会员-->
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l">标号</th>
+                <th class="line_l">用户名</th>
+                <th class="line_l">手机号</th>
+                <th class="line_l">客服</th>
+                <th class="line_l">标题</th>
+                <th class="line_l">投资金额</th>
+                <th class="line_l">应得利息</th>
+                <th class="line_l">投资期限</th>
+                <th class="line_l">投资成交管理费</th>
+                <th class="line_l">还款方式</th>
+                <th class="line_l">标种类型</th>
+                <th class="line_l">投标方式</th>
+                <th class="line_l">投资时间</th>
+                <th class="line_l">操作</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.bid}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.bid}">
+                    </td>
+                    <td>{$vo.bid}</td>
+                    <td>
+                        <htmlA:user id="vo.mid" uname="vo.user_name" />
+                    </td>
+                    <td>{$vo.user_phone}</td>
+                    <td>{$vo.customer_name}</td>
+                    <td>
+                        <a href="{$vo.id|getInvestUrl=###}" title="{$vo.borrow_name}" target="_blank">{$vo.borrow_name|cnsubstr=###,12}</a>
+                    </td>
+                    <td>{$vo.investor_capital}</td>
+                    <td>{$vo.investor_interest}</td>
+                    <td>{$vo.borrow_duration}
+                        <if condition="$vo.repayment_type_num eq 1">天
+                            <else/>个月</if>
+                    </td>
+                    <td>{$vo.invest_fee}</td>
+                    <td>{$vo.repayment_type}</td>
+                    <td>{$vo.borrow_type}</td>
+                    <td>{$vo.is_auto}</td>
+                    <td>{$vo.add_time|date="Y-m-d H:i",###}</td>
+                    <td>
+                        <a href="/admin/remark/index.html?user_name={$vo.user_name}">备注</a>&nbsp;&nbsp;&nbsp;
+                        <a href="javascript:void()" onclick="ui.box.load('/admin/common/sms?tab=1&user_name={$vo.user_name}', {title:'通讯系统'})">通知</a>
+                    </td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+</div>
+<include file="Public:_footer" />

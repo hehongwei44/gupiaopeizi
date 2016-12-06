@@ -1,0 +1,70 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+	var delUrl = '__URL__/doDel';
+	var addUrl = '__URL__/add';
+	var editUrl = '__URL__/edit';
+	var editTitle = '视频认证资料';
+	var isSearchHidden = 1;
+	var searchName = "搜索/筛选会员";
+</script>
+<div class="so_main">
+  <div class="page_tit">视频认证申请</div>
+<!--搜索/筛选会员-->
+  <include file="search" />
+<!--搜索/筛选会员-->
+
+  <div class="Toolbar_inbox">
+  	<div class="page right">{$pagebar}</div>
+    <htmlA:commonBtn type="jsfun" action="dosearch();" value="搜索/筛选会员" style="search_action" />
+  </div>
+  
+  <div class="list">
+  <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:22px;">
+        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+        <label for="checkbox"></label>
+    </th>
+    <th class="line_l">ID</th>
+    <th class="line_l">用户名</th>
+    <th class="line_l">真实姓名</th>
+    <th class="line_l">总余额</th>
+    <th class="line_l">可用余额</th>
+    <th class="line_l">冻结金额</th>
+    <th class="line_l">待收金额</th>
+    <th class="line_l">注册时间</th>
+    <th class="line_l">申请时间</th>
+    <th class="line_l">操作</th>
+  </tr>
+  <volist empty="$empty" id="vo" name="list">
+      <tr overstyle='on' id="list_{$vo.id}">
+        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
+        <td>{$vo.id}</td>
+        <td><htmlA:user id="vo.uid" uname="vo.user_name" /></td>
+        <td>{$vo.real_name|default="&nbsp;"}</td>
+        <td>{$vo['money_freeze'] + $vo['account_money'] + $vo['money_collect']}元</td>
+        <td>{$vo.account_money|default=0}元</td>
+        <td>{$vo.money_freeze|default=0}元</td>
+        <td>{$vo.money_collect|default=0}元</td>
+        <td>{$vo.reg_time|date="Y-m-d H:i",###}</td>
+        <td>{$vo.add_time|date="Y-m-d H:i",###}</td>
+        <td><if condition="$vo.apply_status eq 0"><a href="javascript:void(0);" onclick="edit('?id={$vo['id']}');">审核</a><elseif condition="$vo.apply_status eq 1"/><font color="#00CC00">已通过</font><else/><font color="red">未通过</font></if></td>
+      </tr>
+  </volist>
+  </table>
+
+  </div>
+  
+  <div class="Toolbar_inbox">
+  	<div class="page right">{$pagebar}</div>
+    <htmlA:commonBtn type="jsfun" action="dosearch();" value="搜索/筛选会员" style="search_action" />
+  </div>
+</div>
+<script type="text/javascript">
+function showurl(url,Title){
+	ui.box.load(url, {title:Title});
+}
+</script>
+
+<include file="Public:_footer" />

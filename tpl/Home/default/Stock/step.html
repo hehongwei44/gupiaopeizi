@@ -1,0 +1,49 @@
+<style>
+.cpdrM{ display:block; height:60px; overflow:hidden;background: #F8F0EB}
+.marquee{ width:100%;}
+.marquee li{ width:100%; line-height:24px; float:left;text-align: center;}
+.marquee li p{  float:left; width:176px;padding:6px 12px; overflow:hidden;color:#999;border-right:0px solid #eee;}
+.marquee li b{ font-size:16px;display: block;color:#555;}
+.marquee li p:hover{background: #F7D7CC;cursor:default;}
+.marquee li i{ color:red;font-size:13px;}
+</style>
+<div class="borBox" style="width:1000px;margin:0 auto;border-top:0px">
+    <div class="cpdrM">
+            <ul class="marquee">                
+                <li>
+                    <volist name="param['new']" id="new" mod='5'>
+                    <p><b>{$new.name}</b>{$new.type}<i>{$new.total}万元</i> {$new.postfix}</p>
+                    <eq name="mod" value="4"></li><li></eq>
+                    </volist>    
+                </li>
+            </ul>
+    </div>   
+</div>
+<script>
+slide('.marquee','Top');
+</script>
+<div class="peizibox conbox" style="margin-top:10px;">
+    <div class="pz_process">
+        <div class="pz_process-line"></div>
+        <div class="pz_process-step s1 curr">
+            <div class="item">1</div>
+            <div class="desc">申请股票配资</div>
+        </div>
+        <div class="pz_process-step s2">
+            <div class="item">2</div>
+            <div class="desc">支付投资本金</div>
+        </div>
+        <div class="pz_process-step s3">
+            <div class="item">3</div>
+            <div class="desc">配资申请成功</div>
+        </div>
+        <div class="pz_process-step s4">
+            <div class="item">4</div>
+            <div class="desc">开始投资股票</div>
+        </div>
+        <div class="pz_process-step s5">
+            <div class="item">5</div>
+            <div id="pz_type" class="desc">盈利全归您</div>
+        </div>
+    </div>
+</div>

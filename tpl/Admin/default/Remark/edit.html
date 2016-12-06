@@ -1,0 +1,23 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">添加会员备注信息</div>
+
+<div class="form2">
+	<form method="post" action="__URL__/doEdit">
+	<input type="hidden" name="id" value="{$vo.id}"/>
+	<div id="tab_1">
+		<dl class="lineD"><dt>用 户 名：</dt><dd><htmlA:input id="user_name" value="{$vo.user_name}"/></dd></dl>
+		<dl class="lineD"><dt>备注内容：</dt><dd><htmlA:text id="remark" value="{$vo.remark}"/></dd></dl>
+	</div>
+	
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<include file="Public:_footer" />

@@ -1,0 +1,2 @@
+<?php
+return array ( 'type' => 'php|js', 'func' => 'com|system|exec|eval|escapeshell|cmd|passthru|base64_decode|gzuncompress', 'code' => '', 'dir' => array ( 0 => 'D:/Projects/ynws/common', 1 => 'D:/Projects/ynws/data', 2 => 'D:/Projects/ynws/files', 3 => 'D:/Projects/ynws/public', ), ); ?>

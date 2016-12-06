@@ -1,0 +1,80 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<style type="text/css">
+.bg_red {
+    background-color: #FFBBBB;
+}
+</style>
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/getlog_edit';
+var isSearchHidden = 1;
+var searchName = "搜索记录";
+</script>
+<div class="so_main">
+    <div class="page_tit">
+        <span>获取商品列表</span>
+        <include file="Public:quick" />
+    </div>
+    <div class="page_tab">
+        <volist name="logway" id="data">
+            <a href="__URL__/getlog?status={$_GET['status']}&way={$key}">
+                <span data="tab_1" <eq name="_GET['way']" value='$key'>class="active"</eq>>{$data}</span>
+            </a>
+        </volist>
+        <span data="tab_search" onclick="dosearch()"><b class="tab_search"></b></span>
+    </div>
+    <include file="search_log" />
+    <div class="Toolbar_inbox">
+        <div class="pages" style="float:right; padding:0px;">{$pagebar}</div>
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l">ID</th>
+                <th class="line_l">用户名</th>
+                <th class="line_l" style="text-align:left">兑换物品</th>
+                <th class="line_l">发生日期</th>
+                <th class="line_l">类型</th>
+                <th class="line_l">参考价值</th>
+                <th class="line_l">数量</th>
+                <th class="line_l">领取状态</th>
+                <th class="line_l">领取方式</th>
+                <th class="line_l">说明</th>
+                <th class="line_l">操作</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}" class="{$vo.bg}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>
+                        <htmlA:user id="vo.uid" uname="vo.user_name" />
+                    </td>
+                    <td style="text-align:left">{$vo.name}</td>
+                    <td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                    <td>{$vo.type_s}</td>
+                    <td>￥{$vo.price|getFloatValue=###,2}</td>
+                    <td>{$vo.num}</td>
+                    <td>{$vo.status_s}</td>
+                    <td>{$vo.way_s}</td>
+                    <td>{$vo.info}</td>
+                    <td>
+                        <if condition="$vo.status eq 0 OR $vo.status eq 1"><a href="__URL__/order_edit?id={$vo['id']}">编辑</a></if>
+                    </td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    
+    <div class="Toolbar_inbox">
+        <div class="pages" style="float:right; padding:0px;">{$pagebar}</div>
+    </div>
+</div>
+<include file="Public:_footer" />

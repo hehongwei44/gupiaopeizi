@@ -1,0 +1,152 @@
+<include file="Public:_header" />
+<link href="__ROOT__/res/Swfupload/swfupload.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__ROOT__/res/Swfupload/handlers2.js"></script>
+<script type="text/javascript" src="__ROOT__/res/Swfupload/swfupload.js"></script>
+<script type="text/javascript">
+	var IS_AD = true;
+	$(document).ready(function() {
+		//swf上传图片
+		swfu = new SWFUpload(
+		{
+			// Backend Settings
+			upload_url: "__URL__/swfupload?uid={$vo.uid}",
+			post_params: {"PHPSESSID": "<php> echo session_id(); </php>", "dopost" : ""},
+
+			// File Upload Settings
+			file_size_limit : "2 MB",	// 2MB
+			file_types : "*.jpg; *.gif; *.png",
+			file_types_description : "选择 JPEG/GIF/PNG 格式图片",
+			file_upload_limit : "0",
+
+			file_queue_error_handler : fileQueueError,
+			file_dialog_complete_handler : fileDialogComplete,
+			upload_progress_handler : uploadProgress,
+			upload_error_handler : uploadError,
+			upload_success_handler : uploadSuccess,
+			upload_complete_handler : uploadComplete,
+
+			button_image_url : "../images/SmallSpyGlassWithTransperancy_17x18.png",
+			button_placeholder_id : "spanButtonPlaceholder",
+			button_width: 250,
+			button_height: 18,
+			button_text : '<span class="button">选择本地图片 <span class="buttonSmall">(单图最大为 2 MB，支持多选)</span></span>',
+			button_text_style : '.button { font-family: "宋体", sans-serif; font-size: 12px; } .buttonSmall { font-size: 10pt; }',
+			button_text_top_padding: 0,
+			button_text_left_padding: 18,
+			button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
+			button_cursor: SWFUpload.CURSOR.HAND,
+			
+			// Flash Settings
+			flash_url : "__ROOT__/res/Swfupload/swfupload.swf",
+
+			custom_settings : {
+				upload_target : "divFileProgressContainer"
+			},
+			
+			// Debug Settings
+			debug: false
+		});
+		//swf上传图片
+
+		$(".dtype").live("click",function(){
+			$(this).parent().html('文件类型：<htmlA:select  id="pictype[]" datakey="upload_type" style="width: 180px;" class="setyle"/>');
+		});
+
+		$(".setyle").live("change",function(){
+			$(this).parent().parent().find(".dname").val($(this).find("option:checked").html());
+		});
+
+	});
+
+	var albImg = 0;
+	function addImage(src, pid,imgurl){
+		var newImgDiv = document.createElement("div");
+		var delstr = '';
+		var iptwidth = 180;
+		albImg++;
+		if(pid != 0) {
+			albImg = 'ok' + pid;
+			delstr = '<a href="javascript:;" onclick="javascript:delPic('+pid+')">[删除]</a>';
+		} else {
+			albImg = 'err' + albImg;
+		}
+		newImgDiv.className = 'albCt';
+		newImgDiv.id = 'albCt'+albImg;
+		document.getElementById("thumbnails").appendChild(newImgDiv);
+
+		if(typeof swf_justimg != 'undefined' && swf_justimg == true){
+			newImgDiv.innerHTML = '<img src="'+src+'"/>';
+			newImgDiv.innerHTML += '<input type="hidden" name="swfimglist[]" value="'+src+'" />';
+		}else{
+			newImgDiv.innerHTML = '<img src="'+src+'" width="120" height="120" />'+delstr;
+			
+			if(typeof arctype != 'undefined' && arctype ==  'article' )
+			{ 
+				iptwidth = 100;
+				if(pid != 0) {
+					newImgDiv.innerHTML = '<img src="'+src+'" width="120" onClick="addtoEdit('+pid+')"/>'+delstr;
+				}
+			}
+			newImgDiv.innerHTML += '<div style="margin-top:10px">文件类型：<input type="text" style="width:'+iptwidth+'px;" value="" name="pictype[]" class="dtype"></div><div style="margin-top:10px">文 件 名：<input type="text" name="picinfo[]" value="" style="width:'+iptwidth+'px;"  class="dname"/><input type="hidden" name="swfimglist[]" value="'+src+'"/></div>';
+		}
+	}
+	//swf上传后删除图片start
+	function delPic(id){
+		var imgpath = $("#albCtok"+id).find("input[type='hidden']").eq(0).val();
+		var datas = {'picpath':imgpath,'oid':id};
+		$.post("__URL__/swfupload?delpic", datas, picdelResponse,'json');
+	}
+
+	function picdelResponse(res){
+		var imgdiv = $("#albCtok"+res.data);
+			imgdiv.remove();
+			ui.success(res.info);
+			ui.box.close();
+	}
+	//swf上传后删除图片end
+</script>
+<style type="text/css">
+	.albCt{height:240px}
+</style>
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">添加会员信用资料</div>
+<div class="page_tab"></div>
+<div class="form2">
+	<form method="post" action="__URL__/doupload" enctype="multipart/form-data">
+	<input type="hidden" name="uid" value="{$vo.uid}" />
+	<div id="tab_1">
+	
+		<dl class="lineD"><dt>用户名：</dt><dd>{$vo.user_name}<span class="tip">*</span></dd></dl>
+		<dl class="lineD"><dt>资料图片：</dt><dd><div style="display: inline; border: solid 1px #7FAAFF; background-color: #C5D9FF; padding: 2px;"><span id="spanButtonPlaceholder"></span></div><span class="tip">*</span></dd></dl>
+
+		<dl class="lineD"><dt>图片预览：</dt>
+			<dd>
+			<table cellpadding="0" cellspacing="0" width="100%">
+		    <tr id="handfield">
+		      <td colspan="4" class="bline" style="background:url(images/albviewbg.gif) #fff 0 20px no-repeat;">
+		       	<table width='100%' height='240' style="margin:0 0 20px 0">
+		       		<tr>
+		       			<td>
+		       				<div id="divFileProgressContainer" style="height:75px;"></div>
+					 		<div id="thumbnails"></div>
+						</td>
+					</tr>
+				</table>
+		      </td>
+		    </tr>
+			</table>
+			</dd>
+		</dl>
+	
+	</div>
+
+	<div class="page_btm">
+	  	<input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<include file="Public:_footer" />

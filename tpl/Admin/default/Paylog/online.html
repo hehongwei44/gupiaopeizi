@@ -1,0 +1,77 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/add';
+var editUrl = '__URL__/edit';
+var editTitle = '处理充值';
+var isSearchHidden = 1;
+</script>
+<div class="so_main">
+    <div class="page_tit">
+        <span>线上充值列表</span>
+        <include file="Public:quick" />
+    </div>
+    <div class="page_tab">
+        <a href="__ACTION__?status={$_GET['status']}">
+            <span data="tab_1" <eq name="_GET['way']" value=''>class="active"</eq>>全部</span>
+        </a>
+        <volist name="payType" id="data">
+            <a href="__ACTION__?way={$key}&status={$_GET['status']}">
+                <span data="tab_1" <eq name="_GET['way']" value='$key'>class="active"</eq>>{$data}</span>
+            </a>
+        </volist>
+        <span data="tab_search" onclick="dosearch()"><b class="tab_search"></b></span>
+
+    </div>
+    <include file="search" />
+    <!--搜索-->
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                </th>
+                <th class="line_l">ID</th>
+                <th class="line_l">会员名</th>
+                <th class="line_l">支付方式</th>
+                <th class="line_l" style="text-align:right">金额</th>
+                <th class="line_l">支付状态</th>
+                <th class="line_l" style="text-align:left">对帐订单号</th>
+                <th class="line_l">在线支付时间</th>
+                <th class="line_l">操作</th>
+            </tr>
+            <volist id="vo" name="list" empty="$empty">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>
+                        <htmlA:user id="vo.uid" uname="vo.uname" />
+                    </td>
+                    <td>{$vo.way}</td>
+                    <td style="text-align:right">{$vo.money}</td>
+                    <td>{$vo.status}</td>
+                    <td style="text-align:left">{$vo.tran_id|default="无"}</td>
+                    <td>{$vo.add_time|date="y-m-d H:i",###}</td>
+                    <td>
+                        <if condition="$vo.status_num eq 0">
+                        <a href="javascript:;" onclick="edit('?id={$vo.id}')">审核</a>
+                        <else/>
+                        --
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+</div>
+<include file="Public:_footer" />

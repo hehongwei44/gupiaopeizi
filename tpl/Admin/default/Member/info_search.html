@@ -1,0 +1,18 @@
+<div id="search_div" style="display:none">
+    <div class="page_tit">设置搜索条件</div>
+    <div class="form2">
+        <form method="get" action="__URL__/info">
+            <dl class="lineD">
+                <dt>会员名：</dt>
+                <dd>
+                    <input name="user_name" style="width:190px" id="title" type="text" value="{$search.user_name}">
+                    <span>不填则不限制</span>
+                </dd>
+            </dl>
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+                <input type="button" class="btn_g" value="取消" onclick="dosearch();" />
+            </div>
+        </form>
+    </div>
+</div>

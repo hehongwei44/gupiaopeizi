@@ -1,0 +1,132 @@
+<include file="Public:header" />
+
+<h2><strong>账户充值</strong></h2>
+<div class="ms-c6">
+    <div class="ms-c6-t">
+        <ul>
+			<li><a href="/member/account/charge.html">在线充值</a></li>
+			<li class="current"><a href="/member/account/transfer.html">银行转账充值</a></li>
+			<li><a href="/member/account/log.html">充值记录</a></li>
+        </ul>
+    </div>
+    <div class="ms-c6-m">
+        <div class="ms-c6-ts">
+            <h3>第一步：通过网上银行、银行柜台或ATM机等向{$param.web_name}转账（{$param.web_name}不收任何手续费）</h3>
+            <table>
+                <tbody>
+                    <volist name="data['BANK']" id="bank">
+                    <tr>
+                        <th>
+                            <img src="{$res}img/bank/bank_{$bank.icon}.gif">
+                        </th>
+                        <td>
+                            银行帐号： {$bank.account}
+                            <br> 账户名称： {$bank.payee}
+                            <br> 开户银行： {$bank.address}
+                        </td>
+                    </tr>
+                    </volist>
+                    <tr>
+                        <td colspan="2">
+                            请使用{$param.web_name}实名认证对应姓名的银卡进行转账、汇款
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3 style="margin-top:20px">第二步：填写银行转账确认单<span style="color:red">（线下转账或网银汇款完成后填写，以方便客服为您及时处理）</span></h3>
+        <div class="formbox">
+            <form method="POST">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>转账银行：</th>
+                            <td>
+                                <select name="off_bank">
+                                <volist name="data['BANK']" id="bank">
+                                    <option value="{$key}">{$bank.bank}</option>
+                                </volist>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>转账方式：</th>
+                            <td>
+                                <label><input name="off_way" value="ATM" type="radio"> ATM</label>
+                                <label><input name="off_way" value="柜台转账" type="radio"> 柜台转账</label>
+                                <label><input name="off_way" value="网上银行" type="radio"> 网上银行</label>
+                                <label><input name="off_way" value="手机银行" type="radio"> 手机银行</label>
+                                <label><input name="off_way" value="支付宝" type="radio"> 支付宝</label>
+                                <label><input name="off_way" value="其它" type="radio"> 其它</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>转账金额：</th>
+                            <td>
+                                <input id="inMoney" name="money" class="inp" value="" autocomplete="off" style="width:150px;" type="text">元
+                                <span id="inMoneyErr" style="color:red">*&nbsp;</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>备注：</th>
+                            <td>
+                                <textarea id="remark" name="memo"></textarea>
+                                <span id="memoErr" style="color:red;display:block">提示：网上银行填写支付平台名称和交易号，其它填写转账银行及卡号</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <button id="chargeOffline" class="btn-b" type="button">转账确认</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <div class="ms-c6-b">
+            {$data.BANK_INFO}
+        </div>
+    </div>
+</div>
+<script type="text/javaScript">
+$(function(){
+
+    //选择充值方式
+    $("#chargeOffline").click( function(){
+        var chargeBank = $("input:radio[name='off_way']:checked").val();
+        if(typeof(chargeBank) == "undefined" || chargeBank == null){
+            top.dialog("为了尽快受理，请先选择转账方式。");
+            return;
+        }
+
+        var inMoney = $("#inMoney").val();
+        if(!inMoney.match(/^\d{1,7}(\.\d{1,2})?$/)){
+            top.dialog("充值金额格式错误，请输入正确的数字。");
+        }else if(inMoney < 1){
+            top.dialog("最低充值金额不小于1元。");
+        }else{
+            $.post('/member/account/transfer.html', $('form').serialize(),function(res){
+                if(res.status==0){
+                    top.dialog(res.info,'success',function(){
+                        if(res.data != ''){
+                            top.$('#mainFrame').attr('src',res.data);
+                        }
+                    });
+                }else{
+                    top.dialog(res.info,'error');
+                }
+            },'json');
+        }
+    });
+
+    $("#inMoney").keyup(function(){
+        var inMoney = $(this).val();
+        if(!inMoney.match(/^\d{1,7}(\.\d{1,2})?$/)){
+            $("#inMoneyErr").html('请输入正确的数字');
+        }
+    });
+});
+
+</script>
+<include file="Public:footer" />

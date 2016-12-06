@@ -1,0 +1,108 @@
+<include file="Public:header" />
+<h2><strong>资金流水</strong></h2>
+<div class="ms-c8">
+    <dl>
+        <dt><h5>可用余额</h5><strong>{$param.account.money|number_format=2}</strong>元</dt>
+        <dd class="m"><h5>账户余额</h5><strong>{$param.account.total|number_format=2}</strong>元</dd>
+        <dd class="m"><h5>冻结款</h5><strong>{$param.account.freeze|number_format=2}</strong>元</dd>
+        <dd class="last"><h5>待收回款</h5><strong>{$param.account.back+$param.account.collect|number_format=2}</strong>元</dd>
+    </dl>
+    <dl>
+        <dt><h5>净资产</h5><strong>{$param.account.asset|number_format=2}</strong>元</dt>
+        <dd><h5>配资资产</h5><strong>{$param.account.stock|number_format=2}</strong>元</dd>
+        <dd class="m"><h5>账户余额</h5><strong>{$param.account.total|number_format=2}</strong>元</dd>
+        <dd class="last"><h5>借款总额</h5><strong>{$param.account.borrow|number_format=2}</strong>元</dd>
+    </dl>
+</div>
+<br>
+<div class="ms-c6">
+    <div class="ms-c6-t">
+        <ul id="accountLogTypes">
+            <li <empty name="_GET['tab']">class="current"</empty>>
+                <a href="./money.html">资金流水</a>
+            </li>
+            <li <eq name="_GET['tab']" value="ct">class="current"</eq>>
+                <a href="./money.html?tab=ct">充值提款</a>
+            </li>
+            <!--li <eq name="_GET['tab']" value="jd">class="current"</eq>>
+                <a href="./money.html?tab=jd">借贷流水</a>
+            </li-->
+            <li <eq name="_GET['tab']" value="lx">class="current"</eq>>
+                <a href="./money.html?tab=lx">利息费用</a>
+            </li>
+            <li <eq name="_GET['tab']" value="dj">class="current"</eq>>
+                <a href="./money.html?tab=dj">冻结流水</a>
+            </li>
+        </ul>
+    </div>
+    <div id="accountLogList">
+        <div class="ms-c6-m">
+            <div class="search-r">
+                <form id="accountLogListForm" name="accountLogListForm" action="" method="post">
+                    <input id="accountLogType" name="accountLogType" value="all" type="hidden">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>总记录数：<strong>{$param.rows}</strong></th>
+                                <!--th>发生金额汇总：<strong>{$param.total|number_format=2} 元</strong></th-->
+                                <!--td>
+                                    <div class="sbox">
+                                        <select>
+                                                <option value="">请选择</option>
+                                                <volist name="param['option']" id="option">
+                                                <option value="{$option.key}">{$option.name}</option>
+                                                </volist>
+                                            </select>
+                                    </div>
+                                    <div class="sbox">
+                                        <select>
+                                            <option value="one_week">一星期</option>
+                                            <option value="one_month">一个月</option>
+                                            <option value="one_season">三个月</option>
+                                            <option value="one_year">一年</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td style="width:68px">
+                                    <button id="queryBtn" class="btn" type="button">查询</button>
+                                </td-->
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="ms-c6-table clearfix">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th style="width:170px">发生具体时间</th>
+                            <th>类型</th>
+                            <th style="text-align:right">发生金额</th>
+                            <th style="text-align:right">账户余额&nbsp;</th>
+                            <th>备注</th>
+                        </tr>
+                        <volist name="data" id="log">
+                        <tr>
+                            <td>{$log.add_time|date='y-m-d H:i:s',###}</td>
+                            <td>{$param['type'][$log['type']]}</td>
+                            <td class="r"><b>
+                                <neq name="_GET['tab']" value="dj">
+                                <gt name="log['affect_money']" value="0"><span style="color:red"><else/><span style="color:green"></gt>
+                                {$log.affect_money|number_format=2}
+                                <else/>
+                                {$log.affect_money|abs|number_format=2}
+                                </neq>
+                                </span></b>
+                            </td>
+                            <td class="r">{$log.account_money|number_format=2}</td>
+                            <td><notempty name="log['info']"><a href="#ynw" onclick="top.dialog('{$log.info}')">查看</a><else/>-</notempty></td>
+                        </tr>
+                        </volist>
+                    </tbody>
+                </table>
+                <div id="_page" class="n-pages">{$param['pages']}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="Public:footer" />

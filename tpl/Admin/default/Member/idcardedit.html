@@ -1,0 +1,49 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">身份证信息</div>
+<div class="page_tab"><span data="tab_1" class="active">身份证代传</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/doIdcardEdit" onsubmit="return subcheck();" enctype="multipart/form-data">
+	<input type="hidden" name="id" value="{$id}" />
+	<input type="hidden" name="uid" value="{$vo.id}" />
+	<div id="tab_1">
+	<dl class="lineD"><dt>真实姓名：</dt><dd><htmlA:input id="real_name"  value="{$vo.real_name}"/></dd></dl>
+	<dl class="lineD"><dt>身份证号：</dt><dd><htmlA:input id="idcard"  value="{$vo.idcard}"/></dd></dl>
+	<dl class="lineD"><dt>身份证正面图片：</dt><dd><input type="file" id="imgfile1" name="imgfile[]" class="input" /><div style="text-align:left; clear:both; overflow:hidden; width:290px; height:100px"><div id="imgDiv"></div><if condition="$vo.card_img eq ''">无缩略图<else/><img src="__ROOT__/{$vo.card_img}" width="100" height="100" /></if></div>
+	</dd></dl>
+	<dl class="lineD"><dt>身份证反面图片：</dt><dd><input type="file" id="imgfile2" name="imgfile[]" class="input" /><div style="text-align:left; clear:both; overflow:hidden; width:290px; height:100px"><div id="imgDiv"></div><if condition="$vo.card_back_img eq ''">无缩略图<else/><img src="__ROOT__/{$vo.card_back_img}" width="100" height="100" /></if></div>
+	</dd></dl>
+	
+	</div><!--tab1-->
+	
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	  <input type="button" class="btn_g" value="返回"  onclick="javascript:history.back();"/>
+	</div>
+	</form>
+</div>
+
+</div>
+<script type="text/javascript">
+var cansub = true;
+function subcheck(){
+	if(!cansub){
+		alert("请不要重复提交，如网速慢，请等待！");
+		return false;	
+	}
+	
+	if($("#imgfile1").val()=="" && $("#imgfile2").val()==""){
+		ui.error("如果不做任何修改，请点返回按钮退出！");
+		return false;
+	}else if(($("#imgfile1").val()!="" && $("#imgfile2").val()=="" )||($("#imgfile1").val()=="" && $("#imgfile2").val()!="" ) ){
+		ui.error("身份证正反面必须全部上传！");
+		return false;
+	}else{
+		cansub = false;
+		return true;
+	}
+}
+</script>
+<include file="Public:_footer" />

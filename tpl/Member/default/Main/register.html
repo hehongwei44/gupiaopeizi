@@ -1,0 +1,49 @@
+<include file="default:Public:header" group="Home" />
+<link href="/tpl/Member/default/Res/css/login.css" rel="stylesheet" type="text/css" media="screen,projection" />
+<script type="text/javascript" src="/tpl/Member/default/Res/js/common.js"></script>
+<script type="text/javascript" src="/tpl/Member/default/Res/js/login.js"></script>
+<notempty name="param['ad']['main-middle']">
+<style type="text/css">
+#regBox .form {
+    background: url({$param['ad']['main-middle']}) no-repeat scroll 0px 0px #FFF;
+}
+</style>
+</notempty>
+<div class="bar">
+	<div class="borBox" id="regBox">
+		<form id="registerForm" method="post">
+		<div class="title1"><b>注册</b><!--<b class="other"><a href="#">企业注册</a></b>--></div>
+		<dl class="form">
+			<dt>手机号码：</dt>
+			<dd>
+				<input class="text" type="text" name="mobile" id="mobile" style="ime-mode:disabled" autocomplete="off"/><span id="im" class="tip" data="请输入正确的手机号码">当前使用的手机号</span>
+			</dd>
+			<dt>验证码：</dt>
+			<dd><input class="text" type="text" name="smscode" id="smscode" autocomplete="off"/><input class="btn btnBg3 smscode" id="sendAuthBtn" data="bind" type="button" type="text" value="获取验证码" /><span class="tip" id="ia" data="验证码必须为4位数字">输入手机收到的验证码</span></dd>
+			<dt>用户名：</dt>
+			<dd><input class="text" type="text" name="name" id="name" style="ime-mode:disabled" autocomplete="off"/><span id="iu" class="tip" data="6-24位字母数字下划线组合">登录时可用 </span></dd>
+			<dt>设置密码：</dt>
+			<dd><input class="text" type="password" name="password" id="password" autocomplete="off"/><span id="ip" class="tip" data="密码长度至少为6位">密码长度6~20位 </span></dd>
+			<dt>确认密码：</dt>
+			<dd><input class="text" type="password" name="confirm" id="confirm" autocomplete="off"/><span id="ic" class="tip" data="两次输入的密码须一致">再次输入上边的密码 </span></dd>
+			<dt>推荐码：</dt>
+			<dd>
+            <input class="text" type="text" name="invitor" id="invitor" value="{$_SESSION['MEMBER']['FRIENDCODE']}"/>
+            <span id="ii" class="tip" data="编码格式不正确">推荐码，没有可以不填 </span></dd>
+			<dd>
+				<input type="checkbox" class="checkbox" checked="true">&nbsp;同意并愿意遵守
+				<a href="/help/agreement.html" class="font3" target="_blank">《户协议和隐私政策》</a>
+			</dd>
+			<dd><button id="register" type="button" class="btn btnBg1">立即注册</button>已有账号，<a href="/member/login.html" class="font3">马上登录</a></dd>
+		</dl>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+var _mvq = window._mvq || []; 
+window._mvq = _mvq;
+_mvq.push(['$setAccount', 'm-145312-0']);
+
+_mvq.push(['$setGeneral', 'register', '', /*用户名*/ $("#name").val(), /*用户id*/ $("#mobile").val()]);
+_mvq.push(['$logConversion']);
+<include file="default:Public:footer" group="Home" />

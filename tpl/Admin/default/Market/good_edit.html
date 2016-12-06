@@ -1,0 +1,83 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/tpl/Admin/default/Res/js/jquery.artZoom.js"></script>
+<style type="text/css" media="screen">
+  A.artZoom {CURSOR: url(/tpl/Admin/default/Res/images/zoomin.cur), auto; POSITION: relative;}
+  A.artZoom .loading {Z-INDEX: 9; BACKGROUND: url(/tpl/Admin/default/Res/images/load.gif) no-repeat center center; LEFT: 5px; WIDTH: 25px; POSITION: absolute; TOP: 5px; HEIGHT: 25px;}
+  .artZoomBox {POSITION: relative;z-index: 99999;}
+  .artZoomBox A.maxImgLink {DISPLAY: inline; CURSOR: url(/tpl/Admin/default/Res/images/zoomout.cur), auto; ZOOM: 1}
+  .artZoomBox A.maxImgLink .maxImg {BORDER: #ccc 1px solid; PADDING: 5px;  BACKGROUND: #fff; moz-border-radius: 4px; webkit-border-radius: 4px; border-radius: 4px;moz-box-shadow: 0 0 3px rgba(58, 110, 165, 0.5); webkit-box-shadow: 0 0 3px rgba(58, 110, 165, 0.5); box-shadow: 0 0 3px rgba(58, 110, 165, 0.5);}
+  .artZoomBox .tool SPAN {display: inline-block; width: 12px; height: 12px; margin: auto 3px auto auto; position: relative; top: 0; *top: 0px; background-image: url('/tpl/Admin/default/Res/images/icons.png'); background-repeat: no-repeat; *font-size:0; vertical-align:middle;moz-border-radius: 4px; webkit-border-radius: 4px; border-radius: 4px}
+  .artZoomBox .tool a { display: inline-block; padding: 5px 8px; font: 12px/1.11 "Microsoft Yahei", Tahoma, Arial, Helvetica, STHeiti; _font-family:Tahoma,Arial,Helvetica,STHeiti; -o-font-family: Tahoma, Arial; _font-size: 12px; color: #3C3C3D; text-shadow: 1px 1px 0 #FFFFFF; background: #ECECEC url('/tpl/Admin/default/Res/images/css3buttons_backgrounds.png') 0 0 no-repeat; white-space: nowrap; overflow: visible; cursor: pointer; text-decoration: none; border: 1px solid #CACACA; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; outline: none; position: relative; zoom: 1; *display: inline; *vertical-align: middle; -moz-user-select: none; -webkit-tap-highlight-color: rgba(0,0,0,0); -webkit-user-select: none; -webkit-touch-callout: none;}
+  .artZoomBox .tool a:hover { color: #FFFFFF; border-color: #388AD4; text-decoration: none; text-shadow: -1px -1px 0 rgba(0,0,0,0.3); background-position: 0 -40px; background-color: #2D7DC5; }
+  .artZoomBox .tool a:active { top: 1px; background-position: 0 -81px; border-color: #347BBA; background-color: #0F5EA2; color: #FFFFFF; text-shadow: none; }
+
+  .artZoomBox .tool .imgRight span { background-position:0 -0; }
+  .artZoomBox .tool .imgRight:hover span,  .artZoomBox .tool .imgRight:active span { background-position:0 -12px; }
+
+  .artZoomBox .tool .imgLeft span { background-position:-12px 0; }
+  .artZoomBox .tool .imgLeft:hover span,  .artZoomBox .tool .imgLeft:active span { background-position:-12px -12px; }
+
+  .artZoomBox .tool .viewImg span { background-position:-24px 0; }
+  .artZoomBox .tool .viewImg:hover span,  .artZoomBox .tool .viewImg:active span { background-position:-24px -12px; }
+  
+  label { text-transform:uppercase; }
+#upload_area { background-color:#f1f5f9; border:1px solid #e1e5e9; padding:4px; margin:0; }
+</style>
+
+<script type="text/javascript" src="__ROOT__/res/uploader/js/ajax.js"></script>
+
+<tagLib name="htmlA" />
+<include file="./res/editor/kissy.html" />
+<div class="so_main">
+
+<div class="page_tit">添加/编辑商城商品信息</div>
+<div class="page_tab"><span data="tab_1" class="active">基本设置</span><span data="tab_2">商品简介</span><span data="tab_3">规格参数</span></div>
+<div class="form2">
+  <form method="post" action="__URL__/doGoodEdit" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="{$vo.id}"/>
+    <div id="tab_1">
+    <div class="alertDiv">
+        <ul>
+            <li>商品展示图片上传，请在添加完商品基本信息后返回商城商品列表，通过上传商品图片进行上传！</li>
+            <li>如需修改商品展示图片，只需在商城商品列表重新上传商品图片即可！</li>
+        </ul>
+    </div>
+        <dl class="lineD"><dt>商品名：</dt><dd><htmlA:input id="name" value="{$vo.name}"/></dd></dl>
+        <dl class="lineD"><dt>描述：</dt><dd><htmlA:text id="description" value="{$vo.description}"/></dd></dl>
+        <dl class="lineD"><dt>风格：</dt><dd><htmlA:input id="style" value="{$vo.style}" tip="如：黑色|白色"/></dd></dl>
+        <!--<dl class="lineD"><dt>大图展示：</dt><dd><htmlA:input id="img" value="{$vo.img}"/></dd></dl>-->
+        
+        <dl class="lineD"><dt style="padding-top:8px">商城首页原图：</dt><dd>
+        (<if condition="$vo.img neq ''"><a class="artZoom" href="__ROOT__/res/uploader/images/{$vo.img}">查看</a><else/><span style="color:red;">暂无图片</span></if>)
+        </dd></dl>
+        <dl class="lineD"><dt style="padding-top:8px">详情页小图展示：</dt><dd>
+        (<if condition="$vo.small_img neq ''"><a class="artZoom" href="__ROOT__/res/uploader/images/{$vo.small_img}">查看</a><else/><span style="color:red;">暂无图片</span></if>)
+        </dd></dl>
+        <dl class="lineD"><dt style="padding-top:8px">详情页中图展示：</dt><dd>
+        (<if condition="$vo.middle_img  neq ''"><a class="artZoom" href="__ROOT__/res/uploader/images/{$vo.middle_img}">查看</a><else/><span style="color:red;">暂无图片</span></if>)
+        </dd></dl>
+        <dl class="lineD"><dt style="padding-top:8px">详情页放大图展示：</dt><dd>
+        (<if condition="$vo.big_img neq ''"><a class="artZoom" href="__ROOT__/res/uploader/images/{$vo.big_img}">查看</a><else/><span style="color:red;">暂无图片</span></if>)
+        </dd></dl>
+        
+        <!--<dl class="lineD"><dt>缩略图片展示：</dt><dd><htmlA:input id="show_img" value="{$vo.show_img}"/></dd></dl>-->
+        <dl class="lineD"><dt>所属类别：</dt><dd><htmlA:radio id="category" default="1|实物,2|虚拟" /></dd></dl>
+        <dl class="lineD"><dt>市场价值：</dt><dd><htmlA:input id="price" value="{$vo.price}"/></dd></dl>
+        <dl class="lineD"><dt>兑换积分：</dt><dd><htmlA:input id="cost" value="{$vo.cost}"/></dd></dl>
+        <dl class="lineD"><dt>物品数量：</dt><dd><htmlA:input id="number" value="{$vo.number}"/></dd></dl>
+        <dl class="lineD"><dt>每人限购数量：</dt><dd><htmlA:input id="amount" value="{$vo.amount}"/></dd></dl>
+        <dl class="lineD"><dt>排序：</dt><dd><htmlA:input id="order_sn" value="{$vo.order_sn}"/></dd></dl>
+        <dl class="lineD"><dt style="padding-top:8px">是否上线：</dt><dd><htmlA:radio id="is_sys" default="1|上线,0|不上线"/></dd></dl>
+    </div>
+    <div id="tab_2" style="display:none">
+        <htmlA:editor id="jianjie" value="{$vo.jianjie}" w='100%' type='kissy'/>
+    </div>
+    <div id="tab_3" style="display:none">
+        <htmlA:editor id="canshu" value="{$vo.canshu}" w='100%' type='kissy'/>
+    </div>
+    <div class="page_btm"><input type="submit" class="btn_b" value="确定" /></div>
+    </form>
+</div>
+
+</div>
+<include file="Public:_footer" />

@@ -1,0 +1,61 @@
+<include file="Public:header" />
+<h2>
+    <strong>保证金追加申请</strong>
+    <span style="float:right"><a href="/member/stock/now.html">申请追加保证金</a></span>
+</h2>
+<div class="ms-c6">
+    <div class="ms-c6-t">
+        <ul>
+            <li <empty name="_GET['tab']">class="current"</empty>><a href="./?tab=0">待审核</a></li>
+            <li <eq name="_GET['tab']" value='1'>class="current"</eq>><a href="./?tab=1">处理中</a></li>
+            <li <eq name="_GET['tab']" value='2'>class="current"</eq>><a href="./?tab=2">已完成</a></li>
+            <li <eq name="_GET['tab']" value='-1'>class="current"</eq>><a href="./?tab=-1">未通过</a></li>
+        </ul>
+    </div>
+    <div class="ms-c6-m">
+        <div class="ms-c6-table clearfix">
+            <notempty name="data">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>编号</th>
+                        <th>配资单号</th>
+                        <th style="text-align:right">追加金额</th>
+                        <th>提交申请时间</th>
+                        <eq name="_GET['tab']" value="1"><th>申请处理时间</th></eq>
+                        <th>当前状态</th>
+                    </tr>
+                    <volist name="data" id="apply">
+                    <tr>
+                        <td>{$apply.id}</td>
+                        <td><a href="/member/stock/detail.html?i={$apply.bid}">{$apply.bid}</a></td>
+                        <td class="r">{$apply.total|number_format=2}</td>
+                        <td>{$apply.date|date='y-m-d H:i',###}</td>
+                        <eq name="_GET['tab']" value="1"><td>{$apply.deal_time|date='y-m-d H:i',###}</td></eq>
+                        <td>
+                            <switch name="apply['status']" >
+                                <case value="0" break="1">待审核</case>
+                                <case value="1" break="1">处理中</case>
+                                <case value="2" break="1">已完成</case>
+                                <case value="-1" break="1">未通过</case>
+                            </switch>
+                        </td>
+                    </tr>
+                    </volist>
+                </tbody>
+            </table>
+            <div id="_page" class="n-pages">{$param['pages']}</div>
+            <else/>
+            <div style="padding:60px 0">
+                <p style="text-align:center;font-size:18px;">
+                    暂时没有符合条件的数据
+                    <empty name="_GET['tab']">
+                    <br/>请到操盘账户选择要 <a href="/member/stock/now.html">追加保证金</a> 的配资方案
+                    </empty>
+                </p>
+            </div>
+            </notempty>
+        </div>
+    </div>
+</div>
+<include file="Public:footer" />

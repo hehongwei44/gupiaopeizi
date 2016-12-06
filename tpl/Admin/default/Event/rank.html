@@ -1,0 +1,48 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<div class="so_main">
+    <div class="page_tit"><gt name="_GET[id]" value="0">编辑达人<else/>添加达人</gt></div>
+    <div class="form2">
+        <form method="post" action="__URL__/rank" onsubmit="return subcheck();">
+            <div id="tab_1">
+                <dl class="lineD">
+                    <dt>会员名：</dt>
+                    <dd>
+                        <htmlA:input id="name" value="{$data.name}" tip="前台显示会自动加星"/>
+                        <input type="hidden" name="id" value="{$data.id}">
+                    </dd>
+                </dl>
+
+                <dl class="lineD">
+                    <dt>配资类型：</dt>
+                    <dd>
+                        <htmlA:radio id="from" datakey="type" value="key|data.from"/>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>配资总额：</dt>
+                    <dd>
+                        <htmlA:input id="total" value="{$data.total}" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>配资周期：</dt>
+                    <dd>
+                        <htmlA:input id="duration" value="{$data.duration}" tip="请参考配资类型"/>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>收益率：</dt>
+                    <dd>
+                        <htmlA:input id="reward" value="{$data.reward}" tip="百分比"/>
+                    </dd>
+                </dl>
+            </div>
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+            </div>
+        </form>
+    </div>
+</div>
+<include file="Public:_footer" />

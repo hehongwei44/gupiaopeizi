@@ -1,0 +1,32 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">手机验证审核</div>
+<div class="page_tab"><span data="tab_1" class="active">基本信息</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/doEdit" onsubmit="return subcheck();">
+	<input type="hidden" name="uid" value="{$vo.uid}"/>
+	<div id="tab_1">
+	
+	<dl class="lineD"><dt>是否通过审核：</dt><dd><htmlA:radio id="status" default="1|是,2|否" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>申请人：</dt><dd>{$vo.uname}</dd></dl>
+	</div><!--tab1-->
+	
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+function subcheck(){
+	if($("input[name='status']:checked").val()!=1 && $("input[name='status']:checked").val()!=2){
+		ui.error("请选择审核结果");
+		return false;
+	}
+	return true;
+}
+</script>
+</div>
+<include file="Public:_footer" />

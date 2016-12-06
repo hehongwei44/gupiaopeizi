@@ -1,0 +1,44 @@
+<div id="search_div" style="display:none">
+    <div class="page_tit">设置搜索条件</div>
+    <div class="form2">
+        <form method="get" action="__URL__/index">
+            <if condition="$search.uid gt 0">
+                <input type="hidden" name="uid" value="{$search.uid}" />
+            </if>
+            <if condition="$search.customer_id gt 0">
+                <input type="hidden" name="customer_id" value="{$search.customer_id}" />
+            </if>
+            <dl class="lineD">
+                <dt>会员名：</dt>
+                <dd>
+                    <input name="uname" style="width:190px" id="title" type="text" value="{$search.uname}">
+                    <span>不填则不限制</span>
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt>所属客服：</dt>
+                <dd>
+                    <input name="customer_name" style="width:190px" id="title" type="text" value="{$search.customer_name}">
+                    <span>不填则不限制</span>
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt>资料分类：</dt>
+                <dd>
+                    <htmlA:select datakey="data_type" tip="不选则不限制" id="se_type" value="key|search.type" />
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt>审核状态：</dt>
+                <dd>
+                    <htmlA:select datakey="data_status" id="status" value="key|search.status" style="width:150px" />
+                    <span>不填则不限制</span>
+                </dd>
+            </dl>
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+                <input type="button" class="btn_g" value="取消" onclick="dosearch();" />
+            </div>
+        </form>
+    </div>
+</div>

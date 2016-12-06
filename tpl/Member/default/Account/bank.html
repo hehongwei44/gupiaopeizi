@@ -1,0 +1,166 @@
+<include file="Public:header" />
+<h2><strong>银行卡管理</strong></h2>
+<div class="ms-c6">
+    <div class="ms-c6-t">
+        <ul>
+            <li><a href="/member/account/withdraw.html">我要提款</a></li>
+            <li><a href="/member/account/record.html">提款记录</a></li>
+            <li class="current"><a href="/member/account/withdraw.html">银行卡管理</a></li>
+        </ul>
+    </div>
+    <div class="ms-c6-m">
+        <div class="formbox">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>您认证的银行卡：</th>
+                        <td>
+                            <volist name="data" id="bank">
+                            <div class="card">
+                                <div class="bank-logo" style="width:120px;">
+                                    <img alt="{$bank.name}" src="{$res}img/bank/bank_{$bank.icon}.gif">
+                                </div>
+                                <span>尾号：<strong>{$bank.number}</strong></span>
+                                <div class="inpbox" style="width:240px;">
+                                    <i>已绑定</i>
+                                </div>
+                            </div>
+                            </volist>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4>添加银行卡</h4>
+            <span style="color:red">（温馨提示：为了能正常绑定您的银行卡，请在<strong sytle="font-size:19px">8点至23点</strong>之间进行银行卡绑定）</span>
+            <form id="addMemberBank" method="POST">
+                <input id="bankCardType" name="bankCardType" value="1" type="hidden">
+                <input id="id" name="id" value="" type="hidden">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>帐户名：</th>
+                            <td>
+                                <empty name="_SESSION['MEMBER']['STATUS']['IDCARD']">
+                                    必须先通过实名认证 <a href="/member/validate/idcard.html">去认证</a>
+                                <else/>
+                                    {$param.info.real_name}
+                                    <input type="hidden" name="name" value="{$_SESSION['MEMBER']['STATUS']['IDCARD']}" id="name">                          
+                                </empty>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>开户银行：</th>
+                            <td>
+                                <div class="sbox" style="float:left;">
+                                    <div>
+                                        <input class="inp" readonly="readonly" name="bank" value="中国银行" style="width:165px;">
+                                    </div>
+                                    <div class="s-option" style="width:175px;">
+                                        <ul>
+                                            <volist name="banks" id="bank">
+                                            <li li_val="{$key}">{$bank}</li>
+                                            </volist>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                $(function() {
+                                    $(".sbox .inp").click(function() {
+                                        $(this).parents(".sbox").children(".s-option").toggleClass("show");
+                                    });
+                                    $(".s-option li").click(function() {
+                                        $(this).parents(".sbox").children().children(".inp").val($(this).html());
+                                        $("#bankCode").val($(this).attr('li_val'));
+                                        $(this).parents(".s-option").toggleClass("show");
+                                    });
+
+                                    $('#province').change(function(){
+                                        $.get('/member/area.html?parent='+$(this).val(), function(data){
+                                          $('#city').html(data);
+                                        });
+                                    });
+                                    $.get('/member/area.html?parent=1', function(data){
+                                         $('#province').html('<option value="">请选择</option>'+data);
+                                    });
+
+                                    $('#saveWithdrawBank').click(function(){
+                                        if(!$('#name').val()){
+                                            top.dialog('请先去通过实名认证才能绑定银行卡。');
+                                            return false;
+                                        }
+                                        if(!$('#city').val()){
+                                            top.dialog('请选择开户行所在城市。');
+                                            return false;
+                                        }
+                                        if(!$('#city').val()){
+                                            top.dialog('请选择开户行所在城市。');
+                                            return false;
+                                        }
+                                        if($('#branch').val()==''){
+                                            top.dialog('请输入支行名称。');
+                                            return false;
+                                        }
+                                        if($('#number').val()==''){
+                                            top.dialog('请输入正确的卡号。');
+                                            return false;
+                                        }
+
+                                        $.post('/member/account/bank.html', $('form').serialize(),function(res){
+                                            if(res.status==0){                    
+                                                top.dialog(res.info,'success',function(){
+                                                    if(res.data != ''){
+                                                        top.$('#mainFrame').attr('src',res.data);
+                                                    } 
+                                                });                     
+                                            }else{
+                                                top.dialog(res.info,'error'); 
+                                            }                
+                                        },'json');
+                                    });
+                                });
+                                </script>
+                                <input id="bankCode" name="bankCode" value="boc" type="hidden">
+                                <font style="margin-top:10px;" id="bankCode_error_msg" color="red">*</font>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>开户行所在地：</th>
+                            <td>
+                                <select title="" class="sel" id="province" style="width:100px;height:30px;line-height:18px; padding:2px" id="province" name="province">
+                                </select>
+                                <select class="sel" style="width:150px;height:30px;line-height:18px; padding:2px" id="city" name="city">
+                                    <option value="">请选择</option>
+                                </select>
+                                <font id="province_error_msg" color="red">*</font>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>支行名称：</th>
+                            <td>
+                                <input class="inp" maxlength="20" id="branch" name="branch" value="" type="text">
+                                <font id="bankBranchName_error_msg" color="red"></font>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>银行卡号：</th>
+                            <td>
+                                <div class="kh-box">
+                                    <div class="kh" style="display:none;"></div>
+                                    <input class="inp c-inp" maxlength="20" id="number" name="number" value="" type="text">
+                                    <font id="bankCardNumer_error_msg" color="red">*</font>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <button id="saveWithdrawBank" type="button" class="btn-b">提 交</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<include file="Public:footer" />

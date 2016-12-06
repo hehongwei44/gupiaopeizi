@@ -1,0 +1,44 @@
+  
+  <div id="search_div" style="display:none">
+  	<div class="page_tit"><script type="text/javascript">document.write(searchName);</script> [ <a href="javascript:void(0);" onclick="dosearch();">隐藏</a> ]</div>
+	
+	<div class="form2">
+	<form method="get" action="__URL__/index">
+    <if condition="$search.uid gt 0"><input type="hidden" name="uid" value="{$search.uid}" /></if>
+    <dl class="lineD">
+      <dt>会员名：</dt>
+      <dd>
+        <input name="uname" style="width:190px" id="title" type="text" value="{$search.uname}">
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>真实姓名：</dt>
+      <dd>
+        <input name="realname" style="width:190px" id="title" type="text" value="{$search.realname}">
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>认证手机号：</dt>
+      <dd>
+        <input name="user_phone" style="width:190px" id="title" type="text" value="{$search.user_phone}">
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>可用余额：</dt>
+      <dd>
+      <htmlA:select datakey="lx" id="lx" value="key|search.lx" style="width:80px"/>
+      <htmlA:select datakey="bj" id="bj" value="key|search.bj" style="width:80px"/>
+      <htmlA:input style="width:100px" id="money" value="{$search.money}"/>
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+	</form>
+  </div>
+  </div>

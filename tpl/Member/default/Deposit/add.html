@@ -1,0 +1,23 @@
+<include file="Public:dialog" />
+<form action="/member/deposit/save.html">
+    <div class="tip" id="message">温馨提示：追加保证金仅将本金加到您的操盘账户中 </div>
+    <table>
+        <tr>
+            <th>账户余额：</th>
+            <td>{$data.total|number_format} 元 <a href="/member/account/charge.html" target="mainFrame">充值</td>
+        </tr>
+        <tr>
+            <th>可用余额：</th>
+            <td>{$data.money|number_format} 元</td>
+        </tr>
+        <tr>
+            <th>追加金额：</th>
+            <td><input class="text" type="text" name="total"> 元</td>
+        </tr>
+    </table>
+    <div class="actions">
+        <input type="hidden" name="borrow" value="{$data['borrow']}">
+        <input class="submit" type="button" value="确认">
+        <input class="cancel" type="button" value="取消" onclick="dlg.destroy()">
+    </div>
+</form>

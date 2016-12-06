@@ -1,0 +1,75 @@
+<include file="Public:header" />
+<h2><strong>配资申请详情</strong></h2>
+<switch name="data['borrow_status']" >
+    <case value="0" break="1"><div class="process-box"><div class="p12"><span>第一步</span></div></div></case>
+    <case value="6" break="1"><div class="process-box"><div class="p14"><span>第四步</span></div></div></case>
+</switch>
+<div class="formbox">
+    <h4>基本信息</h4>
+    <table class="h-20">
+        <tbody>
+            <tr>
+                <th>配资单号：</th>
+                <td>PZ{$data['id']}&nbsp;&nbsp;<a href="./contract.html?i={$data['id']}" class="" target="_blank">借款协议</a></td>
+            </tr>
+            <tr>
+                <th>配资金额：</th>
+                <td>{$data.borrow_money|number_format} &nbsp;元</td>
+            </tr>
+            <tr>
+                <th>保证金：</th>
+                <td>{$data.deposit|number_format} &nbsp;元</td>
+            </tr>
+            <tr>
+                <th>开始时间：</th>
+                <td><eq name="data['first_verify_time']" value="0">待审核<else/>{$data['first_verify_time']|date="Y 年 m 月 d 日",###}</eq></td>
+            </tr>
+            <tr>
+                <th>结束时间：</th>
+                <td>{$data['deadline']|date="Y 年 m 月 d 日",###}</td>
+            </tr>
+            <tr>
+                <th>配资期限：</th>
+                <td>{$data.borrow_duration}</td>
+            </tr>
+            <tr>
+                <th>管理费：</th>
+                <td>{$data.borrow_fee|number_format}&nbsp;元</td>
+            </tr>
+            <tr>
+                <th>券商通道：</th>
+                <td><strong>{$data.homs.agent|default='-'}</strong></td>
+            </tr>
+            <tr>
+                <th>交易账号：</th>
+                <td><strong class="red">{$data.homs.name|default='-'}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+    <h4>配资资金记录</h4>
+    <div class="listbox">
+        <table>
+            <tbody>
+
+                <tr>
+                    <th style="width:100px;">序号</th>
+                    <th style="width:100px;">流水号</th>
+                    <th>发生类型</th>
+                    <th style="text-align:right">发生金额</th>
+                    <th>发生时间</th>
+                </tr>
+                <volist name="data['log']" id="log" mod="2">
+                <tr <eq name="mod" value="1">class="bg"</eq>>
+                    <td align="center">{$key+1}</td>
+                    <td align="center">{$log['id']}</td>
+                    <td align="center">{$type[$log['type']]|default='未知'}</td>
+                    <td  style="text-align:right"> <strong style="color: <gt name="log['affect']" value="0">red<else/>green</gt>;">{$log.affect|number_format}</strong> 元
+                    </td>
+                    <td align="center">{$log.time|date='Y-m-d H:i:s',###}</td>
+                </tr>
+                </volist>
+            </tbody>
+        </table>
+    </div>
+</div>
+<include file="Public:footer" />

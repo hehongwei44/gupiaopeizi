@@ -1,0 +1,243 @@
+﻿<include file="Public:header"/>
+<link href="{$res}css/index.css" rel="stylesheet" type="text/css" media="screen,projection" />
+<script src="{$res}js/ifocus.js" type="text/javascript"></script>
+<!-- Content Start -->
+<div class="banner">	
+	<div class="bannerBox">
+		<div id="ifocus">
+			<div id="ifocus_pic">
+			<div id="ifocus_piclist">
+			<ul>
+				<a href="{$param['ad']['index'][0][2]}"><li style="background-image:url({$param['ad']['index'][0][0]})"></li></a>
+				<a href="{$param['ad']['index'][1][2]}"><li style="background-image:url({$param['ad']['index'][1][0]})"></li></a>
+				<a href="{$param['ad']['index'][2][2]}"><li style="background-image:url({$param['ad']['index'][2][0]})"></li></a>
+				<a href="{$param['ad']['index'][3][2]}"><li style="background-image:url({$param['ad']['index'][3][0]})"></li></a>
+				<a href="{$param['ad']['index'][4][2]}"><li style="background-image:url({$param['ad']['index'][4][0]})"></li></a>
+				<a href="{$param['ad']['index'][5][2]}"><li style="background-image:url({$param['ad']['index'][5][0]})"></li></a>
+			</ul>
+			</div>
+			</div>
+			<div id="ifocus_btn">
+				<ul class="bar point">
+					<li class="current_bd" id="point1"><a href="{$param['ad']['index'][0][2]}">{$param['ad']['index'][0][1]}</a><em></em></li>
+					<li id="point2"><a href="{$param['ad']['index'][1][2]}">{$param['ad']['index'][1][1]}</a><em></em></li>
+					<li id="point5"><a href="{$param['ad']['index'][2][2]}">{$param['ad']['index'][2][1]}</a><em></em></li>
+					<li id="point4"><a href="{$param['ad']['index'][3][2]}">{$param['ad']['index'][3][1]}</a><em></em></li>
+					<li id="point6"><a href="{$param['ad']['index'][4][2]}">{$param['ad']['index'][4][1]}</a><em></em></li>
+					<li id="point3"><a href="{$param['ad']['index'][5][2]}">{$param['ad']['index'][5][1]}</a><em></em></li>
+				</ul>
+			</div>
+		</div>
+		<div class="bar">
+			<empty name="_SESSION['MEMBER']['ID']">
+			<div class="userBox">
+                <i class="userBoxBg"></i>
+                <h3>欢迎登录{$param['web_name']}</h3>
+                <form id="loginForm" name="loginForm" method="post" action="/member/alogin.html" onsubmit="return indexLogin();" >
+                  <div class="inpbox">
+                    <input type="text" id="username" name="username" placeholder="手机/邮箱/昵称" autocomplete="off" value="" class="inp bg1">
+                  </div>
+                  <div class="inpbox">
+                    <input id="password" type="password" name="password" class="inp bg2">
+                  </div>
+                  <p><a href="/member/forget.html">忘记密码？</a></p>
+                  <div class="inpbox">
+                    <button class="btn" type="submit">立即登录</button>
+                  </div>
+                </form>
+                <div id="errorDiv">&nbsp;</div>
+				<a href="/member/register.html" class="regbtn">欢迎注册</a>
+			</div>
+			<else/>
+			<div class="userBox">
+				<i class="userBoxBg"></i>
+                <h3>欢迎使用{$param['web_name']}</h3>
+                <div class="myid">您当前正在使用的帐号是：<br><strong>{$_SESSION['MEMBER']['NAME']}</strong> [<a href="/member/logout.html">退出</a>]</div>
+				<div class="inpbox"><button class="btn" onclick="javaScript:window.location.href='/member/'" type="button">进入我的{$param['web_name']}</button></div>
+			</div>
+			</empty>
+		</div>
+	</div>
+</div>
+<div class="bar">
+	<div class="borBox" id="indexZs">
+		<dl class="indexZs1">
+			<dt>高安全性</dt>
+			<dd>资金监管</dd>
+			<dd>安全放心</dd>
+			<dd>专款专用</dd>
+		</dl>
+		<dl class="indexZs2">
+			<dt>更低利率</dt>
+			<dd>配资利息全网最低</dd>
+			<dd>配资起点低</dd>
+			<dd>高效配资</dd>
+		</dl>
+		<dl class="indexZs3">
+			<dt>资金充足</dt>
+			<dd>当日到账</dd>
+			<dd>交易账号随时分配<Br />15分钟资金到账</dd>
+		</dl>
+		<div class="indexZsMoney">
+			<span>服务客户：<b>{$param['total']['serve']}</b>人</span>
+			<span>配资总额：<b>{$param['total']['stock']}</b>元</span>
+			<span>可配资金：<b>{$param['total']['canPZ']}</b>元</span>
+		</div>
+	</div>
+
+	<div class="main">
+		<notempty name="param['ad']['main-top']">
+		<div class="borBox" id="rjxz">{$param['ad']['main-top']}</div>
+		</notempty>
+		<div class="borBox" id="cpdr">
+			<p class="title1"><b>操盘达人</b></p>
+			<div class="cpdrM">
+				<ul class="rankingList marquee" id="cpdrTable">
+					<volist name="param['rank']" id="rank">
+					<li>
+						<p class="name"><span class="nember">{$key+1}</span>{$rank.name}</p>
+						<p class="pt"><a href="#" target="_blank">{$rank.type}</a></p>
+						<p class="money">配资<strong>{$rank.total}</strong>万元</p>
+						<p class="time"><b>{$rank.duration}</b>{$rank.postfix}</p>
+						<p class="per">收益<strong>{$rank.reward}</strong>%</p>					
+					</li>
+					</volist>
+				</ul>
+			</div>
+		</div>
+		<script>
+		slide('.marquee','Top');
+		</script>
+		<notempty name="param['ad']['main-bottom']">
+		<div class="borBox" id="rjxz" style="height:198px;;overflow:hidden">{$param['ad']['main-bottom']}</div>
+		</notempty>
+	</div>
+	<div class="side">
+		<notempty name="param['ad']['right-top']">
+		<div class="borBox" id="rjxz">{$param['ad']['right-top']}</div>
+		</notempty>
+		<div class="borBox">
+			<p class="title1"><b>网站公告</b><a class="more" href="/article/news.html">更多</a></p>
+			<ul class="textlist" id="indexNews">
+				<volist name="param['news']" id="news">
+				<li><a href="/news/{$news.id}.html" target="_blank">{$news.title}</a> </li>
+				</volist>
+			</ul>
+			
+		</div>
+		<notempty name="param['ad']['right-middle']">
+		<div class="borBox" id="rjxz">{$param['ad']['right-middle']}</div>
+		</notempty>
+		<div class="borBox" id="rjxz">
+		    <p class="title1"><b>软件下载</b></p>
+		    <div class="rjxzM">
+			    <a id="downLogo" href="http://www.ihoms.com/file/xunlei/downloadxunlei/HOMS_QiJian/ZhengShi/BiaoZhun/HOMS_Installer_SC.exe?fileCode=2&sourceType=4">下载HOMS</a>
+                
+			    <p>
+			    <a href="http://www.ihoms.com/file/xunlei/downloadxunlei/manual/HOMS_Mobile_iPhone_TradingTerminalInstallationManual.pdf?fileCode=47&amp;sourceType=4">安装手册</a>
+			    <a href="http://bcs.duapp.com/ihoms2/homsClient/mobile/IPhone/HOMS_MobileTradingTerminal(iPHONE)OperationManual.pdf">操作手册</a>
+			    <a class="phone" href="http://www.ihoms.com/www/download.do?platform=mobile">手机版</a>
+			    </p>
+		    </div>
+		</div>
+		<notempty name="param['ad']['right-bottom']">
+		<div class="borBox" id="rjxz">{$param['ad']['right-bottom']}</div>
+		</notempty>
+	</div>
+	<div class="clear"></div>
+	<notempty name="param['ad']['middle']">
+	<div class="borBox" id="indexLc" style="clear:both">{$param['ad']['middle']}</div>
+	</notempty>
+	<div class="borBox" id="indexLc">
+		<p class="title1"><b>股票配资流程</b></p>
+		<a href="/help/storck.html">
+		<div class="indexLcM">
+			<p>1、申请股票配资</p>
+			<p>2、支付保证金和利息</p>
+			<p>3、随时融风控审核并分配股票账号</p>
+			<p>4、开始股票投资</p>
+			<p>5、获取收益</p>
+		</div>
+		</a>
+		<div class="kjrk">
+			<dl id="kjrk1">
+				<a href="/stock/day.html"><p>资金灵活，可操盘<b>2-30</b>天，五倍杠杆，五倍利润</p></a>
+				<a class="btn" href="/stock/day.html">我要申请</a>
+			</dl>
+			<dl id="kjrk2">
+				<a href="/stock/month.html"><p>最高<b>100</b>万，可投<b>1-6</b>个月，我出资金，收益归您</p></a>
+				<a class="btn" href="/stock/month.html">我要配资</a>
+			</dl>
+			<dl id="kjrk3">
+				<a href="//help/safety.html"><p>信托监管，专款专用，资金安全，双重风控</p></a>
+				<a class="btn" href="/help/safety.html">安全保障</a>
+			</dl>
+		</div>
+	</div>
+	<div class="borBox" id="link">
+		<div class="linkT">
+			<b>合作机构</b>
+			<b>友情链接</b>
+		</div>
+		<div class="linkM">
+			<div class="linkPic">
+				<volist name="param['links']['cooperate']" id="links">
+				<a href="{$links.url}" target="_blank"><img src="{$links.logo}" alt="{$links.name}"/></a>
+				</volist>
+			</div>
+			<div class="linkText">
+				<volist name="param['links']['friend']" id="links">
+				<a href="{$links.url}" target="_blank">{$links.name}</a>
+				</volist>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+
+function indexLogin() {
+	var username = $.trim($("#username").val());
+	if(username == null || username == "" || account == $('[placeholder]').attr("placeholder")){
+		$("#errorDiv").html("请填写登录帐号");
+		return false;
+	}else{
+		$("#errorDiv").html("");
+	}
+	var password = $.trim($("#password").val());
+	if(password == null || password == ""){
+		$("#errorDiv").html("请填写登录密码");
+		return false;
+	}else{
+		$("#errorDiv").html("");
+	}
+	return true;
+}
+
+$(function() {
+	//进度
+	$('.jd em').each(function(){
+		var sch = parseFloat($(this).text());
+		$(this).text(sch);
+		var sch = Math.floor(sch);
+		$(this).css('background-position',sch*-70+'px 0');
+	});
+	//选项卡/
+	jQuery.jqtab = function(tabtit,tab_conbox,shijian){
+		$(tab_conbox).children().hide();
+		$(tabtit).find("b").first().addClass("thistab").show(); 
+		$(tab_conbox).children().first().show();
+	
+		$(tabtit).find("b").bind(shijian,function(){
+		  $(this).parents(".tabBoxT").find("b").removeClass("thistab"); 
+		  $(this).siblings().removeClass("thistab"); 
+		  $(this).addClass("thistab");
+			var activeindex = $(tabtit).find("b").index(this);
+			$(tab_conbox).children().eq(activeindex).show().siblings().hide();
+			return false;
+		});
+	};
+	$.jqtab(".linkT",".linkM","mouseenter");
+});
+</script>
+<!-- Content End -->
+<include file="Public:footer"/>

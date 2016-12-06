@@ -1,0 +1,28 @@
+<include file="Public:_header" />
+<link href="__ROOT__/res/Swfupload/swfupload.css" rel="stylesheet" type="text/css">
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">编辑商品记录</div>
+<div class="form2">
+	<form method="post" action="__URL__/doLogEdit" enctype="multipart/form-data">
+	<input type="hidden" name="id" value="{$vo.id}" />
+	<div id="tab_1" >
+		<dl class="lineD"><dt>会员名：</dt><dd>{$vo.uname} </dd></dl>
+		<dl class="lineD"><dt>物品名：</dt><dd>{$vo.name}</dd></dl>
+		<dl class="lineD"><dt>参考价值：</dt><dd><input name="price" style="width:350px" type="text" value="{$vo.price}"></dd></dl>
+		<dl class="lineD"><dt>领取状态：</dt><dd><htmlA:radio id="status" datakey="type_list" value="key|vo.status"/></dd></dl>
+		<dl class="lineD"><dt>领取方式：</dt><dd><htmlA:radio id="way" datakey="way_list" value="key|vo.way"/></dd></dl>
+		<dl class="lineD"><dt>处理说明：</dt><dd><htmlA:text id="info" value="{$vo.info}"  tip="*"/></dd></dl>
+        <dl class="lineD"><dt>所在区域：</dt><dd>{$vl.province}（省/直辖市）{$vl.city}（市）{$vl.area}（区/县）</dd></dl>
+        <dl class="lineD"><dt>收货地址：</dt><dd>{$vl.address}</dd></dl>
+        <dl class="lineD"><dt>附加信息：</dt><dd>{$vl.remark}</dd></dl>
+        
+	</div>
+	<div class="clear"></div>
+	
+	<div class="page_btm"><input type="submit" class="btn_b" value="确定" /></div>
+	</form>
+</div>
+</div>
+<include file="Public:_footer" />

@@ -1,0 +1,67 @@
+<include file="Public:_header" />
+<script type="text/javascript">
+  var delUrl = '__URL__/doDelete';
+</script>
+<div class="so_main">
+  <div class="page_tit">个人资料</div>
+  <div id="addAttr_div">
+    
+    <div class="form2">
+      <form method="post" action="">
+        <dl class="lineD">
+          <dt>帐号：</dt>
+          <dd>
+          <input name="user_name" class="input" id="user_name" type="text" value="{$data['user_name']}" readonly="true" style="background:#f6f6f6">
+          <span>登陆用户名，仅管理员能更改</span>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>真实姓名：</dt>
+          <dd>
+          <input name="real_name" class="input" id="real_name" type="text" value="{$data['real_name']}">
+          <span>你的真实姓名，请如实填写</span>
+          </dd>
+        </dl>
+        <dl class="lineD">
+          <dt>邮箱地址：</dt>
+          <dd>
+          <input name="email" class="input" id="email" type="text" value="{$data['email']}">
+          <span>请输入工作邮箱地址</span>
+          </dd>
+        </dl>        
+        <dl class="lineD">
+          <dt>QQ：</dt>
+          <dd>
+          <input name="qq" class="input" id="qq" type="text" value="{$data['qq']}">
+          <span>请输入常用的QQ号，如果是客服则填写公司分配的QQ号码</span>
+          </dd>
+        </dl>
+        
+        <dl class="lineD">
+          <dt>联系电话：</dt>
+          <dd>
+          <input name="phone" class="input" id="phone" type="text" value="{$data['phone']}">
+          <span>联系电话最好为手机号</span>
+          </dd>
+        </dl>
+
+        <dl class="lineD">
+          <dt>住址：</dt>
+          <dd>
+          <input name="address" class="input" id="address" type="text" value="{$data['address']}">
+          <span>当前居住地址</span>
+          </dd>
+        </dl>
+        
+        <div class="page_btm">
+          <input type="hidden" name="uid" id="uid" value="" disabled="disabled" />
+          <input type="submit" class="btn_b" id="showwait" value="保存" />
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  
+</div>
+</div>
+<include file="Public:_footer" />

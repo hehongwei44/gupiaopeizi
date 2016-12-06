@@ -1,0 +1,69 @@
+<tagLib name="htmlA" />
+<div class="so_main">
+    <div class="form2">
+        <form method="post" action="__URL__/doEdit" onsubmit="return subcheck();">
+            <input type="hidden" name="id" value="{$data.id}" />
+            <div id="tab_1">
+                <dl class="lineD">
+                    <dt>充值会员：</dt>
+                    <dd>{$data.real_name|default="未填写"}（{$data.user_name}）</dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>充值时间：</dt>
+                    <dd>{$data.add_time|date='Y-m-d H:i:s',###}</dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>冲入金额：</dt>
+                    <dd style="color:#FF0000;font-size:18px">{$data.money|number_format=2} 元</dd>
+                </dl>
+                <eq name="data['way']" value="off">
+                <dl class="lineD">
+                    <dt>到帐银行：</dt>
+                    <dd>{$banks[$data['off_bank']]['bank']}（{$banks[$data['off_bank']]['account']|mask}）【{$data.off_way|default='其它'}】</dd>
+                </dl>
+                </eq>
+                <notempty name="data['memo']">
+                <dl class="lineD">
+                    <dt>充值备注：</dt>
+                    <dd>{$data.memo}</dd>
+                </dl>
+                </notempty>
+                <dl class="lineD">
+                    <dt>处理结果：</dt>
+                    <dd>
+                        <htmlA:radio id="status" default="1|充值成功,3|充值失败" />
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>处理说明：</dt>
+                    <dd>
+                        <htmlA:text id="deal_info" value="{$vo.deal_info}" tip="* 该处为会员收到的短信内容" />
+                    </dd>
+                </dl>
+            </div>
+            <!--tab1-->
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+                <input type="button" class="btn_g" value="取消" onclick="ui.box.close()" />
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+var cansub = true;
+
+function subcheck() {
+    if (!cansub) {
+        alert("请不要重复提交，如网速慢，请等待！");
+        return false;
+    }
+
+    if ($("input[name='status']:checked").val() != 1 && $("input[name='status']:checked").val() != 3) {
+        ui.error("请选择充值结果");
+        return false;
+    } else {
+        cansub = false;
+        return true;
+    }
+}
+</script>

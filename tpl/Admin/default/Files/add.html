@@ -1,0 +1,49 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<div class="so_main">
+	  <div class="page_tit">新建文件</div>
+
+	<div class="list">
+
+	  <div class="Toolbar_inbox">
+		<htmlA:commonBtn type="href" action="javascript:history.back();" value="不新建了,返回"/>
+		<htmlA:commonBtn type="jsfun" action="cksubmit();" value="保存文件" style="search_action" />
+		<strong id="nurl">文件将保存到:{$nowdir}</strong>
+	  </div>
+
+			<form action="__URL__/doAdd" method="post" name="cedit" id="cedit">
+		<table width='100%' border='0' cellspacing='0' cellpadding='2' align='center' style="background:#cfcfcf;">
+		<tr height="28" align="center">
+		  <th width="50%" class="line_l" background="images/wbg.gif" ><strong>文件名称:</strong><span><htmlA:input id="filename"/></span></th>
+		  <th width="50%" class="line_l" background="images/newlinebg3.gif"><strong>保存目录:</strong><span><htmlA:input id="filedir" value="{$nowdir}"/></span><a style="text-decoration:none;" href="javascript:void(0);" onclick="javascript:chooseDir();"><img src="__ROOT__/tpl/Admin/default/Res/images/ico/dir.png" align="top" style="margin-right:5px" />选择目录</a></th>
+		</tr>
+		<tr>
+		  	<td colspan="2" height='26' bgcolor='#F9FCEF'>
+			<textarea name='str' style='width:99%;height:450px;background:#ffffff;'></textarea>
+			</td>
+		</tr>
+		</table>
+			</form>
+	
+	  <div class="Toolbar_inbox">
+		<htmlA:commonBtn type="href" action="javascript:history.back();" value="不新建了,返回"/>
+		<htmlA:commonBtn type="jsfun" action="cksubmit();" value="保存文件" style="search_action" />
+	  </div>
+	</div>
+</div>
+<script type="text/javascript">
+var listdirUrl="__URL__/listdirchoose";
+//列表
+function chooseDir(dir,type,id) {
+	ui.box.load(listdirUrl, {title:'点击文件夹图标选择目录'});
+}
+function cksubmit(){
+	if($("#filename").val()==""){
+		alert("文件名不能为空");
+		return ;
+	}else{
+		document.forms.cedit.submit();
+	}
+}
+</script>
+<include file="Public:_footer" />

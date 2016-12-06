@@ -1,0 +1,83 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+var delUrl = '__URL__/remove';
+</script>
+<notempty name="event">
+<div class="so_main">
+    <div class="page_tit">参与 {$event.name} 的会员</div>
+    <div class="Toolbar_inbox">
+        <div class="left">奖品失效时间：{$event.expire|default="不限制"}</div>
+        <div class="page right">{$pagebar}</div>
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;"><input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0"><label for="checkbox"></label></th>
+                <th class="line_l" style="width:60px">名次</th>                
+                <th class="line_l" style="text-align:left">会员名</th>
+                <th class="line_l" style="text-align:right">配资金额</th>                
+                <th class="line_l" style="text-align:right">奖励额度</th>
+                <th class="line_l">奖品领取时间</th>
+                <th class="line_l">参与活动时间</th>
+                <th class="line_l">参与途径</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
+                    <td>{$key+1}</td>                    
+                    <td style="text-align:left">{$vo.name}</td>
+                    <td style="text-align:right">{$vo.total|number_format}元</td>                    
+                    <td style="text-align:right">{$vo.reward|default='0'}元</td>
+                    <td>{$vo.receive|date="y-m-d H:i:s",###}</td>
+                    <td>{$vo.date|date="y-m-d H:i:s",###}</td>
+                    <td class="line_l">网站</td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+</div>
+<else/>
+<div class="so_main">
+   <div class="page_tit">操盘达人</div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+        <htmlA:commonBtn type="href" action="__URL__/rank?id=0'" value="添加达人" />
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;"><input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0"><label for="checkbox"></label></th>
+                <th class="line_l" style="width:60px">名次</th>
+                <th class="line_l" style="width:120px">配资类型</th>
+                <th class="line_l" style="text-align:left">会员名</th>
+                <th class="line_l" style="text-align:right">配资金额</th>                
+                <th class="line_l" style="text-align:right">收益率</th>
+                <th class="line_l" style="width:120px">参与时间</th>
+                <th class="line_l" style="width:90px">操作</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
+                    <td>{$key+1}</td>
+                    <td>{$type[$vo['from']]}</td>
+                    <td style="text-align:left">{$vo.name}</td>
+                    <td style="text-align:right">{$vo.total|number_format}元</td>                    
+                    <td style="text-align:right">{$vo.reward|default='0'}%</td>
+                    <td>{$vo.duration}</td>
+                    <td><a href="__URL__/rank?id={$vo['id']}">编辑</a></td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+        <htmlA:commonBtn type="href" action="__URL__/rank?id=0'" value="添加达人" />
+    </div>
+</div>
+</notempty>
+
+<include file="Public:_footer" />

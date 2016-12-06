@@ -1,0 +1,97 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+	var delUrl = '__URL__/doDel';
+	var addUrl = '__URL__/add';
+	var editUrl = '__URL__/edit';
+	var listUrl = '__URL__/listType';
+	var addTitle = '添加地区';
+	var editTitle = '编辑地区';
+</script>
+<div class="so_main">
+  <div class="page_tit">地区管理</div>
+
+  <div class="Toolbar_inbox">
+  	<div class="page right">{$pagebar}</div>
+    <htmlA:commonBtn type="jsfun" action="add();" value="添加地区"/>
+    <htmlA:commonBtn type="jsfun" action="del();" value="删除地区" />
+    <htmlA:commonBtn type="href" action="__URL__/addmultiple" value="批量添加地区"/>
+  </div>
+  
+  <div class="list">
+  <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:22px;">
+        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+        <label for="checkbox"></label>
+    </th>
+    <th class="line_l">ID</th>
+    <th class="line_l" width="40%">地区名称</th>
+    <th class="line_l">地区排序</th>
+    <th class="line_l">是否开启子站</th>
+    <th class="line_l">操作</th>
+  </tr>
+  <volist empty="$empty" id="vo" name="list">
+      <tr overstyle='on' id="list_{$vo.id}" class="leve_1" typeid="{$vo.id}" parentid="{$vo.reid}">
+        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
+        <td>{$vo.id}</td>
+        <td><eq name="vo.haveson" value="true"><span class="typeson typeon" data="son">&nbsp;</span><else/><span class="typeson">&nbsp;</span></eq>{$vo.name}</td>
+        <td>{$vo.sort_order}</td>
+        <td><if condition="$vo.is_open eq '1'">{$vo.doamin}<else/>否</if></td>
+        <td>
+            <a href="javascript:void(0);" onclick="edit('?id={$vo['id']}');">编辑</a> 
+            <a href="javascript:void(0);" onclick="del({$vo['id']});">删除</a>  
+        </td>
+      </tr>
+  </volist>
+  </table>
+
+  </div>
+  
+  <div class="Toolbar_inbox">
+  	<div class="page right">{$pagebar}</div>
+    <htmlA:commonBtn type="href" action="__URL__/add" value="添加地区"/>
+    <htmlA:commonBtn type="jsfun" action="del();" value="删除地区" />
+    <htmlA:commonBtn type="href" action="__URL__/addmultiple" value="批量添加地区"/>
+  </div>
+</div>
+
+<script type="text/javascript">
+$("#area_list").bind("click", function(event){
+	var _this = $(event.target).parent().parent();//获取当前点击元素
+	var typeid = $(_this).attr('typeid');
+	if(!$($(event.target)).attr("data")) return ;//如果被点击的元素不是span即+-号就不继续执行
+	
+	var liid = $("#area_list tr").index(_this);//获取当前元素在listtree li下面的元素索引,供传入后传回,以确定在哪个位置插入
+	var dir = $(_this).attr('typeid');
+
+	var sontree = $("#area_list tr:[parentid="+typeid+"]");
+
+	//对已获取和没获取的做不同的处理
+	if(sontree.html()==null){
+		var datas = {'typeid':typeid};
+		$.post(listUrl,datas,LTResponse,'json');
+		$($(event.target)).addClass("typeoff");
+		$($(event.target)).removeClass("typeon");
+	}else{
+		if(sontree.css("display")=='none'){
+			sontree.css("display","");
+			$($(event.target)).addClass("typeoff");
+			$($(event.target)).removeClass("typeon");
+		}else{
+			sontree.css("display","none");
+			$($(event.target)).addClass("typeon");
+			$($(event.target)).removeClass("typeoff");
+		}
+	}
+});
+//获取子栏目列表后的处理
+function LTResponse(res){
+		if (res.status == '0') {
+            ui.error(res.data);
+        }else {
+			$("#area_list tr:[typeid="+res.data.typeid+"]").after(res.data.inner); 
+        }
+}
+</script>
+<include file="Public:_footer" />

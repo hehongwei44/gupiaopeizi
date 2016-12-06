@@ -1,0 +1,105 @@
+<include file="Public:header" />
+<h2><strong>操盘账户</strong></h2>
+<form method="post">
+    <input name="status" value="" type="hidden">
+    <input name="hasRisk" value="" type="hidden">
+    <input name="hasProfit" value="" type="hidden">
+    <input name="addWithFund" value="" type="hidden">
+    <input id="id_with_model" name="withModel" value="" type="hidden">
+    <div class="search-box">
+        <table>
+            <tbody>
+                <tr>
+                    <th>账户类型：</th>
+                    <td>
+                        <select name="type">
+                            <option value="">全部</option>
+                            <option value="9">按月付费</option>
+                            <option value="8">按天付费</option>
+                            <option value="7">按周付费</option>
+                            <option value="6">炒股大赛</option>
+                            <option value="5">免费体验</option>
+                        </select>
+                    </td>
+                    <th>配资单号：</th>
+                    <td>
+                        <input class="inp" name="id" style="width:110px;" value="" type="text">
+                    </td>
+                    <th>炒股账号：</th>
+                    <td>
+                        <input class="inp" name="homs" style="width:110px;" value="" type="text">
+                    </td>
+                    <td>
+                        <button class="btn" type="submit">查 询</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+<volist name="data" id="data" empty="$empty">
+<div class="ms-c9">
+    <div class="c9title">
+        <span class="l">配资单号：<strong><a title="配资订单" href="/member/stock/detail.html?i={$data['id']}">PZ{$data['id']}</a> </strong></span>
+        <eq name="data['status']" value="0">
+        <span class="r">申请时间：{$data['date']|date='Y-m-d',###}</span>
+        <else/>
+        <span class="r">开户日期：{$data['begin']|date='Y-m-d',###}</span>
+        </eq>
+
+    </div>
+    <table>
+        <tbody>
+            <tr>
+                <th style="width:100px;">账户类型：</th>
+                <td style="width:150px;">{$type[$data['type']]}</td>
+                <th style="width:100px;">炒股账号：</th>
+                <td><strong class="yellow">{$data['name']|default='-'}</strong></td>
+                <th style="width:100px;">账户状态：</th>
+                <td style="width:150px;">
+                    <switch name="data['status']" >
+                    <case value="0" break="1">待开户</case>
+                    <case value="1" break="1">未分配</case>
+                    <case value="3" break="1">未通过</case>
+                    <case value="7" break="1">已注销</case>
+                    <default />正常
+                    </switch>
+                </td>
+            </tr>
+            <tr>
+                <th>借款总额：</th>
+                <td class="bgred">{$data['money']|number_format}</td>
+                <th>预警线：</th>
+                <td>{$data['warning']|number_format}</td>
+                <th>平仓线：</th>
+                <td>{$data['break']|number_format}</td>
+            </tr>
+            <!--tr>
+                <th>账户资产：</th>
+                <td class="bgred">
+                    <font size="3">0.00</font>
+                </td>
+                <th>持仓市值：</th>
+                <td>0.00</td>
+                <th>可用资金：</th>
+                <td>0.00</td>
+            </tr-->
+        </tbody>
+    </table>
+    <div class="c9btn">
+        <a href="/member/stock/detail.html?i={$data['id']}">配资详情</a>
+        <eq name="data['status']" value="6">
+        <in name="data['type']" value="9,8,7">
+        <a href="/member/deposit/add.html" in="pop" data="{$data['id']}">追加保证金</a>
+        </in>
+        <a href="/member/profit/add.html" in="pop" data="{$data['id']}">提取盈利</a>
+        <!--a href="#ynw" target="dialog" data="stock/asset,{$data['id']}">实时资产查看</a-->
+        <a href="/member/stock/homs.html" in="pop" data="{$data['id']}-{$data['homs']|intval}">获取交易密码</a>
+        </eq>
+    </div>
+</div>
+</volist>
+<notempty name="data">
+<div id="_page" class="n-pages">{$param['pages']}</div>
+</notempty>
+<include file="Public:footer" />

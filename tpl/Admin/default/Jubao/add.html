@@ -1,0 +1,38 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">添加流转客户</div>
+<div class="page_tab"><span data="tab_1" class="active">基本信息</span><span data="tab_3">会员头像</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/doAdd" onsubmit="return subcheck();" enctype="multipart/form-data">
+	<div id="tab_1">
+	
+		<dl class="lineD"><dt>用户名：</dt><dd><htmlA:input id="user_name" value="" tip="*"/></dd></dl>
+		<dl class="lineD"><dt>注册时间：</dt><dd><htmlA:timer id="reg_time" class="Wdate" tip="*"/></dd></dl>
+		<dl class="lineD"><dt>注册地点：</dt><dd><htmlA:input id="address" value="" tip="*"/></dd></dl>
+		<dl class="lineD"><dt>用户备注：</dt><dd><htmlA:text id="info" value="" tip="*"/></dd></dl>
+
+	</div><!--tab1-->
+	
+	<div id="tab_3" style="display:none">
+			首先保存会员，然后修改会员资料才能上传会员头像
+	</div><!--tab3-->
+
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<script type="text/javascript">
+function addone(){
+	var htmladd = '<dl class="lineD"><dt>资料名称：</dt>';
+		htmladd+= '<dd><input type="text" name="updata_name[]" value="" />&nbsp;&nbsp;更新时间:<input type="text" name="updata_time[]" onclick="WdatePicker();" class="Wdate" /></dd>';
+		htmladd+= '</dl>';
+	$(htmladd).appendTo("#tab_3");
+}
+</script>
+<include file="Public:_footer" />

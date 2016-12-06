@@ -1,0 +1,72 @@
+<include file="../Public/_header" />
+<style type="text/css">
+.dirBox{
+	width:300px; 
+	height:230px;
+	overflow:auto;
+}
+.dirBox input, .dirBox img{
+	vertical-align: middle;
+}
+</style>
+<div class="so_main">
+  <div class="page_tit">木马查杀</div>
+  <div class="Toolbar_inbox">
+      <div class="page right"></div>
+    <a onclick="addWebSetting();" class="btn_a" href="{:U('index')}">
+        <span class="searchUser_action">木马查杀</span>
+    </a>
+    <a onclick="addWebSetting();" class="btn_a" href="{:U('report')}">
+        <span class="searchUser_action">查杀报告</span>
+    </a>
+  </div>
+  
+  <div class="form2">
+      <form method="post" action="__URL__/updateConfig">
+    <dl class="lineD" >
+      <dt style="padding-top:6px">查杀目录：</dt>
+      <dd>
+        <ul class="dirBox" style="line-height:24px;width:726px;border:1px solid #eee;padding:5px;margin: 0 0 7px 0">
+        	<volist empty="$empty" name='dirs' id='vo'>
+        	<li>
+            	<input type="checkbox" name="dir[]" value="{$vo.dir}" <if condition="$vo.selected eq 1">checked="checked"</if> >
+                <if condition="$vo.type eq 'dir'">
+                <img src="__ROOT__/tpl/Admin/default/Res/images/ico/dir.png">
+                <else />
+                <img src="__ROOT__/tpl/Admin/default/Res/images/ico/php.png">
+                </if>
+                {$vo.file}
+            </li>
+            </volist>
+        </ul>
+      </dd>
+    </dl>
+    <dl class="lineD" >
+      <dt>文件类型：</dt>
+      <dd>
+        <input type="text" name="info[type]" id="type" value="{$info.type}" size="100">
+      </dd>
+    </dl>
+    <dl class="lineD" >
+      <dt>特征函数：</dt>
+      <dd>
+        <input type="text" name="info[func]" id="func" value="{$info.func}" size="100">
+      </dd>
+    </dl>
+    <dl class="lineD" >
+      <dt>特征代码：</dt>
+      <dd>
+        <input type="text" name="info[code]" id="code" value="{$info.code}" size="100">
+      </dd>
+    </dl>
+
+
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="提交" />
+    </div>
+    </form>
+    
+  </div>
+
+</div>
+<include file="Public:_footer" />

@@ -1,0 +1,30 @@
+<include file="Public:header" />
+<h2><strong>通知点设置</strong></h2>
+<div class="ms-c6">
+    <div class="ms-c6-m">
+        <h3>勾选通知点</h3>
+        <div class="formbox">
+            <form id="mobileMsgPointsForm" name="mobileMsgPointsForm" action="" method="post">
+                <table>
+                    <tbody>
+                        <tr>
+                        <volist name="data" id="remind" mod="3">
+                            <td>
+                                <input id="{$key}" name="remind[]" value="{$key}" type="checkBox">
+                                <label for="{$key}" style="cursor:pointer;">{$remind}</label>
+                            </td>
+                            <eq name="mod" value="2"></tr></tr></eq>
+                        </volist>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align:center">
+                                <button id="submitBtn" class="btn-b" type="button" onclick="chooseNoticePoint();">提 交</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<include file="Public:footer" />

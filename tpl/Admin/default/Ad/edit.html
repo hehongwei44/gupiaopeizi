@@ -1,0 +1,122 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<style>
+    #position{padding-left:12px;line-height:30px;float:left;display: inline-block;}
+    .adPosition{clear:right;float:left;margin:3px 27px;height:140px;width:112px}
+</style>
+<div class="so_main">
+    <div class="page_tit">编辑广告</div>
+    <div class="form2">
+        <form method="post" action="__URL__/<if condition="ACTION_NAME == 'add'">doAdd<else/>doEdit</if>" onsubmit="return subcheck();" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{$vo.id}" />
+            <input type="hidden" name="type" value="{$vo.type}" />
+            <div id="tab_1">
+                <dl class="lineD">
+                    <dt>名称：</dt>
+                    <dd>
+                        <htmlA:input id="title" value="{$vo.title}" tip="*" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>类型：</dt>
+                    <dd>
+                        <htmlA:radio id="type" value="key|vo.type" datakey="type" tip="更改类型一定要慎重"/>
+                    </dd>
+                </dl>
+				<dl class="lineD">
+                    <dt>广告内容定位：</dt>
+                    <dd>
+                        <htmlA:input id="url" value="{$vo.url}" tip="请输入不带域名的页面地址，如/about/us.html,不填写默认为全站"/>
+                    </dd>
+                </dl>
+                <neq name="position[$vo['position']]" value="index">
+                <dl class="lineD">
+                    <dt>所在页面位置：</dt>
+                    <dd style="height:150px">
+                        <div id="position">
+                            <label>
+                                <input type="radio" name="position" value="top" <eq name="vo[position]" value="top">checked</eq>>顶部通栏
+                            </label>
+                            <label>
+                                <input type="radio" name="position" value="nav" <eq name="vo[position]" value="nav">checked</eq>>导航通栏
+                            </label>
+                            <label>
+                                <input type="radio" name="position" value="middle" <eq name="vo[position]" value="middle">checked</eq>>中部通栏
+                            </label>
+                            <br/>
+                            <label>
+                                <input type="radio" name="position" value="main-top" <eq name="vo[position]" value="main-top">checked</eq>>主区块顶
+                            </label>
+                            <label>
+                                <input type="radio" name="position" value="main-middle" <eq name="vo[position]" value="main-middle">checked</eq>>主区块中
+                            </label>
+                            <label>
+                                <input type="radio" name="position" value="main-bottom" <eq name="vo[position]" value="main-bottom">checked</eq>>主区块底
+                            </label>
+                            <br/>
+                            <label>
+                                <input type="radio" name="position" value="left-top" <eq name="vo[position]" value="left-top">checked</eq>>左侧边顶
+                            </label>
+                            <label>
+                                <input type="radio" name="position" value="left-middle" <eq name="vo[position]" value="left-middle">checked</eq>>左侧边中
+                            </label>
+                            <label>
+                                <input type="radio" name="position" value="left-bottom" <eq name="vo[position]" value="left-bottom">checked</eq>>左侧边底
+                            </label>
+                            <br/>
+                            <label>
+                                <input type="radio" name="position" value="right-top" <eq name="vo[position]" value="right-top">checked</eq>>右侧边顶
+                            </label>
+                            <label>
+                                <input type="radio" name="position" value="right-middle" <eq name="vo[position]" value="right-middle">checked</eq>>右侧边中
+                            </label>
+                            <label>
+                                <input type="radio" name="position" value="right-bottom" <eq name="vo[position]" value="right-bottom">checked</eq>>右侧边底
+                            </label>
+                            <br/>
+                            <label>
+                                <input type="radio" name="position" value="copy" <eq name="vo[position]" value="copy">checked</eq>>版权通栏
+                            </label>
+                            <label>
+                                <input type="radio" name="position" value="bottom" <eq name="vo[position]" value="bottom">checked</eq>>底部通栏
+                            </label>
+                        </div>
+                        <img src="/tpl/Admin/default/Res/images/ad/{$vo.position|default=all}.png" class="adPosition">
+                        <script type="text/javascript">
+                            var path = '/tpl/Admin/default/Res/images/ad/'
+                            $('input[name="position"]').click(function(){
+                                $('.adPosition').attr('src',path+$(this).val()+'.png');
+                            });
+                        </script>
+                    </dd>
+                </dl>
+                </neq>
+                <dl class="lineD" style="clear:both">
+                    <dt>广告内容：</dt>
+                    <dd>
+                        <include file="./res/editor/kissy.html" />
+                        <htmlA:text id="content" w='100%' style="height:150px" type='kissy' value="{$vo.content}" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>开始时间：</dt>
+                    <dd>
+                        <htmlA:input id="start" value="{$vo.start|date='Y-m-d H:i:s',###}" tip="开始时间之前该广告不会显示"/>
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>失效时间：</dt>
+                    <dd>
+                        <htmlA:input id="expire" value="{$vo.expire|date='Y-m-d H:i:s',###}" tip="失效时间之后该广告不会显示"/>
+                    </dd>
+                </dl>
+                <dl class="lineD"><dt>状态：</dt><dd><htmlA:radio id="status" value="key|vo.status" default="0|隐藏,1|显示"/></dd></dl>
+            </div>
+            <!--tab1-->
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+            </div>
+        </form>
+    </div>
+</div>
+<include file="Public:_footer" />

@@ -1,0 +1,66 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/add';
+var addTitle = '添加分类';
+</script>
+<div class="so_main">
+    <div class="page_tit">广告管理</div>
+    <div class="page_tab">
+        <volist name="type" id="tab">
+        <a href="/admin/ad/index.html?tab={$key}">
+            <span data="tab_1" <eq name="_GET['tab']" value='$key'>class="active"</eq>>{$tab}</span>
+        </a>
+        </volist>
+
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+        <htmlA:commonBtn type="href" action="{:U('/admin/ad/add')}" value="添加广告" />
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l" style="width:60px">ID</th>
+                <th class="line_l" style="width:90px">页面位置</th>
+                <th class="line_l" style="text-align:left">名称</th>
+                <th class="line_l" style="text-align:left">内容地址</th>
+                <th class="line_l" style="width:120px">开始显示时间</th>
+                <th class="line_l" style="width:120px">显示结束时间</th>
+                <th class="line_l" style="width:60px">状态</th>
+                <th class="line_l" style="width:90px">添加时间</th>
+                <th class="line_l" style="width:90px">操作</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>{$position[$vo['position']]|default='自定义'}</td>
+                    <td style="text-align:left">{$vo.title}</td>
+                    <td style="text-align:left">{$vo.url}</td>
+                    <td>{$vo.start|date='Y-m-d H:i:s',###}</td>
+                    <td>{$vo.expire|date='Y-m-d H:i:s',###}</td>
+                    <td><eq name="vo['status']" value='1'>显示<else/><i style="color:red">隐藏</i></eq></td>
+                    <td>{$vo.date|date='Y-m-d',###}</td>
+
+                    <td>
+                        <a href="__URL__/edit?id={$vo['id']}">编辑</a>
+                        <a href="javascript:void(0);" onclick="del({$vo['id']});">删除</a>
+                    </td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+        <htmlA:commonBtn type="jsfun" action="del();" value="删除广告" />
+    </div>
+</div>
+<include file="Public:_footer" />

@@ -1,0 +1,61 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/tpl/Admin/default/Res/js/uploadPreview.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#imgfile").uploadPreview({width:100,height:50,imgDiv:"#imgDiv",imgType:["bmp","gif","png","jpg"],maxwidth:3169,maxheight:4759});
+	});
+</script>
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">添加文章栏目</div>
+<div class="page_tab"><span data="tab_1" class="active">受捐人基本信息</span><span data="tab_2">捐助详细</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/doAdd" onsubmit="return subcheck();" enctype="multipart/form-data">
+	<div id="tab_1">
+	
+	<dl class="lineD"><dt>标题：</dt><dd><htmlA:input id="title" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>受助人：</dt><dd><htmlA:input id="donate_name" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>年龄：</dt><dd><htmlA:input id="age" tip="岁"/></dd></dl>
+	<dl class="lineD"><dt>性别：</dt><dd><htmlA:input id="sex" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>身份证：</dt><dd><htmlA:input id="idcard" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>学历：</dt><dd><htmlA:input id="education" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>职位：</dt><dd><htmlA:input id="zhiwei" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>单位：</dt><dd><htmlA:input id="danwei" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>QQ：</dt><dd><htmlA:input id="qq" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>所在地区：</dt><dd><htmlA:radio id="area_id" datakey='area_list' tip="*"/></dd></dl>
+	<dl class="lineD"><dt>捐助用途：</dt><dd><htmlA:radio id="use" datakey='type_list' tip="*"/></dd></dl>
+	<dl class="lineD"><dt>联系方式：</dt><dd><htmlA:input id="contact" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>联系地址：</dt><dd><htmlA:input id="address" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>需要金额：</dt><dd><htmlA:input id="need_money" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>银行卡号：</dt><dd><htmlA:input id="bank_num" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>银行账户：</dt><dd><htmlA:input id="bank_address" tip="*"/></dd></dl>
+	
+	</div><!--tab1-->
+	
+	<div id="tab_2" style="display:none">
+	
+	<dl class="lineD"><dt>信息来源：</dt><dd><htmlA:input id="resource" tip="*"/></dd></dl>
+	<dl class="lineD" style="overflow:hidden"><dt>缩略图：</dt>
+		<dd>
+			<input type="file" id="imgfile" name="imgfile" style="float:left"/>
+			<span style="float:left"><div style="text-align:left; clear:both; overflow:hidden; width:290px; height:50px"><div id="imgDiv"></div></div></span>
+		</dd>
+	</dl>
+	<dl class="lineD"><dt>是否抓取远程图片：</dt><dd><htmlA:radio id="is_remote" default="0|否,1|是" tip="抓取远程图片时保存时间可能会稍长，请耐心等待" /></dd></dl>
+	<dl class="lineD"><dt>文章内容：</dt>
+	  <dd>
+		<include file="./res/editor/kissy.html" />
+		<htmlA:editor id="info" w='780px' type='kissy'/>
+	  </dd>
+	</dl>
+	
+	</div><!--tab2-->
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<include file="Public:_footer" />

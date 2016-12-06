@@ -1,0 +1,53 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">通知信息模板</div>
+<div class="alertDiv">
+  <ul>
+    <li>#UserName#表示接受信息用户的用户名，是一个动态参数,如" #UserName#你好，恭喜您注册成功",那么用户'test'收到的信息就是 "test你好，恭喜您注册成功"</li>
+  </ul>
+</div>
+<div class="page_tab"><span data="tab_1" class="active">邮件模板</span><span data="tab_2">短信模板</span><span data="tab_3">站内信模板</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/templetsave" onsubmit="return subcheck();" enctype="multipart/form-data">
+	<div id="tab_1">
+		<dl class="lineD"><dt>用户注册成功：</dt><dd><htmlA:text id="email[regsuccess]|de_xie=###" value="{$emailTxt.regsuccess}" tip="#LINK#表示激活链接，只在此邮件下有用"/></dd></dl>
+		<dl class="lineD"><dt>安全中心更改安全问题：</dt><dd><htmlA:text id="email[safecode]|de_xie=###" value="{$emailTxt.safecode}" tip="#CODE#表示验证码"/></dd></dl>
+		<dl class="lineD"><dt>安全中心新手机安全码：</dt><dd><htmlA:text id="email[changephone]|de_xie=###" value="{$emailTxt.changephone}" tip="#CODE#表示验证码"/></dd></dl>
+		<dl class="lineD"><dt>借款申请审核通过：</dt><dd><htmlA:text id="email[verifysuccess]|de_xie=###" value="{$emailTxt.verifysuccess}"/></dd></dl>
+		<dl class="lineD"><dt>密码找回提示：</dt><dd><htmlA:text id="email[getpass]|de_xie=###" value="{$emailTxt.getpass}" tip="#LINK#表示密码找回链接，只在此邮件下有用"/></dd></dl>
+		<dl class="lineD"><dt>到期还款提醒：</dt><dd><htmlA:text id="email[repaymentTip]|de_xie=###" value="{$emailTxt.repaymentTip}" tip="管理员可在还款中的借款查询即将到期的会员信息，并给会员以邮件提醒"/></dd></dl>
+		<dl class="lineD"><dt>支付密码找回提示：</dt><dd><htmlA:text id="email[getpaypass]|de_xie=###" value="{$emailTxt.getpaypass}" tip="#LINK#表示支付密码找回链接，只在此邮件下有用"/></dd></dl>
+	</div><!--tab1-->
+	
+	<div id="tab_2" style="display:none">
+	<div class="alertDiv">【注】：模板内容不要太长，不要包含违法关键字，内容结尾请加网站签名，网站签名格式为：【网站名称】，这样可加快邮件接收速度！</div>
+
+		<dl class="lineD"><dt>线上充值成功：</dt><dd><htmlA:text id="sms[payonline][content]|de_xie=###" value="{$smsTxt.payonline.content}" tip="#USERANEM#表示用户名,#MONEY#表示充值金额"/><input type="checkbox" name="sms[payonline][enable]" value="1" <if condition="$smsTxt['payonline']['enable'] eq 1"> checked="checked"</if> />开启</dd></dl>
+		<dl class="lineD"><dt>线下充值成功：</dt><dd><htmlA:text id="sms[payoffline][content]|de_xie=###" value="{$smsTxt.payoffline.content}" tip="#USERANEM#表示用户名,#MONEY#表示充值金额"/><input type="checkbox" name="sms[payoffline][enable]" value="1" <if condition="$smsTxt['payoffline']['enable'] eq 1"> checked="checked"</if> />开启</dd></dl>
+		<dl class="lineD"><dt>还款到帐：</dt><dd><htmlA:text id="sms[payback][content]|de_xie=###" value="{$smsTxt.payback.content}" tip="#ID#表示标号,#ORDER#表示期数"/><input type="checkbox" name="sms[payback][enable]" value="1" <if condition="$smsTxt['payback']['enable'] eq 1"> checked="checked"</if> />开启</dd></dl>
+		<dl class="lineD"><dt>提现成功：</dt><dd><htmlA:text id="sms[withdraw][content]|de_xie=###" value="{$smsTxt.withdraw.content}" tip="#USERANEM#表示用户名,#MONEY#表示提现金额"/><input type="checkbox" name="sms[withdraw][enable]" value="1" <if condition="$smsTxt['withdraw']['enable'] eq 1"> checked="checked"</if> />开启</dd></dl>
+		<dl class="lineD"><dt>Vip认证通过：</dt><dd><htmlA:text id="sms[vip][content]|de_xie=###" value="{$smsTxt.vip.content}" tip="#USERANEM#表示用户名"/><input type="checkbox" name="sms[vip][enable]" value="1" <if condition="$smsTxt['vip']['enable'] eq 1"> checked="checked"</if> />开启</dd></dl>
+		<dl class="lineD"><dt>发标初审通过：</dt><dd><htmlA:text id="sms[firstV][content]|de_xie=###" value="{$smsTxt.firstV.content}" tip="#USERANEM#表示用户名,#ID#表示标号"/><input type="checkbox" name="sms[firstV][enable]" value="1" <if condition="$smsTxt['firstV']['enable'] eq 1"> checked="checked"</if> />开启</dd></dl>
+		<dl class="lineD"><dt>发标流标：</dt><dd><htmlA:text id="sms[refuse][content]|de_xie=###" value="{$smsTxt.refuse.content}" tip="#USERANEM#表示用户名,#ID#表示标号"/><input type="checkbox" name="sms[refuse][enable]" value="1" <if condition="$smsTxt['refuse']['enable'] eq 1"> checked="checked"</if> />开启</dd></dl>
+		<dl class="lineD"><dt>发标复审通过：</dt><dd><htmlA:text id="sms[approve][content]|de_xie=###" value="{$smsTxt.approve.content}" tip="#USERANEM#表示用户名,#ID#表示标号"/><input type="checkbox" name="sms[approve][enable]" value="1" <if condition="$smsTxt['approve']['enable'] eq 1"> checked="checked"</if> />开启</dd></dl>
+		<dl class="lineD"><dt>手机验时发送验证码：</dt><dd><htmlA:text id="sms[verify_phone]|de_xie=###" value="{$smsTxt.verify_phone}" tip="#CODE#表示验证码"/></dd></dl>
+		<dl class="lineD"><dt>安全中心更改安全问题：</dt><dd><htmlA:text id="sms[safecode]|de_xie=###" value="{$smsTxt.safecode}" tip="#CODE#表示验证码"/></dd></dl>
+		<dl class="lineD"><dt>安全中心更改手机号码：</dt><dd><htmlA:text id="sms[changephone]|de_xie=###" value="{$smsTxt.changephone}" tip="#CODE#表示验证码"/></dd></dl>
+		<dl class="lineD"><dt>安全中心新手机验证码：</dt><dd><htmlA:text id="sms[newphone]|de_xie=###" value="{$smsTxt.newphone}" tip="#CODE#表示验证码"/></dd></dl>
+		<dl class="lineD"><dt>会员设置的新标提醒：</dt><dd><htmlA:text id="sms[newtip]|de_xie=###" value="{$smsTxt.newtip}" tip="这种群发式短信中不能使用##这种的动态变量"/></dd></dl>
+	</div><!--tab2-->
+	
+	<div id="tab_3" style="display:none">
+		<dl class="lineD"><dt>用户注册成功：</dt><dd><htmlA:text id="msg[regsuccess]|de_xie=###" value="{$msgTxt.regsuccess}"/></dd></dl>
+		<dl class="lineD"><dt>借款申请审核通过：</dt><dd><htmlA:text id="msg[verifysuccess]|de_xie=###" value="{$msgTxt.verifysuccess}"/></dd></dl>
+	</div><!--tab3-->
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<include file="Public:_footer" />

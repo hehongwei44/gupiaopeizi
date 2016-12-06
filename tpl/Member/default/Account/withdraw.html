@@ -1,0 +1,150 @@
+<include file="Public:header" />
+<h2><strong>我要提款</strong><span>提款到指定银行卡</span></h2>
+<div class="ms-c6">
+    <div class="ms-c6-t">
+        <ul>
+            <li class="current"><a href="/member/account/withdraw.html">我要提款</a></li>
+            <li><a href="/member/account/record.html">提款记录</a></li>
+            <li><a href="/member/account/bank.html">银行卡管理</a></li>
+        </ul>
+    </div>
+    <div class="ms-c6-m">
+        <div class="formbox">
+            <form id="chargeMoney" name="chargeMoney">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>账户余额：</th>
+                            <td>
+                                <strong class="red">{$data.total|number_format=2}</strong> 元
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>可提款金额：</th>
+                            <td>
+                                <strong class="red">{$data.money|number_format=2}</strong> 元
+                                <input type="hidden" name="total" id="total" value="{$data.money}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>提款金额：</th>
+                            <td>
+                                <input id="money" name="money" value="" class="inp" style="width:200px;" type="text"> 元
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>提款银行卡：</th>
+                            <td>
+                                <empty name="data['bank']">
+                                    您还么有可以提现的银行卡，<a href="/member/account/bank.html">去绑定银行卡</a>
+                                <else/>
+                                    <select name="bank" id="bank">
+                                    <option value="">请选择</option>
+                                    <volist name="data['bank']" id="bank">
+                                        <option value="{$bank.id}">{$bank.name} ( {$bank.number} )</option>
+                                    </volist>
+                                    </select>
+                                </empty>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>绑定的手机：</th>
+                            <td>
+                                <empty name="data['phone']">
+                                    <a href="/member/validate/phone.html">去绑定手机</a>
+                                <else/>
+                                    <input value="{$data.phone|mask}" type="text" disabled="disabled" class="inp" style="width:200px;background:#eee" autocomplete="off">
+                                    <input id="mobile" value="{$data.phone}" type="hidden">
+                                    <input id="smscode" value="获取验证码" class="smscode" type="button">
+                                </empty>
+                            </td>
+                        </tr>
+                        <notempty name="data['phone']">
+                        <tr>
+                            <th>验证码：</th>
+                            <td>
+                                <input id="code" name="smscode" class="inp" maxlength="8" style="width:200px;" type="text" autocomplete="off">
+                            </td>
+                        </tr>
+                        </notempty>
+                        <tr>
+                            <th>支付密码：</th>
+                            <td>
+                                <input id="password" name="password" class="inp" maxlength="20" style="width:200px;" type="password" autocomplete="off" >
+                                <a href="/member/account/password.html" in="pop" data="forget">
+                                    <empty name="data['password']">设置支付密码<else/>忘记支付密码？</empty>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <button id="withdraw" class="btn-b" type="button">提 交</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <div class="ms-c6-dl clearfix">
+            <dl>
+                <dt>最快<strong>30</strong>分钟到账</dt>
+                <dd>最快30分钟，一般3小时内到账,所有提款24小时内到账(节假日除外)</dd>
+            </dl>
+            <dl>
+                <dt>提款<strong>0</strong>手续费</dt>
+                <dd>提款产生的银行手续费全免</dd>
+            </dl>
+            <dl>
+                <dt>支持银行多达<strong>10</strong>几家</dt>
+                <dd>推荐您使用工商银行、建设银行、招商银行、农业银行提款，到账最快</dd>
+            </dl>
+            <p>温馨提示：
+                <br> 1、禁止洗钱、信用卡套现、虚假交易等行为，一经发现并确认，将终止该账户的使用
+            </p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(function() {
+    $('#withdraw').click(function(){
+        if(parseFloat($('#total').val())<=0){
+            top.dialog('您暂时没有可提现的额度。');
+            return false;
+        }
+        if($('#money').val()==''){
+            top.dialog('请输入本次要提现的金额。');
+            return false;
+        }else if(parseFloat($('#money').val())>parseFloat($('#total').val())){
+            top.dialog('提现金额不能大于可提款金额。');
+            return false;
+        }
+        if($('#bank').val()==''){
+            top.dialog('请选择要提现到那个银行卡。');
+            return false;
+        }
+        if($('#code').val()==''){
+            top.dialog('请输入手机收到的验证码。');
+            return false;
+        }
+        if($('#password').val()==''){
+            top.dialog('请输入支付密码。');
+            return false;
+        }
+
+        $.post('/member/account/withdraw.html', $('form').serialize(),function(res){
+                if(res.status==0){
+                    top.dialog(res.info,'success',function(){
+                        if(res.data != ''){
+                            top.$('#mainFrame').attr('src',res.data);
+                        }
+                    });
+                }else{
+                    top.dialog(res.info,'error');
+                }
+        },'json');
+    });
+});
+</script>
+<include file="Public:footer" />

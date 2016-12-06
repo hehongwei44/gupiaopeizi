@@ -1,0 +1,189 @@
+﻿<include file="Public:header" />
+<link href="{$res}css/article.css" rel="stylesheet" type="text/css" media="screen,projection" />
+<link href="{$res}css/stock.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+.tool_title .funframe div { border: none; }
+.rslist input[type=text] { text-align: right; width: 100px; height: 30px; line-height: 30px; float: left; margin-right: 5px; padding-right: 5px; font-size: 16px; border: 1px solid #B6C4CD; border-radius: 3px; *vertical-align: middle; -webkit-border-radius: 2px 2px 2px 2px; -moz-border-radius: 2px 2px 2px 2px; -ms-border-radius: 2px 2px 2px 2px; -o-border-radius: 2px 2px 2px 2px; border-radius: 2px 2px 2px 2px; -webkit-transition-duration: 0.2s; -moz-transition-duration: 0.2s; -o-transition-duration: 0.2s; transition-duration: 0.2s; -webkit-transition-timing-function: ease-in; -moz-transition-timing-function: ease-in; -o-transition-timing-function: ease-in; transition-timing-function: ease-in; }
+.rslist input:focus { border: 1px solid #4ba1f0; outline: none; -webkit-box-shadow: rgba(20, 20, 20, 0.2) 1px 1px 3px inset; -moz-box-shadow: rgba(20, 20, 20, 0.2) 1px 1px 3px inset; box-shadow: rgba(20, 20, 20, 0.2) 1px 1px 3px inset }
+.rslist li { height: 40px; margin: 5px 0; }
+.n_text { width: 110px; text-align: right; margin-right: 25px; color: #666666; }
+.n_text2 { width: 60px; text-align: right; margin-right: 5px; }
+#body #content3B { line-height: 30px; }
+.tool_title .funframe div { padding: 0px; }
+.repayment_type { width: 150px; }
+.manage_unit { color: red; }
+#c_right { background: none; }
+.repayment_type { border: 1px solid #B6C4CD; border-radius: 3px; height: 30px; padding: 4px 0; }
+.repayment_type option { height: 18px; line-height: 24px; padding: 6px 0; text-indent: 4px; display: block; }
+.date_type { vertical-align: -9%; margin: 0px 5px 0px 11px; }
+.rate_type { vertical-align: -9%; margin: 0px 4px; }
+.repayment_x { float: left; margin: 0px 6px 0px 0px; }
+.check_style { vertical-align: -9%; margin: 0px 4px; }
+.rslist li { height: 40px; margin: 5px 0px; }
+div#content3B { line-height: 25px; }
+#content3B { line-height: 25px; float: left; width: 100%; margin-bottom: 30px; text-align: left; }
+.fun_title, .backgroup { border-bottom: 1px dashed #eee; padding-bottom: 8px; margin-bottom: 8px; font-size: 18px; font-weight: bold; }
+.addbtn { padding: 7px 20px; color: #fff; background: #EE2C00; font-size: 18px; border-radius: 6px; }
+.tool_title { border: 1px solid #DCDFE4; overflow: hidden; margin-top: 10px; background: #fff; padding: 10px; }
+.rslist ul li { text-align: center; float: left; border-right: 1px solid #E8E8E8; }
+.rslist li { height: 40px; margin: 5px 0px; }
+.rslist li { overflow: hidden; }
+.reback { margin-top: 10px; border-top: 1px solid #E8E8E8; height: 34px; border-bottom: 1px solid #E8E8E8; background: none repeat scroll 0% 0% #F8F8F8; }
+.reback ul { line-height: 34px; height: 34px; overflow: hidden; }
+.reback ul li { text-align: center; float: left; border-right: 1px solid #E8E8E8; }
+.rslist ul { line-height: 34px; height: 34px; overflow: hidden; border-top: 1px solid #E8E8E8; }
+.rslist li span { float: left; display: block; }
+.n_text { width: 110px; text-align: right; margin-right: 25px; color: #666; }
+</style>
+<div class="bar">
+    <div class="aboutNav">
+    <ul>
+        <li <if condition="(ACTION_NAME eq 'invest') or (ACTION_NAME eq 'index')">class="now"</if>><a href="/tools/invest.html">投资计算器</a></li>
+        <li <if condition="(ACTION_NAME eq 'borrow')">class="now"</if>><a href="/tools/borrow.html">借款计算器</a></li>
+    </ul>
+    </div>
+    <div class="aboutMain">
+        <!--中部开始-->
+        <div class="wrap2">
+            <div id="content1B">
+                <include file="Help:left" /> </div>
+            <div id="content3B" style="margin:0 auto;">
+                <div class="tool_title">
+                    <div class="backgroup">
+                        <div> 投资计算器</div>
+                    </div>
+                    <div class="cont"> 目前支持网站正在使用的四种还款方式：按天到期还款、按月分期还款、按月还息到期还本、到期还本息。
+                        <br>
+                    </div>
+                </div>
+                <div class="tool_title" style="margin-top: 10px;padding-bottom:10px;">
+                    <div class="fun_title">
+                        <div> 投资设置</div>
+                    </div>
+                    <div class="funframe">
+                        <ul class="rslist">
+                            <li> <span class="n_text">投资期限：</span>
+                                <input name="date_limit" class="date_limit" type="text" title="投资期限" value="1">
+                                <label style="margin-left:16px;">
+                                    <input type="radio" name="date_type" class="date_type" value="1" checked="checked"> 月
+                                </label>
+                                <label style="margin-left:20px;">
+                                    <input type="radio" name="date_type" class="date_type" value="2"> 日
+                                </label>
+                            </li>
+                            <li> <span class="n_text">投资利率：</span>
+                                <input name="rate" class="rate" type="text" value="22"> %
+                                <label style="margin-left:9px;">
+                                    <input type="radio" name="rate_type" class="rate_type" value="1" checked="checked"> 年利率
+                                </label>
+                                <label>
+                                    <input type="radio" name="rate_type" class="rate_type" value="2"> 日利率
+                                </label>
+                            </li>
+                            <li style="height:70px;margin:0px;">
+                                <div style="float:left;padding: 15px 0;"> <span class="n_text">借款奖励：</span>
+                                    <input name="reward_rate" class="reward_rate" type="text" value="0"> %&nbsp;&nbsp;&nbsp;或&nbsp;&nbsp; </div>
+                                <div style="float:left;display:block;color:#FF0000;width:300px;">
+                                    <div style="float:left;display:block;color:#FF0000;height:100%;font-size: 35px;height:72px;line-height:60px;">{</div>
+                                    <div style="padding-bottom:10px;color:#FF0000;"><span class="n_text2">标总额：</span>
+                                        <input style="color:#FF0000;" type="text" name="reward_total" class="reward_total" value="0"> 元
+                                    </div>
+                                    <div style="color:#FF0000;"><span class="n_text2">总奖励：</span>
+                                        <input style="color:#FF0000;" type="text" name="reward_num" class="reward_num" value="0"> 元
+                                    </div>
+                                </div>
+                            </li>
+                            <li style="margin-top:0px;"> <span class="n_text">投资金额：</span>
+                                <input name="amount" class="amount" type="text" value="10000" title="投资金额"> 元 </li>
+                            <li> <span class="n_text">利息管理费：</span>
+                                <input name="invest_manage" class="invest_manage" type="text" title="利息管理费" value="9"> % </li>
+                            <li> <span class="n_text">返还方式：</span>
+                                <select title="返还方式" name="repayment_type1" class="repayment_type">
+                                    <option value='2' selected='selected'>按月分期还款</option>
+                                    <option value='3'>每月还息到期还本</option>
+                                    <option value='4'>到期还本息</option>
+                                </select>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="text-align: center; padding: 15px 0 5px 0;">
+                        <input name="btnCount" class="addbtn" type="button" style="cursor:pointer;" value="开始计算">
+                    </div>
+                </div>
+                <div id="rst"></div>
+                <div style="width:100%;height:30px"></div>
+                <script type="text/javascript">
+                $(function() {
+
+                    //利率类型改变
+                    $(".rate_type").change(function() {
+                        if ($(".rate_type:checked").val() == 2) {
+                            $(".rate").val(($(".rate").val() / 365).toFixed(4));
+                        } else {
+                            $(".rate").val(($(".rate").val() * 365).toFixed(4));
+                        }
+                    });
+
+                    //返还时间类型改变
+                    $(".date_type").change(function() {
+                        if ($(".date_type:checked").val() == 2 && $(".rate_type:checked").val() == 2) {
+                            $(".repayment_type").html("<option value='1'>按天到期还款</option>").attr("disabled", "disabled");
+                        } else if ($(".date_type:checked").val() == 2 && $(".rate_type:checked").val() == 1) {
+                            $(".rate_type").last().attr("checked", "checked");
+                            $(".rate").val(($(".rate").val() / 365).toFixed(4));
+                            $(".repayment_type").html("<option value='1'>按天到期还款</option>").attr("disabled", "disabled");
+                        } else if ($(".date_type:checked").val() == 1 && $(".rate_type:checked").val() == 2) {
+                            $(".rate_type").first().attr("checked", "checked");
+                            $(".rate").val(($(".rate").val() * 365).toFixed(4));
+                            $(".repayment_type").html("<option value='2' selected='selected'>按月分期还款</option><option value='3'>每月还息到期还本</option><option value='4'>到期还本息</option>").removeAttr("disabled");
+                        } else if ($(".date_type:checked").val() == 1 && $(".rate_type:checked").val() == 1) {
+                            $(".repayment_type").html("<option value='2' selected='selected'>按月分期还款</option><option value='3'>每月还息到期还本</option><option value='4'>到期还本息</option>").removeAttr("disabled");
+                        }
+                    });
+
+                    $(".reward_total,.reward_num").change(function() {
+                        if ($(".reward_total").val() == 0 || $(".reward_num").val() == 0) return false;
+                        else $(".reward_rate").val(($(".reward_num").val() * 100 / $(".reward_total").val()).toFixed(4));
+                    });
+
+                    $(".reward_rate").change(function() {
+                        $(".reward_total").val("0.0000");
+                        $(".reward_num").val("0.0000");
+                    });
+
+
+
+                    $(".addbtn").click(function() {
+                        $.ajax({
+                            url: "/tools/invest.html?res",
+                            data: {
+                                "date_limit": $(".date_limit").val(),
+                                "date_type": $(".date_type:checked").val(),
+                                "rate": $(".rate").val(),
+                                "rate_type": $(".rate_type:checked").val(),
+                                "reward_rate": $(".reward_rate").val(),
+                                "amount": $(".amount").val(),
+                                "invest_manage": $(".invest_manage").val(),
+                                "repayment_type": $(".repayment_type option:selected").val()
+                            },
+                            timeout: 5000,
+                            cache: false,
+                            type: "post",
+                            dataType: "json",
+                            success: function(d, s, r) {
+                                if (d) {
+                                    $("#rst").html(d.html);
+                                }
+                            }
+                        });
+                    });
+                });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<include file="Public:footer" />

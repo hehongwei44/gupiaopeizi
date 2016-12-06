@@ -1,0 +1,26 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">查看体验配资</div>
+<div class="page_tab"><span data="tab_1" class="active">体验配资信息</span></div>
+<div class="form2">
+	 	 		 	 
+		<dl class="lineD"><dt>体验用户：</dt><dd><htmlA:user id="vo.trade_uid" uname="vo.user_name" /></dd></dl>
+		<dl class="lineD"><dt>体验ID号：</dt><dd>{$vo.id}</dd></dl>
+		<dl class="lineD"><dt>保证金金额：</dt><dd>{$vo.account}</dd></dl>
+		<dl class="lineD"><dt>配资金额：</dt><dd>{$vo.account_pz}</dd></dl>
+		<dl class="lineD"><dt>总操盘金额：</dt><dd>{$vo.account_all}</dd></dl>
+		<dl class="lineD"><dt>体验期限：</dt><dd>{$vo.pz_time}天</dd></dl>		
+		<dl class="lineD"><dt>提交时间：</dt><dd>{$vo.addtime|date='Y-m-d H:i:s',###}</dd></dl>
+		<dl class="lineD" style="display:none;"><dt>留言内容：</dt><dd><htmlA:text id="msg" value="{$vo.msg}" tip="*" addstr='disabled="disabled"' style="height:100px"/></dd></dl>
+
+	
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" onclick="window.history.go(-1)" value="返回" />
+	</div>
+</div>
+
+</div>
+<include file="Public:_footer" />

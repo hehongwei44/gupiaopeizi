@@ -1,0 +1,110 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">发布定投宝</div>
+<div class="page_tab"><span data="tab_1" class="active">基本信息</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/doAdd" onsubmit="return subcheck();" enctype="multipart/form-data">
+	<div id="tab_1">
+	<dl class="lineD"><dt>是否显示：</dt><dd><htmlA:radio id="on_off" default="1|显示,0|不显示" tip="是否在列表显示出来"/></dd></dl>
+	<dl class="lineD"><dt>借款人：</dt><dd><htmlA:select id="borrow_uid" value="key|vo.borrow_uid"  datakey='userlist' tip="选择要借款的会员"/></dd></dl>
+	<dl class="lineD"><dt>产品编号：</dt><dd><htmlA:input id="borrow_name" value="{$borrow_name}" addstr='readonly="true"' tip="* 系统自动产生编号"/></dd></dl>
+	<dl class="lineD"><dt>起点金额：</dt><dd><htmlA:input addstr='onkeyup="summoney();"' id="per_transfer" value="{$vo.per_transfer}" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>上线时间：</dt><dd>
+     <htmlA:timer id="online_time" tip='上线时间 （系统初始默认发标3小时后自动上线）' arg="{dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true}"  class="Wdate" value="{$online_time|mydate='Y-m-d H:i:s',###}"/>
+      </dd></dl>
+	<dl class="lineD"><dt>总认购份数：</dt><dd><htmlA:input addstr='onkeyup="summoney();"' id="transfer_total" value="{$vo.transfer_total}" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>总筹集额度：</dt><dd><htmlA:input addstr='readonly="true"' id="borrow_money" value="{$vo.borrow_money}" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>年化利率：</dt><dd><htmlA:input id="borrow_interest_rate" value="{$vo.borrow_interest_rate}" tip="%"/></dd></dl>
+	<dl class="lineD"><dt>认购期限：</dt><dd> <htmlA:select id="borrow_duration" value="key|vo.borrow_duration"  datakey='borrow_duration_list' class="x_select" addstr='title="请选择可认购期限"' />个月</dd></dl>
+	<dl class="lineD"><dt>单人最大购买份数：</dt><dd><htmlA:input id="borrow_max" value="{$vo.borrow_max|default=0}" tip="0表示无限制"/></dd></dl>
+	<dl class="lineD"><dt>借款管理费：</dt><dd><htmlA:input id="borrow_fee" value="{$vo.borrow_fee}" tip="*" /></dd></dl>
+    <dl class="lineD"><dt>项目介绍：</dt><dd><htmlA:text id="borrow_breif" value="{$vo.borrow_breif}" tip="*"/></dd></dl>
+	 <dl class="lineD">
+	  <dt>担保机构：</dt>
+	  <dd>
+	  <htmlA:select id="danbao" value="key|vo.danbao"  datakey='danbao_list' addstr='title="设置此次借款融资的担保投资公司"' />
+	  </dd>
+	</dl>
+<script type="text/javascript">
+function summoney(){
+ 	var pertr = $("#per_transfer").val();
+	$("#borrow_money").val(parseFloat(pertr) * parseInt($("#transfer_total").val()));
+	$("#vouch_money").val(parseFloat(pertr) * parseInt($("#transfer_total").val()));
+}
+</script>	
+	
+	</div><!--tab1-->
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<script type="text/javascript">
+//获取会员用户名
+getusername();
+function getusername(){
+	var uid = $("#borrow_uid").val();
+	$(".userinfo").html("加载中...");
+
+	var datas = {'uid':uid};
+	$.post("__URL__/getusername", datas, uidResponse,'json');
+}
+
+function uidResponse(res){
+	$(".userinfo").html(res.uname);
+}
+
+
+
+function setError(tip){
+	$.jBox.tip(tip);
+	return false;
+}
+
+var cansub = true;
+function subcheck(){
+	if(!cansub){
+		alert("请不要重复提交，如网速慢，请耐心等待！");
+		return false;	
+	}
+	var per_transfer = $('#per_transfer').val();
+	var transfer_total = $('#transfer_total').val();
+	var borrow_duration = $('#borrow_duration').val();
+	var min_month = $('#min_month').val();
+	var borrow_interest_rate = $('#borrow_interest_rate').val();
+	//var borrow_name = $('#borrow_name').val();
+    if($("#borrow_uid").val()==''||$("#borrow_uid").val()==null){
+		ui.error("请选择借款人");
+		return false;
+	}
+	if(per_transfer==''||per_transfer==0){
+		ui.error("请填写起点金额");
+		return false;
+	}
+	if(transfer_total==''||transfer_total==0){
+		ui.error("请填写总份数");
+		return false;
+	}
+	
+	if(borrow_duration==''||borrow_duration==0){
+		ui.error("请填写借款期限");
+		return false;
+	}
+	if(parseInt(min_month)>parseInt(borrow_duration)){
+		ui.error("最低认购期限不能大于借款期限");
+		return false;
+	}
+	if(borrow_interest_rate==''||borrow_interest_rate==0 || isNaN(borrow_interest_rate)){
+		ui.error("请填写起始年利率");
+		return false;
+	}
+	cansub = false;
+	return true;
+}
+</script>
+<include file="Public:_footer" />

@@ -1,0 +1,80 @@
+<include file="Public:_header" />
+<style type="text/css">
+.lineD dt b {
+    color: #0C0
+}
+</style>
+<div class="so_main">
+    <div class="page_tit">用户组权限配置</div>
+    <div class="form2">
+        <form method="post" action="__URL__/doAdd">
+            <dl class="lineD">
+                <dt class="t">用户组名称：</dt>
+                <dd>
+                    <input type="text" name="name" id="name" class="input" value="" />
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt class="t">管辖范围说明：</dt>
+                <dd>
+                    <input type="text" name="intro" id="intro" class="input" value="{$acldata.intro}" />
+                </dd>
+            </dl>
+            <php>foreach($acl_list as $ke => $vo){</php>
+            <dl class="lineD">
+                <dt class="t"><b>{$vo['low_title']['0']}</b></dt>
+                <dd>请选择相关权限
+                    <input type="checkbox" onclick="select_all('fa{$ke}');" id="fa{$ke}" />
+                    <label for="fa{$ke}">全选</label>
+                </dd>
+            </dl>
+
+            <php>foreach($vo['low_leve'] as $fmodel => $vs){</php>
+            <php>foreach($vs as $keyname => $item){</php>
+            <php>if($keyname != "data"){ </php>
+            <dl class="lineD">
+                <dt>{$keyname}：</dt>
+                <dd>
+                    <php>foreach($item as $itemname => $itemkey){</php>
+                    <input data="fa{$ke}_son" type="checkbox" name="model[{$fmodel}][]" class="check" value="{$itemkey}" id="{$fmodel}{$itemkey}">
+                    <label for="{$fmodel}{$itemkey}">{$itemname}</label>
+                    <php>}</php>
+                </dd>
+            </dl>
+            <php>}</php>
+            <php>}</php>
+            <php>}</php>
+            <php>}</php>
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="添加" />
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+function select_all(id) {
+    var se = id + "_son";
+    if ($("#" + id).attr('checked')) {
+        $("input:[data=" + se + "]").each(function(i, obj) {
+            $(obj).attr('checked', 'true');
+
+        });
+    } else {
+        $("input:[data=" + se + "]").each(function(i, obj) {
+            $(obj).attr('checked', '');
+
+        });
+    }
+
+}
+
+$(document).ready(function() {
+    $(".lineD").mouseover(function() {
+        $(this).find(".a_del").css("display", "block")
+    })
+    $(".lineD").mouseleave(function() {
+        $(this).find(".a_del").css("display", "none")
+    })
+});
+</script>
+<include file="Public:_footer" />

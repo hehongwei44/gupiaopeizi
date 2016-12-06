@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>上传商品图片</title>
+
+	<!-- begin styles -->
+	<link href="css/styles.css" rel="stylesheet" type="text/css" media="all" /><!-- end styles -->
+
+    <!-- begin javascript -->
+    <script type="text/javascript" src="js/ajax.js"></script><!-- end javascript -->
+<script>
+	function pic(){
+		document.getElementById("shopid").value=window.parent.tip();
+	}
+</script>
+  </head>
+  <body onload="pic();">
+    <!-- begin content -->
+	<div id="content" class="corners">
+      <!-- begin form -->
+	  <form action="upload.php" method="post" name="image_upload" id="image_upload" enctype="multipart/form-data">
+        <!-- begin image label and input -->
+		<label>图片允许上传格式 (gif, jpg, png)</label><br />
+		<input type="file" size="45" name="uploadfile" id="uploadfile" class="file margin_5_0" /><!-- end image label and input -->
+			<br />
+			<input type="hidden" name="shopid" id="shopid" value="" />
+        	<!-- begin display uploaded image -->
+			<div id="upload_area" class="corners align_center">
+            	请选择图片
+			</div><!-- begin display uploaded image -->
+		<input type="button" class="btn_b" value="确定上传" onclick="ajaxUpload(this.form);"/>
+     </form><!-- end form -->
+
+	</div><!-- end content -->
+  </body>
+  </html>

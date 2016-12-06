@@ -1,0 +1,75 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<div class="so_main">
+	  <div class="page_tit">文件编辑</div>
+
+	<div class="list">
+
+	  <div class="Toolbar_inbox">
+		<htmlA:commonBtn type="href" action="javascript:history.back();" value="不做修改,返回"/>
+		<htmlA:commonBtn type="jsfun" action="document.forms.cedit.submit();" value="保存修改" style="search_action" />
+	  </div>
+
+		<table width='100%' border='0' cellspacing='0' cellpadding='2' align='center' style="background:#cfcfcf;">
+		<tr height="28" align="center">
+		  <th width="40%" class="line_l" background="images/wbg.gif" ><strong>文件名:</strong><span>{$fileinfo.name}</span></th>
+		  <th width="30%" class="line_l" background="images/newlinebg3.gif"><strong>文件大小:</strong><span>{$fileinfo.size}</span></th>
+		  <th width="30%" class="line_l" background="images/wbg.gif"><strong>最后修改时间:</strong><span>{$fileinfo.time}</span></th>
+		</tr>
+		<tr>
+		  	<td colspan="3" height='26' bgcolor='#F9FCEF'>
+			<form action="__URL__/doEdit" method="post" name="cedit" id="cedit">
+			<input type="hidden" name="filea" value="{$fileinfo.filea}" />
+				{#content}
+			</form>
+			</td>
+		</tr>
+		</table>
+	
+	  <div class="Toolbar_inbox">
+		<htmlA:commonBtn type="href" action="javascript:history.back();" value="不做修改,返回"/>
+		<htmlA:commonBtn type="jsfun" action="document.forms.cedit.submit();" value="保存修改" style="search_action" />
+	  </div>
+	</div>
+</div>
+<script type="text/javascript">
+var changeUrl="__URL__/rname";
+var delfileUrl="__URL__/deletefile";
+var deldirUrl="__URL__/deletedir";
+var listdirUrl="__URL__/listdir";
+//改变文件名
+function FChangeName(file,type) {
+	ui.box.load(changeUrl+"?&c_file="+file, {title:type+'重命名'});
+}
+//移动文件/文件夹
+function FMoveDir(dir,type,id) {
+	ui.box.load(listdirUrl+"?&s_dir="+dir+"&sid="+id, {title:'移动'+type});
+}
+
+function FDeleteFile(file,id){
+	if(confirm("删除后不可恢复,您确定要删除此文件吗?")){
+		if(file=='') { ui.error('出错'); return ; }
+		var datas = {'d_file':file,'id':id};
+		$.post(delfileUrl,datas,DFResponse,'json');
+	}
+}
+
+function FDeleteDir(dir,id){
+	if(confirm("删除后不可恢复,此文件夹下所有内容都将被删除\r\n您确定要删除此文件吗?")){
+		if(dir=='') { ui.error('出错'); return ; }
+		var datas = {'d_dir':dir,'id':id};
+		$.post(deldirUrl,datas,DFResponse,'json');
+	}
+}
+function DFResponse(res){
+		if (res.status == '0') {
+            ui.error(res.info);
+        }else {
+			$("#line_"+res.data).remove();
+            ui.success(res.info);
+            ui.box.close();
+        }
+}
+
+</script>
+<include file="Public:_footer" />

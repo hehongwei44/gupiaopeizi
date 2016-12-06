@@ -1,0 +1,29 @@
+<dl style="margin:10px 10px 5px; height:auto; width:240px; overflow:hidden" class="clear">
+  <dt class="left alR " style="width:70px;">原名称：</dt><dd class="left alL"><input disabled="disabled" type="text" id="oldname" value="{$old}"></dd>
+  <dt class="left alR " style="width:70px;">新名称：</dt><dd class="left alL"><input type="text" id="newname" value=""></dd>
+</dl>
+<div style="background:#F8F8F8; border-top:1px solid #E6E6E6; padding:5px; width:240px" class="alR">
+  <input type="button" class="btn_b" onclick="cName()" value="确定" />
+</div>
+<script type="text/javascript">
+var changeUrl="__URL__/rname";
+var oldname="{$old}";
+function cName() {
+	var newname = $('#newname').val();
+	if(name=='') { ui.error('请输入新名称'); return ; }
+ 	var datas = {'newname':newname,'oldname':oldname};
+	$.post(changeUrl, datas,CDResponse,'json');
+}
+
+function CDResponse(res){
+		if (res.status == '0') {
+            ui.error(res.info);
+        }else {
+            ui.success(res.info);
+            ui.box.close();
+        }
+}
+function cancel() {
+	ui.box.close();
+}
+</script>

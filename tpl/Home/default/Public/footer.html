@@ -1,0 +1,77 @@
+<!-- Footer Start -->
+<notempty name="param['ad']['copy']">
+<div style="width:1000px;margin:0 auto;height:120px;margin-top:">{$param['ad']['copy']}</div>
+</notempty>
+<div class="foot">
+<div class="bar">
+    <div class="footTel">客服热线 (免长途费)<b>{$param['web_phone']}</b></div>
+	 <div class="gzBox" id="footGz">
+	 	<a class="sina" target="blank" href="{$param['mini_blog']}">新浪微博</a>
+		<span class="wixinBox"><a class="weixin" href="javascript:void(0)">微信</a><img src="{$param['wechat_qr']}" /></span>
+		<a class="qq" href="#">在线客服</a>
+		<p>{$param['web_email']}</p>
+	</div>
+    <div class="footNav">
+        <a href="/about/us.html" target="_blank">关于我们</a>
+        <a href="/about/qualification.html" target="_blank">资质与优势</a>
+        <!--<a href="/about/job.html" target="_blank">招贤纳士</a>
+        <a href="/about/agent.html" target="_blank">代理加盟</a>-->
+        <a href="/about/contact.html" target="_blank">联系方式</a>
+        <br/>
+        <a href="/help/guide.html" target="_blank">新手指南</a>
+        <a href="/help/safety.html" target="_blank">安全保障</a>
+        <!--<a href="/help/software.html" target="_blank">交易软件下载</a>
+        <a href="/tools/" target="tools">收益计算器</a>-->
+        <a href="/help/member.html" target="_blank">常见问题</a>
+	</div>
+</div>
+</div>
+<div class="copyRight">
+<div class="bar">
+	<empty name="param['bottom']">
+	<p class="text">{$param['bottom']}</p>
+	<div class="anquan">
+		<a id="cxwz" href="#" target="_blank">诚信网站</a>
+		<a id="rz360" href="#" target="_blank">360认证</a>
+		<a id="kxwz" href="#" target="_blank">可信网站</a>
+	</div>
+	<else/>
+	<p class="text"></p>
+	<p class="text">
+		<span>© {$param['web_name']} ALL rights reserved</span>
+		<span>{$param['company_name']}</span>
+		<span>{$param['icp']}</span>
+	</p>
+	<p></p>
+	<div class="anquan">
+		<a id="cxwz" href="#" target="_blank">诚信网站</a>
+		<a id="rz360" href="#" target="_blank">360认证</a>
+		<a id="kxwz" href="#" target="_blank">可信网站</a>
+	</div>
+	</empty>
+</div>
+</div>
+<notempty name="param['ad']['bottom']">
+<div style="width:100%;margin:0 auto;height:120px;margin-top:">{$param['ad']['bottom']}</div>
+</notempty>
+<!-- Footer End -->
+<!--<script type="text/javascript"> var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://"); document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fef7aba19ee3fcd32c21716234490974c' type='text/javascript'%3E%3C/script%3E")) </script>-->
+<!-- WPA Button Begin -->
+
+<!-- WPA Button End -->
+<script type="text/javascript">
+	var _mvq = window._mvq || [];
+	window._mvq = _mvq;
+	_mvq.push(['$setAccount', 'm-145312-0']);
+	//_mvq.push(['$setGeneral', '', '', /*用户名*/ '', /*用户id*/ '']);//如果不传用户名、用户id，此句可以删掉
+	_mvq.push(['$logConversion']);
+	(function() {
+		var mvl = document.createElement('script');
+		mvl.type = 'text/javascript'; mvl.async = true;
+		mvl.src = ('https:' == document.location.protocol ? 'https://static-ssl.mediav.com/mvl.js' : 'http://static.mediav.com/mvl.js');
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(mvl, s);
+	})();
+</script>
+</body>
+</html>

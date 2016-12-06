@@ -1,0 +1,67 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">
+    <span>发布企业直投</span>
+    <include file="Public:quick" />
+</div>
+<div class="page_tab"><span data="tab_1" class="active">基本信息</span><span data="tab_3">资料审核</span><span data="tab_4">借款方资料</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/doAdd" onsubmit="return subcheck();" enctype="multipart/form-data">
+	<div id="tab_1">
+	
+	<dl class="lineD"><dt>借款标题：</dt><dd><htmlA:input id="borrow_name" value="{$vo.borrow_name}" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>最小流转单位：</dt><dd><htmlA:input addstr='onkeyup="summoney();"' id="per_transfer" value="{$vo.per_transfer}" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>总流转份数：</dt><dd><htmlA:input addstr='onkeyup="summoney();"' id="transfer_total" value="{$vo.transfer_total}" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>借款金额：</dt><dd><htmlA:input addstr='readonly="true"' id="borrow_money" value="{$vo.borrow_money}" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>年化利率：</dt><dd><htmlA:input id="borrow_interest_rate" value="{$vo.borrow_interest_rate}" tip="%"/></dd></dl>
+	<dl class="lineD"><dt>借款期限：</dt><dd><htmlA:input id="borrow_duration" value="{$vo.borrow_duration}" tip="填整数，表示月数"/></dd></dl>
+	<dl class="lineD"><dt>担保机构：</dt><dd><htmlA:input id="ensure_department" value="{$vo.ensure_department}" tip="*" /></dd></dl>
+	<dl class="lineD"><dt>返担保方式：</dt><dd><htmlA:input id="borrow_guarantee" value="{$vo.borrow_guarantee}" tip="*" /></dd></dl>
+	<dl class="lineD"><dt>借款管理费：</dt><dd><htmlA:input id="borrow_fee" value="{$vo.borrow_fee}" tip="*" /></dd></dl>
+<script type="text/javascript">
+function summoney(){
+ 	var pertr = $("#per_transfer").val();
+	$("#borrow_money").val(parseFloat(pertr) * parseInt($("#transfer_total").val()));
+}
+</script>	
+	
+	</div><!--tab1-->
+	
+	<div id="tab_3" style="display:none">
+	
+	<dl class="lineD"><dt>添加一个项目：</dt><dd><input type="button" class="btn_w" value="添加项目" onclick="addone()" style="text-align:center" /></dd></dl>
+	<php>$vl = unserialize($vo['updata']);foreach($vl as $key=>$v){</php>
+	<dl class="lineD"><dt>资料名称：</dt>
+		<dd><input type="text" name="updata_name[]" value="{$v.name}" />&nbsp;&nbsp;更新时间:<input type="text" onclick="WdatePicker();" name="updata_time[]" value="{$v.time}" class="Wdate" /></dd>
+	</dl>
+	<php>}</php>
+	</div><!--tab3-->
+	
+	<div id="tab_4" style="display:none">
+	<dl class="lineD"><dt>借款人：</dt><dd><htmlA:input id="borrow_duration" value="{$vo.borrow_duration}" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>借款方商业概述：</dt><dd><htmlA:text id="borrow_breif" value="{$vo.borrow_breif}" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>借款方资产情况：</dt><dd><htmlA:text id="borrow_capital" value="{$vo.borrow_capital}" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>借款方资金用途：</dt><dd><htmlA:text id="borrow_use" value="{$vo.borrow_use}" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>风险控制措施：</dt><dd><htmlA:text id="borrow_risk" value="{$vo.borrow_risk}" tip="*"/></dd></dl>
+	
+	</div><!--tab1-->
+	
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<script type="text/javascript">
+function addone(){
+	var htmladd = '<dl class="lineD"><dt>资料名称：</dt>';
+		htmladd+= '<dd><input type="text" name="updata_name[]" value="" />&nbsp;&nbsp;更新时间:<input type="text" name="updata_time[]" onclick="WdatePicker();" class="Wdate" /></dd>';
+		htmladd+= '</dl>';
+	$(htmladd).appendTo("#tab_3");
+}
+</script>
+<include file="Public:_footer" />

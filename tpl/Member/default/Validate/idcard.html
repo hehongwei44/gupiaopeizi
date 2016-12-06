@@ -1,0 +1,189 @@
+<include file="Public:header" />
+<h2><strong>实名认证</strong></h2>
+<empty name="_SESSION['MEMBER']['STATUS']['IDCARD']">
+<div class="ms-c6">
+    <div class="formbox">
+        <form enctype="multipart/form-data" method="post" id="idCardValidateForm" action="">
+            <input name="id" id="id" value="42330" type="hidden">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>真实姓名：</th>
+                        <td><input value="" name="name" class="inp" id="name" type="text"></td>
+                    </tr>
+                    <tr>
+                        <th>身份证号码：</th>
+                        <td>
+                            <input value="" name="number" class="inp" id="number" type="text">
+                            <input value="" name="province" id="province" type="hidden">
+                            <input value="" name="birthday" id="birthday" type="hidden">
+                            <input value="" name="age" id="age" type="hidden">
+                            <input value="" name="sex" id="sex" type="hidden">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>上传身份证正面：</th>
+                        <td>
+                            <div class="sfz i-z">
+                                <input value="" name="front" id="idCardFront" type="hidden">
+                                <input class="file" onchange="ajaxFileUpload('idCardFront');" name="idCardFrontFile" id="idCardFrontFile" type="file">
+                                <div id="idCardFront_div" class="sfz-img">
+                                </div>
+                            </div>
+                            <div class="demo1">
+                                <font class="red" id="idCardFront_error_msg"></font>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>上传身份证反面：</th>
+                        <td>
+                            <div class="sfz i-f">
+                                <input value="" name="back" id="idCardBack" type="hidden">
+                                <input class="file" onchange="ajaxFileUpload('idCardBack');" name="idCardBackFile" id="idCardBackFile" type="file">
+                                <div id="idCardBack_div" class="sfz-img">
+                                </div>
+                            </div>
+                            <div class="demo2">
+                                <font class="red" id="idCardBack_error_msg"></font>
+                            </div>
+                        </td>
+                    </tr>
+                    <!--
+                    <tr>
+                        <th>手持身份证照片：</th>
+                        <td>
+                            <div class="sfz i-s">
+                                <input value="" name="idCardGroup" id="idCardGroup" type="hidden">
+                                <input class="file" onchange="ajaxFileUpload('idCardGroup');" name="idCardGroupFile" id="idCardGroupFile" type="file">
+                                <div id="idCardGroup_div" class="sfz-img">
+                                </div>
+                            </div>
+                            <font class="red">温馨提示：当借款金额不低于<strong style="color:red">5万</strong>元时必须上传手持身份证照</font>
+                            <div class="demo3">
+                                <font class="red" id="idCardGroup_error_msg"></font>
+                            </div>
+                        </td>
+                    </tr>
+                    -->
+                    <tr>
+                        <th></th>
+                        <td>
+                            <button id="submitBtn" class="btn-b" onclick="doSubmit();" type="button" style="margin:20px 0;">保存</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <div class="ms-c6-b">
+            <dl>
+                <dt>
+                    <font color="red">温馨提示</font>
+                </dt>
+                <dd>{$param['web_name']}投标客户可以不上传身份证照片，配资客户必须上传清晰的身份证正反面和手持身份证照片！</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<script src="/res/js/uploader.js" type="text/javascript"></script>
+<script src="/res/js/idvalidate.js" type="text/javascript"></script>
+<script type="text/javascript">
+    function doSubmit(){
+        if($('#name').val()==''){
+            top.dialog('请输入您的真实姓名！');
+            return false;
+        }
+        if(!IdCardValidate($('#number').val())){
+            top.dialog('身份证号码不正确！');
+            return  false;
+        }else{
+            setInfo($('#number').val(),'sex','birthday','province','age');
+        }
+        if($('#idCardFront').val()==''){
+            top.dialog('还没有上传身份证正面图片！');
+            return false;
+        }
+        if($('#idCardBack').val()==''){
+            top.dialog('还没有上传身份证背面图片！');
+            return false;
+        }
+        $.post('/member/validate/idcard.html', $('#idCardValidateForm').serialize(),function(res){
+
+            if(res.status==0){
+                top.dialog(res.info,'success',function(){
+                    if(res.data != ''){
+                        top.$('#mainFrame').attr('src',res.data);
+                    }
+                });
+            }else{
+                top.dialog(res.info,'error',null);
+            }
+        },'json');
+    }
+    function ajaxFileUpload(id) {
+        var div = id=='idCardFront' ? '.i-z' : '.i-f';
+        $(div).css('background','url({$res}img/bg23.gif) no-repeat center center');
+        $.ajaxFileUpload({
+            url: './upload.html',
+            secureuri: false,
+            fileElementId: id+'File',
+            dataType: 'json',
+            success: function (ret, status){
+                if(ret.status==0){
+                    $('#'+id).val(ret.data);
+                    $(div).css('background','url('+ret.data+') no-repeat center center');
+                    $(div).css('background-size','120px 80px');
+                }else{
+                    top.dialog(ret.info);
+                }
+            },error: function (data, status, e){
+                alert(e);
+            }
+        });
+        return false;
+    }
+</script>
+<else/>
+<div class="prompt-box">
+    <eq name="data['status']" value="1">
+        <p><strong>已通过实名认证！</strong></p>
+        <p>
+            <br>如果还没有完成银行卡绑定，您可以选择&nbsp;<a href="/member/account/bank.html">绑定银行卡</a>
+        </p>
+    <else/>
+        <p><strong>实名认证审核中，请耐心等待...</strong></p>
+        <p>
+            <br>或者拨打{$param['web_name']}热线电话 {$param['web_phone']} 进行咨询。
+        </p>
+    </eq>
+</div>
+<div class="formbox">
+    <table>
+        <tbody>
+            <tr>
+                <th>真实姓名：</th>
+                <td>{$data['real_name']}</td>
+            </tr>
+            <tr>
+                <th>证件类型：</th>
+                <td>身份证</td>
+            </tr>
+            <tr>
+                <th>证件号码：</th>
+                <td>{$data['idcard']}</td>
+            </tr>
+            <tr>
+                <th>认证状态：</th>
+                <td>
+                    <eq name="data['status']" value="1"><strong style="color:red">已认证</strong><else/><strong style="color:gray">审核中</strong></eq>
+                </td>
+            </tr>
+            <tr>
+                <th>认证<eq name="data['status']" value="1">通过<else/>申请</eq>时间：</th>
+                <td>{$data['time']|date='Y-m-d H:i:s',###}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</empty>
+<include file="Public:footer" />

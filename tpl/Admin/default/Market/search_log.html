@@ -1,0 +1,48 @@
+  <div id="search_div" style="display:none">
+  	<div class="page_tit">设置搜索条件</div>
+	
+	<div class="form2">
+	<form method="get" action="__URL__/getlog">
+    <if condition="$search.customer_id gt 0"><input type="hidden" name="customer_id" value="{$search.customer_id}" /></if>
+    
+    <dl class="lineD">
+      <dt>会员名：</dt>
+      <dd>
+        <input name="uname" style="width:190px" id="title" type="text" value="{$search.uname}">
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>消费类型：</dt>
+      <dd>
+      <htmlA:select datakey="logtype" id="type" value="key|search.type" />
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+
+    <dl class="lineD">
+      <dt>领取状态：</dt>
+      <dd>
+      <htmlA:select datakey="logstatus" id="status" value="key|search.status"/>
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+    
+    <dl class="lineD">
+      <dt>领取方式：</dt>
+      <dd>
+      <htmlA:select datakey="logway" id="way" value="key|search.way" />
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+	<dl class="lineD"><dt>开始时间：</dt><dd><htmlA:timer id="start_time" tip='只选开始时间则查询从开始时间往后所有' arg="{maxDate:'#F{$dp.$D(\\\\'end_time\\\\')||\\\\'2020-10-01\\\\'}',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true}"  class="Wdate" value="{$search.start_time}"/></dd></dl>
+	<dl class="lineD"><dt>结束时间：</dt><dd><htmlA:timer id="end_time" tip='只选结束时间则查询从结束时间往前所有' arg="{minDate:'#F{$dp.$D(\\\\'start_time\\\\')}',maxDate:'2020-10-01',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true}" class="Wdate" value="{$search.end_time}"/></dd></dl>
+
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+      <input type="button" class="btn_g" value="取消" onclick="dosearch();" />
+    </div>
+	</form>
+  </div>
+  </div>

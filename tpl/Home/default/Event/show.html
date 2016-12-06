@@ -1,0 +1,73 @@
+<include file="Public:header"/>
+<link href="{$res}css/event.css" rel="stylesheet" type="text/css" media="screen,projection" />
+<!-- Content Start -->
+<div class="banner">
+<div class="bar">
+	<div class="award">
+		<p class="two"><strong>第二名</strong><span><b>{$data['reward'][1]|default=0}</b>元</span>配资资金</p>
+		<p class="one"><strong>第一名</strong><span><b>{$data['reward'][0]|default=0}</b>元</span>配资资金</p>
+		<p class="three"><strong>第三名</strong><span><b>{$data['reward'][2]|default=0}</b>元</span>配资资金</p>
+	</div>
+	<p class="time">{$data['name']|cutstr=0,10,false}&nbsp;&nbsp;{$data.begin|date='Y年m月d日',###} ～ {$data.end|date='Y年m月d日',###}</p>
+</div>
+</div>
+<div class="bar">
+	<div class="step">
+		<p class="stepTime"><span class="time1">{$data.start|date='m月d日',###}</span><span class="time2">{$data.finish|date='m月d日',###}</span><span class="time3">{$data.announce|date='m月d日',###}</span></p>
+		<div class="stepR">
+			<p class="nember">报名人数 <span class="font1">{$data.people|default=0}</span> 人</p>
+			<p class="time"><gt name="data['left']" value="0">距离报名截止剩余 <b>{$data['left']}</b> 天<else/>该比赛报名已经结束</gt></p>
+		</div>
+	</div>
+	<div class="main">
+		<div class="box" id="rule">
+			<p class="title ruleT">比赛规则</p>
+			<div class="boxM">
+				<ul class="ruleBox">
+					<li>赠送<b class="font1">{$data.quota|number_format}</b>元实盘资金<span>（完全免费）</span></li>
+					<li>您交<b class="font1">{$data.fee|number_format}</b>元比赛保证金<span>（结束时如无亏损全额返还如亏损扣除亏损剩余返还）</span></li>
+					<li>总共<b class="font1">{$data.total|number_format}</b>元实盘资金<span>（由您操盘，盈利归您，亏损在您的保证金中扣除）</span></li>
+					<li>比赛<b class="font1">{$data['duration']}</b> 天<span>（{$data.announce|date='m月d日',###}公布战绩，发放奖金）</span></li>
+					<li>盈利归你，亏损自负<span>（交易账户总资产低于<b class="font1">{$data.lowest|number_format}</b>元时自动平仓并退出比赛，剩余保证金退还给您）</span></li>
+				</ul>
+				<div class="ruleText">
+					<p>即时报名，即时比赛，每人交易 {$data['duration']} 天 ，股票交易账号将在下个交易日开出</p>
+					<p>如您不清楚规则，或有其它疑问，请联系{$param['web_name']}客服：{$param['web_phone']} (免长途费)</p>
+					<p class="jkxy">
+						<input type="checkbox" value="1" checked="" id="id_agree_contract"><label for="id_agree_contract" style="cursor:pointer;">我已阅读并同意</label><a href="/help/contract.html" target="_blank">《借款协议》</a><br>
+						<!--没选中同意协议时点击提交按钮出现以下提示-->
+					</p>
+					<gt name="data['left']" value="0">
+						<form method="post" id="match" action="/stock/confirm.html">
+						<input type="hidden" name="type" value="6">
+						<input type="hidden" name="quota" value="{$data.quota}">
+						<input type="hidden" name="deposit" value="{$data.fee}">
+						<input type="hidden" name="duration" value="{$data.duration}">
+						<input type="hidden" name="fee" value="0">
+						<input type="hidden" name="interest" value="0">
+						<input type="hidden" name="risk" value="0">
+						<input type="hidden" name="event" value="{$data.id}">
+						<a class="btn btnBg1" onclick="$('form').submit()">我要报名</a>
+						</form>
+					</gt>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="side">
+		<div class="box rankBox">
+            <p class="title rankT1">{$param['top']['month'][0]|intval}月全网总排行榜</p>
+            <div class="boxM">
+                <p class="rankTop"><span>用户名</span>总资产(元)</p>
+                <ul class="rankingList">
+                    <volist name="param['top']['now']" id="top">
+                        <li><em class="nember">{$key+1}</em><b>{$top.name}</b><span>{$top.capital}</span></li>
+                    </volist>
+                </ul>
+            </div>
+		</div>
+	</div>
+</div>
+<!-- Content End -->
+<include file="Public:footer"/>

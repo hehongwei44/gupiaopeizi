@@ -1,0 +1,104 @@
+<include file="Public:header"/>
+<h2><notempty name="param['member']['invitor']"><span class="r">推荐人编码：R{$param['member']['invitor']}</span></notempty><strong>账户</strong><span>ID： {$param['member']['number']}</span></h2>
+<div class="ms-c3 clearfix">
+	<div class="ms-c3-l">
+		<span>理财盈利：</span>
+		<br />
+		<strong>0.00</strong>元
+		<a href="/member/account/money.html">查询资金流水</a>
+	</div>
+	<p><a href="/member/account/charge.html" class="s1">充值</a><a href="/member/account/withdraw.html" class="s2">提现</a></p>
+</div>
+<div class="ms-c8">
+    <dl>
+        <dt><h5>可用余额</h5><strong>{$param.account.usable|number_format=2}</strong>元</dt>
+        <dd class="m"><h5>账户余额</h5><strong>{$param.account.total|number_format=2}</strong>元</dd>
+        <dd class="m"><h5>冻结款</h5><strong>{$param.account.freeze|number_format=2}</strong>元</dd>
+        <dd class="last"><h5>待收回款</h5><strong>{$param.account.collect|number_format=2}</strong>元</dd>
+    </dl>
+    <dl>
+        <dt><h5>净资产</h5><strong>{$param.account.asset|number_format=2}</strong>元</dt>
+        <dd><h5>配资资产</h5><strong>{$param.account.stock|number_format=2}</strong>元</dd>
+        <dd class="m"><h5>账户余额</h5><strong>{$param.account.total|number_format=2}</strong>元</dd>
+        <dd class="last"><h5>借款总额</h5><strong>{$param.account.borrow|number_format=2}</strong>元</dd>
+    </dl>
+</div>
+<div class="ms-c3-b">
+	<!-- 未完成的是：  class="sX"    完成的是：  class="sX-green"     -->
+	<dl>
+		<dt class="s1<eq name="_SESSION['MEMBER']['STATUS']['IDCARD']" value="1">-green</eq>">
+		<h4>实名认证</br>
+		<eq name="_SESSION['MEMBER']['STATUS']['IDCARD']" value="1">
+			</h4><span class="green">已认证</span><a href="/member/validate/idcard.html">查看</a></dt>
+		<else/>
+			<span>{$param['member']['real_name']}</span></h4><span class="red">未认证</span>
+			<a href="/member/validate/idcard.html">查看</a>
+			</dt>
+		</eq>
+	</dl>
+	<dl>
+		<dt class="s2<notempty name="_SESSION['MEMBER']['STATUS']['MOBILE']">-green</notempty>">
+		<h4>绑定手机</br>
+		<empty name="param['member']['user_phone']">
+			</h4><span class="red">未绑定</span><a href="/member/validate/phone.html">去绑定</a></dt>
+		<else/>
+			<span>{$param['member']['user_phone']|mask}</span></h4><span class="green">已绑定</span><a href="/member/validate/phone.html" data="set">修改</a></dt>
+		</empty>
+	</dl>
+	<dl>
+		<dt class="s4<notempty name="param['member']['pin_pass']">-green</notempty>">
+		<h4>提现密码</br>
+		<empty name="param['member']['pin_pass']">
+			</h4><span class="red">未设置</span><a href="/member/account/password.html" in="pop" data="set">设置</a></dt>
+		<else/>
+			<span></span></h4><span class="green">已设置</span><a href="/member/account/password.html" in="pop" data="set">重置</a></dt>
+		</empty>
+	</dl>
+
+	<dl>
+		<dt class="s3<notempty name="_SESSION['MEMBER']['STATUS']['EMAIL']">-green</notempty>">
+		<h4>邮箱绑定
+		<empty name="_SESSION['MEMBER']['STATUS']['EMAIL']">
+			</h4><span class="red">未绑定</span><a href="/member/validate/email.html" data="bind">去绑定</a></dt>
+		<else/>
+			<span>{$param['member']['user_email']|mask}</span></h4><span class="green">已绑定</span><a href="/member/validate/email.html">修改</a></dt>
+		</empty>
+		
+	</dl>
+</div>
+<div  class="ms-c4">
+	<table>
+		<tr>
+			<th>登录名：</th>
+			<td><strong style="color:red;font-size:17px">{$param.member.user_name}</strong> 累计登录 {$param['member']['login_times']} 次</td>
+			<td class="r"><a href="/member/log.html">登录记录</a></td>
+		</tr>
+		<tr>
+			<th>银行卡管理：</th>
+			<td>{$param.web_name}余额提款到银行卡需要先绑定一张您名下的银行卡</td>
+			<td class="r"><a href="/member/account/bank.html">去绑定</a></td>
+		</tr>
+		<tr>
+			<th>登录密码：</th>
+			<td>登录{$param.web_name}时需要输入的密码</td>
+			<td class="r"><a href="/member/password.html">修改</a></td>
+		</tr>
+		<tr>
+			<th>消息通知：</th>
+			<td>如果您不想接收某类消息，您可以在这里设置</td>
+			<td class="r"><a href="/member/notice.html?setting=true">通知设置</a></td>
+		</tr>
+
+		<tr>
+			<th>个人信息：</th>
+			<td>完善您的详细个人信息</td>
+			<td class="r"><a href="/member/profile.html">个人信息</a></td>
+		</tr>
+		<tr>
+			<th>注册时间：</th>
+			<td>{$param.member.reg_time|date='Y年m月d日',###} </td>
+			<td class="r"></td>
+		</tr>
+	</table>
+</div>
+<include file="Public:footer"/>

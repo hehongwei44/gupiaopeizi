@@ -1,0 +1,40 @@
+<include file="Public:header" />
+<h2><strong>账户充值</strong></h2>
+<div class="ms-c6">
+    <div class="ms-c6-t">
+        <ul>
+			<li><a href="/member/account/charge.html">在线充值</a></li>
+			<li><a href="/member/account/transfer.html">银行转账充值</a></li>
+			<li class="current"><a href="/member/account/log.html">充值记录</a></li>
+        </ul>
+    </div>
+    <div class="ms-c6-m">
+        <div class="ms-c6-table clearfix">
+            <form id="payOnlineLogs" name="payOnlineLogs" action="http://www.miniu98.com/myspace/fund/pay_online_log.htm">
+            </form>
+            <table>
+                <tbody>
+                    <tr>
+                        <th style="width:180px">充值时间</th>
+                        <th style="width:180px">充值方式</th>
+                        <th style="text-align:right;width:90px">金额(元)</th>
+                        <th>备注</th>
+                        <th style="width:120px">状态</th>
+                    </tr>
+                    <volist name="data" id="log">
+                    <tr>
+                        <td>{$log.add_time|date='y-m-d H:i:s',###}</td>
+                        <td><eq name="log['way']" value="off"><b style="color:red">银行转账</b><else/>在线支付</eq></td>
+                        <td class="r">{$log.money|number_format=2}</td>
+                        <td class="l">{$log.memo|default='-'}</td>
+                        <td><eq name="log['status']" value="3"><span style="color:red">充值失败</span><else/><eq name="log['status']" value="1">充值完成<else/>等待处理</eq></eq></td>
+                    </tr>
+                    </volist>
+                </tbody>
+            </table>
+
+            <div id="_page" class="n-pages">{$param['pages']}</div>
+        </div>
+    </div>
+</div>
+<include file="Public:footer" />

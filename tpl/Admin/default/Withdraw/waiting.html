@@ -1,0 +1,81 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/add';
+var editUrl = '__URL__/edit';
+var isSearchHidden = 1;
+var searchName = "搜索提现";
+</script>
+<div class="so_main">
+    <div class="page_tit">
+        <span>提现处理中列表</span>
+        <include file="Public:quick" />
+    </div>
+    <div class="page_tab">
+        <a href="__ACTION__?type={$_GET['type']}">
+            <span data="tab_1" <eq name="_GET['way']" value=''>class="active"</eq>>全部</span>
+        </a>
+        <span data="tab_search" onclick="dosearch()"><b class="tab_search"></b></span>
+    </div>
+    <include file="search" />
+    <!--搜索-->
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l">ID</th>
+                <th class="line_l">会员名</th>
+                <th class="line_l">真实姓名</th>
+                <th class="line_l">提现金额</th>
+                <th class="line_l">提现手续费</th>
+                <th class="line_l">应到账金额</th>
+                <th class="line_l">提现时间</th>
+                <th class="line_l">处理人</th>
+                <th class="line_l">处理时间</th>
+                <th class="line_l">处理说明</th>
+                <th class="line_l">操作</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>
+                        <htmlA:user id="vo.uid" uname="vo.user_name" />
+                    </td>
+                    <td>{$vo.real_name}</td>
+                    <td>{$vo['withdraw_money']|default=0}元</td>
+                    <td>{$vo.second_fee|default=0}元</td>
+                    <td>
+                        <if condition="$vo['withdraw_status'] eq 3">
+                            0
+                            <else/> {$vo['success_money']}
+                        </if>元</td>
+                    <td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                    <td>{$vo.deal_user|default="无"}</td>
+                    <td>
+                        <if condition="$vo.deal_time eq 0">无
+                            <else/>{$vo.deal_time|date="Y-m-d H:i:s",###}</if>
+                    </td>
+                    <td>{$vo.deal_info|default="无"}</td>
+                    <td>
+                        <htmlA:tixianing id="vo.id" uname="vo.user_name" />
+                    </td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+</div>
+<include file="Public:_footer" />

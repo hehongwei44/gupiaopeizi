@@ -1,0 +1,61 @@
+<div style="margin-top: 10px;" class="tool_title" id="resultList">
+	<div class='fun_title'><div>借款概述</div></div>
+	<div class='funframe'>
+		<ul class='rslist' style="float: left;width:340px;">
+			<li><span style='width: 100px;'>综合年利率：</span> <span style='width: 180px;' class='value'>{$repay_detail.year_apr} %</span> </li>
+			<li><span style='width: 100px;'>综合月利率：</span> <span style='width: 180px;' class='value'>{$repay_detail.month_apr} %</span> </li>
+			<li><span style='width: 100px;'>综合天利率：</span> <span style='width: 180px;' class='value'>{$repay_detail.day_apr} %</span> </li>
+		</ul>
+		<ul class='rslist' style="float: left;width:340px;">
+			<li><span style='width: 100px;'>共贷到借款：</span> <span class='value'>{$repay_detail.borrow_money}</span> 元</li>
+			<li><span style='width: 100px;'>共需还本息：</span> <span class='value' style="font-size:24px;color:red;">{$repay_detail.repayment_money}</span> 元</li>
+			<li style="height: 30px;margin-bottom: 0;">
+				<span style='width: 100px;'>共付出利益：</span> 
+				<span class='value' style="font-size:24px;color:red;">{$repay_detail.total_interest}</span> 元
+			</li>
+			<li style="height: 30px;margin: 0;">
+				<span style='width:  50%;'>借款管理费：<font class='value'>{$repay_detail.borrow_manage}</font> 元</span>
+				<span style='width:  50%;'>奖励：<font class='value'>{$repay_detail.reward_money}</font> 元</span> 
+			</li>
+			<li style="height: 30px;margin: 0;">
+				<span style='width:  50%;'>风险准备金：<font class='value'>{$repay_detail.risk_reserve}</font> 元</span>
+				<span style='width:  50%;'>利息：<font class='value'>{$repay_detail.interest}</font> 元</span> 
+			</li>
+		</ul>
+	</div>
+</div>
+<in name="repayment_type" value="2,3">
+<div style="margin-top: 10px;" class="tool_title" id="backList">
+      <div class="fun_title">
+        <div> 偿还的时间表</div>
+      </div>
+      <div class="reback">
+        <ul>
+          <li style="width: 106px;">月份</li>
+          <li style="width: 160px;">月偿还本金</li>
+          <li style="width: 149px;">月偿还利息</li>
+          <li style="width: 149px;">月偿还总额</li>
+          <li style="width: 140px; border-right: 0px;">余额</li>
+        </ul>
+      </div>
+      <div class="rslist" id="repaylist"> 
+		<ul>
+			<li style="width:106px;">&nbsp;</li>
+			<li style="width:160px;">&nbsp;</li>
+			<li style="width:149px;">&nbsp;</li>
+			<li style="width:149px;">&nbsp;</li>
+			<li style="width:140px; border-right:0px;">{$repay_detail.repayment_money}</li>
+		</ul>
+
+		<volist name="repay_list" id="vo">
+		<ul>
+			<li style="width:106px;">{$key+1}</li>
+			<li style="width:160px;">{$vo.capital}</li>
+			<li style="width:149px;">{$vo.interest}</li>
+			<li style="width:149px;">{$vo.repayment_money}</li>
+			<li style="width:140px; border-right:0px;"><if condition="($key+1) eq $month">0<else/>{$repay_detail['repayment_money']-$vo['repayment_money']*($key+1)}</if></li>
+		</ul>
+		</volist>
+	  </div>
+</div>
+</in>

@@ -1,0 +1,36 @@
+<include file="Public:header" />
+<h2><strong>我推广的用户</strong></h2>
+<div class="ms-c6">
+    <div class="ms-c6-t">
+        <ul>
+            <li>
+                <a href="/member/invite/index.html">推广链接</a>
+            </li>
+            <li class="current">
+                <a href="/member/invite/member.html">我的用户</a>
+            </li>
+        </ul>
+    </div>
+    <div class="ms-c6-m">
+        <div class="ms-c6-table clearfix">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>用户名</th>
+                        <th>访问 IP 地址</th>
+                        <th>注册时间</th>
+                    </tr>
+                    <volist name="data" id="member">
+                    <tr>
+                        <td>{$member.user_name}</td>
+                        <td>{$member.reg_ip}</td>
+                        <td>{$member.reg_time|date='Y-m-d H:i:s',###}</td>
+                    </tr>
+                    </volist>
+                </tbody>
+            </table>
+            <div id="_page" class="n-pages">{$param['pages']}</div>
+        </div>
+    </div>
+</div>
+<include file="Public:footer" />

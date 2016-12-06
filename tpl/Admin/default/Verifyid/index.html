@@ -1,0 +1,84 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/add';
+var editUrl = '__URL__/edit';
+var editTitle = '审核资料';
+var isSearchHidden = 1;
+var searchName = "搜索会员身份证";
+</script>
+<div class="so_main">
+    <div class="page_tit">
+      <span>会员实名认证管理</span>
+      <include file="Public:quick" />
+    </div>
+    <div class="page_tab">
+        <a href="__ACTION__">
+            <span data="tab_1" <eq name="_GET['status']" value=''>class="active"</eq>>全部</span>
+        </a>
+        <a href="__URL__/index?status=1">
+            <span data="tab_1" <eq name="_GET['status']" value='1'>class="active"</eq>>已认证</span>
+        </a>
+        <a href="__URL__/index?status=3">
+            <span data="tab_1" <eq name="_GET['status']" value='3'>class="active"</eq>>待认证</span>
+        </a>
+        <span data="tab_search" onclick="dosearch()"><b class="tab_search"></b></span>
+    </div>
+    <include file="search" />
+    <!--搜索-->
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l">ID</th>
+                <th class="line_l">会员名</th>
+                <th class="line_l">真实姓名</th>
+                <th class="line_l">身份证号</th>
+                <th class="line_l">身份证图片</th>
+                <th class="line_l">上传时间</th>
+                <th class="line_l">审核状态</th>
+                <th class="line_l">操作</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td>{$vo.uid}</td>
+                    <td>
+                        <htmlA:user id="vo.uid" uname="vo.user_name" />
+                    </td>
+                    <td>{$vo.real_name}</td>
+                    <td>{$vo.idcard}</td>
+                    <td>[<a href="{$vo.card_img}" target="_blank">正面查看</a>] [<a href="{$vo.card_back_img}" target="_blank">反面查看</a>]</td>
+                    <td>{$vo.up_time|date="Y-m-d H:i",###}</td>
+                    <td>
+                        <if condition="$vo.id_status eq 3">
+                            <font color="red">待审核</font>
+                            <elseif condition="$vo.id_status eq 1" />
+                            <font color="#00CC00">已认证</font>
+                        </if>
+                    </td>
+                    <td>
+                        <if condition="$vo.id_status eq 3">
+                            <a href="javascript:void(0);" onclick="edit('?id={$vo['uid']}');">审核</a>
+                            <elseif condition="$vo.id_status eq 1" /> ---
+                        </if>
+                    </td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+</div>
+<include file="Public:_footer" />

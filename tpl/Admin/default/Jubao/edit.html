@@ -1,0 +1,25 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">修改/回复留言</div>
+<div class="page_tab"><span data="tab_1" class="active">留言</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/doEdit" onsubmit="return subcheck();" enctype="multipart/form-data">
+	<input type="hidden" name="id" value="{$vo.id}"/>
+	<div id="tab_1">
+	
+		<dl class="lineD"><dt>留言内容：</dt><dd><htmlA:text id="comment" value="{$vo.comment}" tip="*"/></dd></dl>
+		<dl class="lineD"><dt>回复内容：</dt><dd><htmlA:text id="deal_info" tip="*" value="{$vo.deal_info}"/></dd></dl>
+
+	</div><!--tab1-->
+	
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<include file="Public:_footer" />

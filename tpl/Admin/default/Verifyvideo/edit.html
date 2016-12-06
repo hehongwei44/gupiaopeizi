@@ -1,0 +1,30 @@
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">
+    <span>视频认证审核</span>
+    <include file="Public:quick" />
+</div>
+<div class="form2">
+	<form method="post" action="__URL__/doEdit" onsubmit="return subcheck();">
+	<input type="hidden" name="id" value="{$vo.id}" />
+	<div id="tab_1">
+	
+	<dl class="lineD"><dt>是否通过：</dt><dd><htmlA:radio id="apply_status" default="1|是,2|否"/></dd></dl>
+	<!--dl class="lineD"><dt>奖励积分：</dt><dd><htmlA:input id="credits" value="0" tip="如不奖励积分则不用填"/></dd></dl-->
+	<dl class="lineD"><dt>审核说明：</dt><dd><htmlA:text id="deal_info" value="0"/></dd></dl>
+	
+	</div><!--tab1-->
+	
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<script type="text/javascript">
+function subcheck(){
+	if($("input[name='apply_status']:checked").val()!=1 && $("input[name='apply_status']:checked").val()!=2){ui.error("请选择审核结果");return false;}
+}
+</script>

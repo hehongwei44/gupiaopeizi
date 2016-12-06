@@ -1,0 +1,29 @@
+  <div id="search_div" style="display:none">
+  	<div class="page_tit"><script type="text/javascript">document.write(searchName);</script> [ <a href="javascript:void(0);" onclick="dosearch();">隐藏</a> ]</div>
+	
+	<div class="form2">
+	<form method="get" action="__URL__/adminlog">
+    <dl class="lineD">
+      <dt>用户ID：</dt>
+      <dd>
+        <input name="id" style="width:190px" id="title" type="text" value="{$search.id}">
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+  
+    <dl class="lineD">
+      <dt>操作者IP：</dt>
+      <dd>
+      <input name="deal_ip" style="width:190px" id="title" type="text" value="{$search.deal_ip}">
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+	<dl class="lineD"><dt>操作时间(开始)：</dt><dd><htmlA:timer id="start_time" tip='只选开始时间则查询从开始时间往后所有' arg="{maxDate:'#F{$dp.$D(\\\\'end_time\\\\')||\\\\'2300-10-01\\\\'}',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true}"  class="Wdate" value="{$search.start_time|mydate='Y-m-d H:i:s',###}"/></dd></dl>
+	<dl class="lineD"><dt>操作时间(结束)：</dt><dd><htmlA:timer id="end_time" tip='只选结束时间则查询从结束时间往前所有' arg="{minDate:'#F{$dp.$D(\\\\'start_time\\\\')}',maxDate:'2300-10-01',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true}" class="Wdate" value="{$search.end_time|mydate='Y-m-d H:i:s',###}"/></dd></dl>
+
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+    </div>
+	</form>
+  </div>
+  </div>

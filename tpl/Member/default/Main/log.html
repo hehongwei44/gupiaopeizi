@@ -1,0 +1,39 @@
+<include file="Public:header" />
+<h2><strong>登录历史记录</strong></h2>
+<div class="ms-c6">
+    <div class="ms-c6-t">
+        <ul id="accountLogTypes">
+            <li class="current">
+                <a href="#ynw">全部记录</a>
+            </li>
+        </ul>
+    </div>
+    <div id="accountLogList">
+        <div class="ms-c6-m">
+            <div class="ms-c6-table clearfix">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th style="width:16%;">次数</th>
+                            <th>登录时间</th>                            
+                            <th style="width:18%;">浏览器/版本号</th>
+                            <th style="width:18%;">操作系统</th>
+                            <th style="width:14%;">终端 IP 地址</th>
+                        </tr>
+                        <volist name="data" id="log">
+                        <tr>
+                            <td>{$log.times|default='-'}</td>
+                            <td>{$log.date|date='y-m-d H:i:s',###}</td>                            
+                            <td>{$log.agent|getBrowser}</td>
+                            <td>{$log.agent|getPlatform}</td>
+                            <td>{$log.ip}</td>
+                        </tr>
+                        </volist>
+                    </tbody>
+                </table>
+                <div id="_page" class="n-pages">{$param['pages']}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="Public:footer" />

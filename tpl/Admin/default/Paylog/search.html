@@ -1,0 +1,51 @@
+<div id="search_div" style="display:none">
+    <div class="page_tit">设置搜索条件</div>
+    <div class="form2">
+        <form method="get" action="__SELF__">
+            <dl class="lineD">
+                <dt>会员名：</dt>
+                <dd>
+                    <input name="uname" style="width:190px" id="title" type="text" value="{$search.uname}">
+                    <span>不填则不限制</span>
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt>处理人：</dt>
+                <dd>
+                    <input name="dealuser" style="width:190px" id="title" type="text" value="{$search.dealuser}">
+                    <span>不填则不限制</span>
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt>充值状态：</dt>
+                <dd>
+                    <htmlA:radio id="status" datakey="type_list" value="key|search.status" />
+                    <span>不选择则不限制</span>
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt>充值方式：</dt>
+                <dd>
+                    <htmlA:select id="way" datakey="payType" value="key|search.way" />
+                    <span>不选择则不限制</span>
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt>时间从：</dt>
+                <dd>
+                    <htmlA:timer id="start_time" value="{$search.start_time}" tip='时间段' arg="{maxDate:'#F{$dp.$D(\\\\'end_time\\\\')||\\\\'2020-10-01\\\\'}',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true}" />
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt>到：</dt>
+                <dd>
+                    <htmlA:timer id="end_time" value="{$search.end_time}" tip='时间段' arg="{minDate:'#F{$dp.$D(\\\\'start_time\\\\')}',maxDate:'2020-10-01',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true}" />
+                </dd>
+            </dl>
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+                <input type="button" class="btn_g" value="取消" onclick="dosearch();" />
+            </div>
+        </form>
+    </div>
+</div>

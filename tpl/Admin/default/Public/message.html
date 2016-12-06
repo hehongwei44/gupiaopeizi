@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>提示信息</title><style type="text/css">
+/*成功 | 错误 提示*/
+* { word-wrap:break-word }
+body { font:12px Microsoft YaHei,Arial,Helvetica,sans-serif,Simsun; text-align:center; color:#333; }
+body, div, dl, dt, dd, ul, ol, li, pre, form, fieldset, blockquote, h1, h2, h3, h4, h5, h6,p{ padding:0; margin:0 }
+h1, h2, h3, h4, h5, h6 { font-weight: normal; }
+table, td, tr, th { font-size:12px }
+li { list-style-type:none }
+table { margin:0 auto }
+img { border:none }
+ol, ul { list-style:none }
+caption, th { text-align:left }
+.Prompt_top, .Prompt_btm, .Prompt_ok, .Prompt_x {background:url(/tpl/Admin/default/Res/images/message.gif) no-repeat;display:inline-block }
+.Prompt { width:65%; margin:100px auto 180px; text-align:left; }
+.Prompt_con { width:100%; border:1px solid #E7E7E7;border-top:1px solid #f5f5f5;border-bottom:6px solid #E7E7E7; background:#fff; overflow:hidden;-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+.Prompt_con dl { overflow:hidden;border-left:1px solid #E7E7E7; border-right:1px solid #E7E7E7; background:#fff;}
+.Prompt_con dt { width:100%; font-size:18px; padding:15px; border-bottom:2px solid #E7E7E7;font-weight: bold;_height:20px;}
+.Prompt_con dd { float:left; display:block; padding:30px 15px; }
+.Prompt_con dd h2 { font-size:16px; line-height:30px;margin-top:-6px; }
+.Prompt_con dd p{padding-top:0px;line-height: 23px}
+.Prompt_con dd span{color:#999;}
+.Prompt_ok { background-position:-70px -4px; width:68px; height:68px; margin-left:10px;}
+.Prompt_x { background-position:0 -4px; width:68px; height:68px;  margin-left:10px;}
+.Prompt_con a.a { color:#fff; padding:0 15px; line-height:30px; background-color:#307ba0; display:inline-block; font-size:14px; margin:20px 0px; }
+</style>
+<script>
+function Jump(){
+    window.location.href = '{$jumpUrl}';
+}
+document.onload = setTimeout("Jump()" , {$waitSecond}* 1000);
+</script>
+<base target="_self" />
+</head>
+<body>
+
+<eq name="status" value="1">
+  <div class="Prompt">
+  <div class="Prompt_con">
+    <dl>
+      <dt>处理成功</dt>
+      <dd><span class="Prompt_ok"></span></dd>
+      <dd>
+        <h2 style="color:rgb(29, 151, 7)">{$message}</h2>
+        <present name="closeWin" >
+          <p>系统将在 <span style="color:blue;font-weight:bold">{$waitSecond}</span> 秒后自动关闭，如果不想等待，直接点击 <A HREF="{$jumpUrl}">这里</A> 关闭</p>
+        </present>
+        <notpresent name="closeWin" >
+          <p>系统将在 <span style="color:blue;font-weight:bold">{$waitSecond}</span> 秒后自动跳转，如果不想等待，直接点击 <A HREF="{$jumpUrl}">这里</A> 跳转<br/><span>本次操作已记录</p>
+        </notpresent>
+      </dd>
+    </dl>
+    <div class="c"></div>
+    </div>
+  </div>
+</eq>
+<eq name="status" value="0">
+  <div class="Prompt">
+  <div class="Prompt_con">
+    <dl>
+      <dt>处理失败</dt>
+      <dd><span class="Prompt_x"></span></dd>
+      <dd>
+      <h2 style="color:red">{$error}</h2>
+        <present name="closeWin" >
+      <p>系统将在 <span style="color:blue;font-weight:bold">{$waitSecond}</span> 秒后自动关闭，如果不想等待，直接点击 <A HREF="{$jumpUrl}">这里</A> 关闭</p>
+      </present>
+      <notpresent name="closeWin" >
+        <p>系统将在 <span style="color:blue;font-weight:bold">{$waitSecond}</span> 秒后自动跳转，如果不想等待，直接点击 <A HREF="{$jumpUrl}">这里</A> 跳转<br/><span>如果多次尝试仍未成功，请联系管理员。</span></p>
+      </notpresent>
+      </dd>
+    </dl>
+    <div class="c"></div>
+    </div>
+  </div>
+</eq>
+</body>
+</html>

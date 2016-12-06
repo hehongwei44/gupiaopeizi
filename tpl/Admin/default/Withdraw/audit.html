@@ -1,0 +1,74 @@
+<include file="Public:_header" />
+<link href="__ROOT__/res/Swfupload/swfupload.css" rel="stylesheet" type="text/css">
+<tagLib name="htmlA" />
+<div class="so_main">
+    <div class="form2">
+        <form method="post" action="__URL__/doAudit" onsubmit="return subcheck();">
+            <input type="hidden" name="id" value="{$vo.id}" />
+            <div id="tab_1">
+                <dl class="lineD">
+                    <dt>提现会员：</dt>
+                    <dd>{$vo.real_name|default="未认证"} ({$vo.uname})</dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>提现金额：</dt>
+                    <dd style="color:#FF0000;font-size:18px">{$vo.withdraw_money|number_format=2} 元</dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>提现时间：</dt>
+                    <dd>{$vo.add_time|date="Y-m-d H:i:s",###}</dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>提现手续费：</dt>
+                    <dd>
+                        <htmlA:input id="withdraw_fee" value="{$vo.second_fee}" tip="*" />
+                    </dd>
+                </dl>
+                <dl class="lineD">
+                    <dt>提现到银行：</dt>
+                    <dd>{$vo.bank_name}&nbsp;{$vo.bank_address}&nbsp;{$vo.bank_num}</dd>
+                </dl>
+                <dl class="lineD">
+                    <dt><span style="color:#FF0000">处理结果</span></dt>
+                    <dd>
+                        <htmlA:radio id="withdraw_status" datakey="type_list" value="key|vo.withdraw_status" />
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>处理说明：</dt>
+                    <dd>
+                        <htmlA:text id="deal_info" value="{$vo.deal_info}" />
+                    </dd>
+                </dl>
+            </div>
+            <!--tab1-->
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+                <input type="button" class="btn_g" value="取消" onclick="ui.box.close()"/>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+var cansub = true;
+
+function subcheck() {
+    if (!cansub) {
+        alert("请不要重复提交，如网速慢，请耐心等待！");
+        return false;
+    }
+    if ($("input[name='withdraw_status']:checked").val() != 1 && $("input[name='withdraw_status']:checked").val() != 0 && $("input[name='withdraw_status']:checked").val() != 2 && $("input[name='withdraw_status']:checked").val() != 3) {
+        ui.error("请选择处理结果");
+        return false;
+    }
+
+    var deal_info = $('#deal_info').val();
+    if (deal_info == '' || deal_info == null) {
+        ui.error("请填写处理说明");
+        return false;
+    }
+    cansub = false;
+    return true;
+}
+</script>
+<include file="Public:_footer" />

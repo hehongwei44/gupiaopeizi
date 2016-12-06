@@ -1,0 +1,126 @@
+<include file="Public:header" />
+<h2><strong>自动投标</strong><span>收益不停歇</span></h2>
+<div class="ms-c6">
+    <div class="ms-c6-t">
+        <ul>
+            <li class="current">
+                <a href="http://www.miniu98.com/myspace/financial/automate_rule.htm">自动投标设置</a>
+            </li>
+        </ul>
+    </div>
+    <div class="ms-c6-m">
+        <div class="formbox">
+            <form method="post">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>账户可用余额：</th>
+                            <td><strong class="red"><font size="5px;">{$data.account.money|number_format=2}</font></strong> 元</td>
+                        </tr>
+                        <tr>
+                            <th>当前状态：</th>
+                            <td>
+                                <input id="statusEn" name="status" value="1" <if condition="$data['status'] == 1">checked="checked"</if> type="radio">
+                                <label for="statusEn" style="cursor:pointer;">开启自动投标</label>
+                                <input id="statusDis" name="status" value="0" <if condition="$data['status'] == 0">checked="checked"</if> type="radio">
+                                <label for="statusDis" style="cursor:pointer;">关闭自动投标</label>
+                                <input name="id" value="{$data.id|intval}" type="hidden">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>每次投标最小金额：</th>
+                            <td>
+                                <input name="money_invest" value="{$data['money_invest']|default=0}" class="inp" style="width:70px" type="text">元
+                                <span id="minMoneyYuanErr" style="color:red"></span>
+                                <span style="color:#999; margin-left:10px;">每次投标金额，<font size="5px;">0</font>&nbsp;表示无限制</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>年化收益率范围：</th>
+                            <td>
+                                <input class="inp" name="rate_min" style="width:70px" value="{$data['rate_min']|default=0}" type="text"> ~ &nbsp;<input id="maxRate" class="inp" name="rate_max" style="width:70px" value="{$data['rate_max']|default=0}" type="text"><span style="color:#999; margin-left:10px;">收益率范围，都为 <font size="5px;">0</font>&nbsp;表示都无限制</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>投标借款期限：</th>
+                            <td>
+                                <div class="sbox">
+                                    <select name="duration_min">
+                                        <option option="0" <eq name="data['duration_min']" value="0">selected</eq>>不限</option>
+                                        <option option="1" <eq name="data['duration_min']" value="1">selected</eq>>1个月</option>
+                                        <option option="2" <eq name="data['duration_min']" value="2">selected</eq>>2个月</option>
+                                        <option option="3" <eq name="data['duration_min']" value="3">selected</eq>>3个月</option>
+                                        <option option="4" <eq name="data['duration_min']" value="4">selected</eq>>4个月</option>
+                                        <option option="5" <eq name="data['duration_min']" value="5">selected</eq>>5个月</option>
+                                        <option option="6" <eq name="data['duration_min']" value="6">selected</eq>>6个月</option>
+                                        <option option="7" <eq name="data['duration_min']" value="7">selected</eq>>7个月</option>
+                                        <option option="8" <eq name="data['duration_min']" value="8">selected</eq>>8个月</option>
+                                        <option option="9" <eq name="data['duration_min']" value="9">selected</eq>>9个月</option>
+                                        <option option="10" <eq name="data['duration_min']" value="10">selected</eq>>10个月</option>
+                                        <option option="11" <eq name="data['duration_min']" value="11">selected</eq>>11个月</option>
+                                        <option option="12" <eq name="data['duration_min']" value="12">selected</eq>>12个月</option>
+                                    </select>
+                                </div>
+
+                                <span id="minTimeLimitErr" style="color:red"></span>&nbsp;~&nbsp;
+                                <div class="sbox">
+                                   <select name="duration_max">
+                                        <option option="0" <eq name="data['duration_max']" value="0">selected</eq>>不限</option>
+                                        <option option="1" <eq name="data['duration_max']" value="1">selected</eq>>1个月</option>
+                                        <option option="2" <eq name="data['duration_max']" value="2">selected</eq>>2个月</option>
+                                        <option option="3" <eq name="data['duration_max']" value="3">selected</eq>>3个月</option>
+                                        <option option="4" <eq name="data['duration_max']" value="4">selected</eq>>4个月</option>
+                                        <option option="5" <eq name="data['duration_max']" value="5">selected</eq>>5个月</option>
+                                        <option option="6" <eq name="data['duration_max']" value="6">selected</eq>>6个月</option>
+                                        <option option="7" <eq name="data['duration_max']" value="7">selected</eq>>7个月</option>
+                                        <option option="8" <eq name="data['duration_max']" value="8">selected</eq>>8个月</option>
+                                        <option option="9" <eq name="data['duration_max']" value="9">selected</eq>>9个月</option>
+                                        <option option="10" <eq name="data['duration_max']" value="10">selected</eq>>10个月</option>
+                                        <option option="11" <eq name="data['duration_max']" value="11">selected</eq>>11个月</option>
+                                        <option option="12" <eq name="data['duration_max']" value="12">selected</eq>>12个月</option>
+                                    </select>
+                                </div>
+                                <span id="maxTimeLimitErr" style="color:red"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>账户保留金额：</th>
+                            <td>
+                                <input name="money_keep" value="{$data['money_keep']|default=0}" class="inp" style="width:70px" type="text"> 元
+                                <span id="retainFundYuanErr" style="color:red"></span>
+                                <span style="color:#999; margin-left:10px;">保留金额不会进行自动投标</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <button id="submit" type="submit" class="btn-b">保 存</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <script type="text/javascript">
+                $(function() {
+                    $("#submit").click(function() {
+                        $.post('/member/invest/auto.html', $('form').serialize(),function(res){
+                            if(res.status==0){
+                                top.dialog(res.info,'success');  
+                            }else{
+                                top.dialog(res.info,'error');  
+                            }                
+                        },'json');
+                        return false;
+                    });
+                });
+                </script>
+            </form>
+            <div class="ms-c6-b">
+                <dl>
+                    <dt>温馨提示</dt>
+                    <dd>自动投标是一种简单、轻松、收益最大化的投标功能。当您设定自动投标后，系统会根据您的设定进行自动投标。在您收到利息后，利息又会进行自动投标，从而实现利滚利，让理财收益最大化。（个人单次自动投标最大比例为投标项目总额的20%，次数不限）</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="Public:footer" />

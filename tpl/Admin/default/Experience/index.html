@@ -1,0 +1,63 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+	var delUrl = '__URL__/doDel';
+	var addUrl = '__URL__/add';
+</script>
+<div class="so_main">
+  <div class="page_tit">体验配资列表</div>
+
+  <div class="Toolbar_inbox">
+  	<div class="page right">{$pagebar}</div>
+    <htmlA:commonBtn type="jsfun" action="del();" value="删除" />
+	<volist empty="$empty" name="f_type" id='vx'>
+	<!--<a href="__URL__/index?type={$key}" class="btn_a"><span>{$vx}</span></a>-->
+	</volist>
+  </div>
+  
+  <div class="list">
+  <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:22px;">
+        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+        <label for="checkbox"></label>
+    </th>
+    <th class="line_l">ID</th>
+    <th class="line_l">体验用户</th>
+    <th class="line_l">保证金金额</th>
+    <th class="line_l">体验期限</th>
+    <th class="line_l">体验时间</th>
+    <th class="line_l">状态</th>
+    <th class="">操作</th>
+  </tr>
+  <volist empty="$empty" id="vo" name="list">
+      <tr overstyle='on' id="list_{$vo.id}">
+        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
+        <td>{$vo.id}</td>
+        <td><htmlA:user id="vo.trade_uid" uname="vo.user_name" /></td>
+        <td>{$vo.account}</td>
+        <td>{$vo.pz_time}天</td>
+        <td>{$vo.addtime|date="Y-m-d H:i:s",###}</td>
+        <td><if condition="$vo.status eq '1'"><span style="color:#009900">已查看</span><else/><span style="color:#FF0000">未查看</span></if></td>
+        <td>
+            <a href="__URL__/detail?id={$vo.id}">通过</a>  
+            <a href="javascript:void(0);" onclick="del({$vo['id']});">删除</a>  
+        </td>
+      </tr>
+  </volist>
+  </table>
+
+  </div>
+  
+  <div class="Toolbar_inbox">
+  	<div class="page right">{$pagebar}</div>
+    <htmlA:commonBtn type="jsfun" action="del();" value="删除" />
+  </div>
+</div>
+<script type="text/javascript">
+function showurl(url,Title){
+	ui.box.load(url, {title:Title});
+}
+</script>
+
+<include file="Public:_footer" />

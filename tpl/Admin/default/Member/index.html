@@ -1,0 +1,103 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/add';
+var editUrl = '__URL__/edit';
+var editTitle = '修改会员类型';
+var isSearchHidden = 1;
+var searchName = "搜索/筛选会员";
+</script>
+<div class="so_main">
+    <div class="page_tit">
+        <span>注册会员</span>
+        <include file="Public:quick" />
+    </div>
+
+    <!--搜索/筛选会员-->
+    <div class="page_tab">
+        <a href="__ACTION__?type={$_GET['type']}">
+            <span data="tab_1" <eq name="_GET['level']" value=''>class="active"</eq>>全部</span>
+        </a>
+        <volist name="level" id="data">
+            <a href="__ACTION__?type={$_GET['type']}&level={$key}">
+                <span data="tab_1" <eq name="_GET['level']" value='$key'>class="active"</eq>>{$data.name}</span>
+            </a>
+        </volist>
+        <span data="tab_search" onclick="dosearch()"><b class="tab_search"></b></span>
+    </div>
+    <!--搜索/筛选会员-->
+    <include file="search" />
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+        <!--  <htmlA:commonBtn type="jsfun" action="del();" value="删除会员(谨慎操作)" />-->
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l">ID</th>
+                <th class="line_l">用户名</th>
+                <th class="line_l">真实姓名</th>
+                <th class="line_l" style="text-align:right">可用余额</th>
+                <th class="line_l" style="text-align:right">冻结金额</th>
+                <th class="line_l" style="text-align:right">待收金额</th>
+                <th class="line_l">注册时间</th>
+                <th class="line_l">推荐人</th>
+                <th class="line_l">所属客服</th>
+                <neq name="_GET['type']" value='black'>
+                    <th class="line_l">余额</th>
+                    <th class="line_l">授信</th>
+                    <else/>
+                    <th class="line_l">拉黑类型</th>
+                </neq>
+                <th class="line_l" style="width:60px">操作</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>
+                        <htmlA:user id="vo.id" uname="vo.user_name" />
+                    </td>
+                    <td>{$vo.real_name|default="&nbsp;"}</td>
+                    <td style="text-align:right">{$vo.account_money|default=0}</td>
+                    <td style="text-align:right">{$vo.money_freeze|default=0}</td>
+                    <td style="text-align:right">{$vo.money_collect|default=0}</td>
+                    <td title="{$vo.reg_time|date=" y-m-d H:i:s ",###}">{$vo.reg_time|date="y-m-d",###}</td>
+                    <td>
+                        <htmlA:user id="vo.recommend_id" uname="vo.recommend_name" />
+                    </td>
+                    <td>{$vo.customer_name|default="-"}</td>
+                    <neq name="_GET['type']" value='black'>
+                        <td><a href="javascript:;" onclick="showurl('__URL__/moneyedit?id={$vo['id']}','调整余额');">调整</a></td>
+                        <td><a href="javascript:;" onclick="showurl('__URL__/creditedit?id={$vo['id']}','调整授信');">调整</a></td>
+                        <else/>
+                        <td>管理员设置</td>
+                    </neq>
+                    <td>
+                        <a href="__URL__/edit?id={$vo.id}">修改信息</a>
+                    </td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+        <!--<htmlA:commonBtn type="jsfun" action="del();" value="删除会员(谨慎操作)" />-->
+    </div>
+</div>
+<script type="text/javascript">
+function showurl(url, Title) {
+    ui.box.load(url, {
+        title: Title
+    });
+}
+</script>
+<include file="Public:_footer" />

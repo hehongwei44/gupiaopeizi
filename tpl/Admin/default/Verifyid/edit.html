@@ -1,0 +1,47 @@
+<tagLib name="htmlA" />
+<script type="text/javascript">
+var editTitle = '充值审核';
+var isSearchHidden = 1;
+</script>
+<div class="so_main">
+    <div class="form2">
+        <form method="post" action="__URL__/doEdit" onsubmit="return subcheck();">
+            <input type="hidden" name="id" value="{$uid}" />
+            <div id="tab_1">
+                <dl class="lineD">
+                    <dt>是否通过：</dt>
+                    <dd>
+                        <htmlA:radio id="status" default="1|是,0|否" />
+                    </dd>
+                </dl>
+                <!--dl class="lineD"><dt>奖励信用积分：</dt><dd><htmlA:input id="deal_credits" value="0" tip="如不奖励积分则不用填"/></dd></dl-->
+                <dl>
+                    <dt>处理说明：</dt>
+                    <dd>
+                        <htmlA:text id="deal_info" value="{$vo.deal_info}" />
+                    </dd>
+                </dl>
+            </div>
+            <!--tab1-->
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="确定" />
+                <input type="button" class="btn_g" value="取消" onclick="ui.box.close()" />
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+function subcheck() {
+    if ($("input[name='status']:checked").val() != 1 && $("input[name='status']:checked").val() != 0) {
+        ui.error("请选择审核结果");
+        return false;
+    }
+
+    var deal_info = $("#deal_info").val();
+    if (deal_info == "") {
+        ui.error("处理说明不能为空！");
+        return false;
+    }
+    return true;
+}
+</script>

@@ -1,0 +1,32 @@
+  <div id="search_div" style="display:none">
+    <div class="page_tit">设置搜索条件</div>
+  
+  <div class="form2">
+  <form method="get" action="__URL__/index">
+    <if condition="$search.uid gt 0"><input type="hidden" name="uid" value="{$search.uid}" /></if>
+    <dl class="lineD">
+      <dt>会员名：</dt>
+      <dd>
+        <input name="uname" style="width:190px" id="title" type="text" value="{$search.uname}">
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+  
+    <dl class="lineD">
+      <dt>交易类型：</dt>
+      <dd>
+      <htmlA:select datakey="type" id="type" value="key|search.type" style="width:150px"/>
+        <span>不填则不限制</span>
+      </dd>
+    </dl>
+    
+  <dl class="lineD"><dt>交易时间(开始)：</dt><dd><htmlA:timer id="start_time" tip='时间段(包括当天)' arg="{maxDate:'#F{$dp.$D(\\\\'end_time\\\\')||\\\\'2020-10-01\\\\'}',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true}" value="{$search.start_time}"/></dd></dl>
+  <dl class="lineD"><dt>交易时间(结束)：</dt><dd><htmlA:timer id="end_time" tip='时间段(包括当天)' arg="{minDate:'#F{$dp.$D(\\\\'start_time\\\\')}',maxDate:'2020-10-01',dateFmt:'yyyy-MM-dd',alwaysUseStartDate:true}" value="{$search.end_time}"/></dd></dl>
+
+    <div class="page_btm">
+      <input type="submit" class="btn_b" value="确定" />
+      <input type="button" class="btn_g" value="取消" onclick="dosearch();" />
+    </div>
+  </form>
+  </div>
+  </div>

@@ -1,0 +1,91 @@
+@charset "utf-8";
+/*wyq-150413*/
+
+
+/* =======================  invest ======================*/
+
+/*投资列表*/
+.step{ padding:20px 0; text-align:center;}
+.step li{ width:302px; height:109px; display:inline-block; line-height:22px; font-size:16px; color:#888; background:url(../img/invest/step.gif) no-repeat 0 -109px;}
+.step li.now{ background-position:0 0; color:#fff;}
+.step li span{ height:38px; display:block; line-height:38px; margin-top:10px; font-weight:bold; font-size:30px; font-style:italic; font-family:SimSun; color:#ccc;}
+.step li.now span{ color:#ff8f75;}
+
+.title1 b{ height: 40px; line-height: 38px; font-size: 20px; }
+.title1 .btn{ float:right; margin: 0px 10px 0px 0px;}
+.title1 .text { float:right; margin-top: 15px; }
+
+.tzListSx { display:block; margin:5px 20px 0; border-bottom:1px dashed #ddd;}
+.tzListSx .order{ float:left; padding-left:10px; }
+.tzListSx .text{ float:right;padding-top:12px; padding-right:10px;}
+.tzListSx .order span{padding:4px 20px 4px 25px;background:url(../img/invest/sortIco1.gif) no-repeat 15px 12px #eee;color:#666;display:inline-block;margin:12px 5px 15px 0;border-radius:15px;}
+.tzListSx .order span:hover,.tzListSx .order .now{ background-image:url(../img/invest/sortIco2.gif); background-color:#ee2c00;color:#FFF;cursor:pointer;}
+
+.jdList{ display:block; overflow:hidden; padding:0 12px; border-bottom:1px solid #e7e7e7;}
+.jdList li{ width:100%; padding-top:10px; float:left; font-size:12px; margin-top:-1px; background:url(../images/xmIco.png) no-repeat 10px 22px; border-top:1px dashed #ddd;}
+.jdList li:hover{ background-color:#fafafa;}
+.jdList p{ float:left; height:48px; line-height:24px; margin-top:10px; overflow:hidden; margin-left:15px;}
+.jdList p strong{ display:block; font-size:18px;}
+.jdList .jd1{ width:280px;}
+.jdList .jd1 strong{ width:100%; height:24px; font-size:16px; float:left; overflow:hidden;}
+.jdList .jd2{ width:130px;}
+.jdList .jd3{ width:110px;}
+.jdList .jd4{ width:80px;}
+.jdList .jd5{ width:100px; margin-top:2px; line-height:18px; height:70px; text-align:center;}
+.jdList .jd5 em{ width:60px; height:34px; display:inline-block; overflow:hidden; background:url(../img/progress.png) no-repeat; text-indent:-999px;}
+.jdList .jd6{ float:right; margin-right:15px; margin-top:12px;}
+.jdList .jd6 a{ width:140px; height:36px; line-height:36px; font-size:16px;}
+
+/*详情*/
+#tzxq{ display:inline-block; padding-bottom:30px;}
+.projectL{ width:580px; float:left; margin-top:20px; padding:10px 50px 0 25px;}
+.projectL .info{ width:100%; display:inline-block;}
+.projectL .info p{ width:33%; float:left;}
+.projectL .info p span{ font-size:16px; display:block; line-height:60px;}
+.projectL .info p b{ font-size:26px;}
+.projectL .item{ width:100%; display:inline-block; padding:20px 0 10px; margin-top:10px; line-height:30px; border-top:1px dashed #dcdcdc;}
+.projectL .item p{ width:50%; float:left;}
+.projectL .tbjd{ padding-top:30px; margin-top:15px; border-top:1px dashed #dcdcdc;}
+.projectL .tbjd .jdt{ width:250px; margin:5px 10px 0; vertical-align:top; height:14px; display:inline-block; background:#ddd; border-radius:10px; text-align:left; position:relative;}
+.projectL .tbjd .jdt i{ height:14px; display:inline-block; background:#ffac4f; border-radius:10px;}
+.projectL .tbjd .jdtMb i{ background:#ff7a49;}
+.projectL .tbjd .number{ width:44px; height:23px; line-height:23px; display:inline-block; padding-left:5px; color:#fff; text-align:center; background:url(../img/invest/jdtNumber.gif);}
+.projectL .tbjd .time{ display:inline-block; margin-left:15px;}
+.projectL .tbjd .time span{ font-size:14px; margin:0 3px;}
+
+.projectR{ margin-top:20px; width:270px; display:inline-block; padding-left:35px; vertical-align:top; padding-bottom:10px; border-left:1px solid #dcdcdc;}
+.projectR#over{ padding-top:20px; height:205px; background:url(../img/invest/over.gif) no-repeat 100px 70px;}
+.projectR p{ height:30px; line-height:30px; padding-bottom:10px; vertical-align:top;}
+.projectR p .dt{ float:left;}
+.projectR p b{ font-size:22px; margin-right:5px; display:inline-block;}
+.projectR p .cz{ float:right;}
+.projectR p input{ margin-right:5px;}
+.projectR p input.text,.projectR p select{ display:inline-block; border:1px solid #ccc;}
+.projectR p input.text{ width:150px; height:20px; line-height:20px; padding:4px 5px;}
+.projectR p select{ width:173px; height:30px; line-height:30px;}
+.projectR p.jkxy{ text-align:center;}
+.projectR .btn{ line-height:40px; width:100%; font-size:16px;}
+
+#xmxqText{ padding:0 25px;}
+.xmxqTextT{ display:inline-block; height:30px; margin-top:20px; line-height:30px; padding-bottom:10px; font-size:18px; color:#260c0d;}
+#xmxqText .item{ width:100%; display:inline-block;min-height: 500px;}
+#xmxqText .item#jkrxx{ width:280px; float:right;}
+#xmxqTextL{ width:640px;}
+#xmxqText table{ width:100%;}
+#xmxqText table th,#xmxqText table td{ border:1px solid #e7e7e7; padding:10px 20px;}
+#xmxqText table th{ background:#f3f3f3; text-align:right; font-weight:normal;}
+#xmxqText #jkrxx i{ width:18px; height:18px; display:inline-block; background:url(../img/invest/ture.png) no-repeat; float:left; margin-top:5px; margin-right:5px;}
+#xmxqText #tzjl th,#xmxqText #tzjl td{ text-align:center;}
+#xmxqText #tzjl td span{ margin-right:2px;}
+#xmxqTextL #pzfa dl{ height:110px; background:url(../img/invest/pzfa2.png) 400px center no-repeat #F6F6F6; border:1px solid #e7e7e7;}
+#xmxqTextL #pzfa dt{ float:left; width:165px; padding-left:50px; margin-right:60px;  height:110px; background:url(../img/invest/pzfa1.png) 170px center no-repeat #f4ede1; border-right:1px solid #e7e7e7;}
+#xmxqTextL #pzfa dd{ float:left; width:180px; color:#999;}
+#xmxqTextL #pzfa dl b{ font-size:18px; display:block; padding-top:25px;}
+#xmxqText table td.time{ width:220px; padding-right:40px;}
+#xmxqText table td.zdtb{ background:url(../img/invest/zdtb.png) no-repeat 205px 14px;}
+
+
+/*完成*/
+#tzcg{ min-height:421px; text-align:center;}
+#tzcg p{ line-height:40px; font-size:18px; padding:100px 0 30px;}
+#tzcg a{ color:#1b8bc9; display:inline-block; margin:0 20px;}

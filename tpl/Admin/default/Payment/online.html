@@ -1,0 +1,85 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">支付方式管理</div>
+<div class="page_tab"><span data="tab_1"  class="active">汇潮支付</span><span data="tab_2">环迅支付</span><span data="tab_3">网银在线</span><span data="tab_4">宝付</span><span data="tab_6">财付通</span><span data="tab_7">国付宝</span><span data="tab_8">易生支付</span><span data="tab_9">中国移动支付</span><span data="tab_10">通联支付</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/save" onsubmit="return subcheck();" enctype="multipart/form-data">
+	<!--tab1-->
+	<div id="tab_1">
+		<dl class="lineD"><dt>是否启用：</dt><dd><htmlA:radio id="pay[ecpss][enable]" value="key|ecpss_config.enable" default="1|是,0|否" /></dd></dl>
+		<dl class="lineD"><dt>充值手续费：</dt><dd><htmlA:input id="pay[ecpss][feerate]" value="{$ecpss_config.feerate}" tip="%" /></dd></dl>
+		<dl class="lineD"><dt>商户号：</dt><dd><htmlA:input id="pay[ecpss][MerNo]" value="{$ecpss_config.MerNo}" tip="*" /></dd></dl>
+		<dl class="lineD"><dt>支付密钥：</dt><dd><htmlA:input id="pay[ecpss][MD5key]" value="{$ecpss_config.MD5key}" tip="*" /></dd></dl>
+	</div>
+	<!--tab1-->
+	
+	<div id="tab_2" style="display:none">
+		<dl class="lineD"><dt>是否启用：</dt><dd><htmlA:radio id="pay[ips][enable]" value="key|ips_config.enable" default="1|是,0|否" /></dd></dl>
+		<dl class="lineD"><dt>充值手续费：</dt><dd><htmlA:input id="pay[ips][feerate]" value="{$ips_config.feerate}" tip="%" /></dd></dl>
+		<dl class="lineD"><dt>商户号：</dt><dd><htmlA:input id="pay[ips][MerCode]" value="{$ips_config.MerCode}" tip="*" /></dd></dl>
+		<dl class="lineD"><dt>商户证书：</dt><dd><htmlA:input id="pay[ips][MerKey]" value="{$ips_config.MerKey}" tip="*" /></dd></dl>
+	</div><!--tab1-->
+	<div id="tab_3" style="display:none">
+		<dl class="lineD"><dt>是否启用：</dt><dd><htmlA:radio id="pay[chinabank][enable]" value="key|chinabank_config.enable" default="1|是,0|否" /></dd></dl>
+		<dl class="lineD"><dt>充值手续费：</dt><dd><htmlA:input id="pay[chinabank][feerate]" value="{$chinabank_config.feerate}" tip="%" /></dd></dl>
+		<dl class="lineD"><dt>商户号：</dt><dd><htmlA:input id="pay[chinabank][mid]" value="{$chinabank_config.mid}" /></dd></dl>
+		<dl class="lineD"><dt>MD5密钥：</dt><dd><htmlA:input id="pay[chinabank][mkey]" value="{$chinabank_config.mkey}" /></dd></dl>
+	</div>
+	<!--tab4-->
+	<div id="tab_4" style="display:none">
+		<dl class="lineD"><dt>是否启用：</dt><dd><htmlA:radio id="pay[baofoo][enable]" value="key|baofoo_config.enable" default="1|是,0|否" /></dd></dl>
+		<dl class="lineD"><dt>充值手续费：</dt><dd><htmlA:input id="pay[baofoo][feerate]" value="{$baofoo_config.feerate}" tip="%" /></dd></dl>
+		<dl class="lineD"><dt>商户号：</dt><dd><htmlA:input id="pay[baofoo][MemberID]" value="{$baofoo_config.MemberID}" tip="*" /></dd></dl>
+		<dl class="lineD"><dt>终端号：</dt><dd><htmlA:input id="pay[baofoo][TerminalID]" value="{$baofoo_config.TerminalID}" tip="*" /></dd></dl>
+		<dl class="lineD"><dt>商户证书：</dt><dd><htmlA:input id="pay[baofoo][pkey]" value="{$baofoo_config.pkey}" tip="*" /></dd></dl>
+	</div><!--tab4-->
+	<!--tab6-->
+	<div id="tab_6" style="display:none">
+		<dl class="lineD"><dt>是否启用：</dt><dd><htmlA:radio id="pay[tenpay][enable]" value="key|tenpay_config.enable" default="1|是,0|否" /></dd></dl>
+		<dl class="lineD"><dt>充值手续费：</dt><dd><htmlA:input id="pay[tenpay][feerate]" value="{$tenpay_config.feerate}" tip="%" /></dd></dl>
+		<dl class="lineD"><dt>商户号：</dt><dd><htmlA:input id="pay[tenpay][partner]" value="{$tenpay_config.partner}" tip="*" /></dd></dl>
+		<dl class="lineD"><dt>支付密钥：</dt><dd><htmlA:input id="pay[tenpay][key]" value="{$tenpay_config.key}" tip="*" /></dd></dl>
+	</div>
+	<!--tab6-->
+	<!--tab7-->
+	<div id="tab_7"  style="display:none">
+		<dl class="lineD"><dt>是否启用：</dt><dd><htmlA:radio id="pay[guofubao][enable]" value="key|guofubao_config.enable" default="1|是,0|否" /></dd></dl>
+		<dl class="lineD"><dt>充值手续费：</dt><dd><htmlA:input id="pay[guofubao][feerate]" value="{$guofubao_config.feerate}" tip="%" /></dd></dl>
+		<dl class="lineD"><dt>商户代码：</dt><dd><htmlA:input id="pay[guofubao][merchantID]" value="{$guofubao_config.merchantID}" /></dd></dl>
+		<dl class="lineD"><dt>商户识别码：</dt><dd><htmlA:input id="pay[guofubao][VerficationCode]" value="{$guofubao_config.VerficationCode}" /></dd></dl>
+		<dl class="lineD"><dt>国付宝帐号：</dt><dd><htmlA:input id="pay[guofubao][virCardNoIn]" value="{$guofubao_config.virCardNoIn}"/></dd></dl>
+	</div><!--tab7-->
+<!--tab7-->
+	<div id="tab_8" style="display:none">
+		<dl class="lineD"><dt>是否启用：</dt><dd><htmlA:radio id="pay[easypay][enable]" value="key|easypay_config.enable" default="1|是,0|否" /></dd></dl>
+		<dl class="lineD"><dt>充值手续费：</dt><dd><htmlA:input id="pay[easypay][feerate]" value="{$easypay_config.feerate}" tip="%" /></dd></dl>
+		<dl class="lineD"><dt>商户开户邮箱：</dt><dd><htmlA:input id="pay[easypay][seller_email]" value="{$easypay_config.seller_email}" tip="商户开户时注册用的Email邮箱"/></dd></dl>
+		<dl class="lineD"><dt>商户号：</dt><dd><htmlA:input id="pay[easypay][partner]" value="{$easypay_config.partner}" /></dd></dl>
+		<dl class="lineD"><dt>支付密钥：</dt><dd><htmlA:input id="pay[easypay][key]" value="{$easypay_config.key}" /></dd></dl>
+		</div><!--tab8-->
+	<!--tab8-->
+	<div id="tab_9" style="display:none">
+		<dl class="lineD"><dt>是否启用：</dt><dd><htmlA:radio id="pay[cmpay][enable]" value="key|cmpay_config.enable" default="1|是,0|否" /></dd></dl>
+		<dl class="lineD"><dt>充值手续费：</dt><dd><htmlA:input id="pay[cmpay][feerate]" value="{$cmpay_config.feerate}" tip="%" /></dd></dl>
+		<dl class="lineD"><dt>商户号：</dt><dd><htmlA:input id="pay[cmpay][merchantId]" value="{$cmpay_config.merchantId}" tip="*" /></dd></dl>
+		<dl class="lineD"><dt>支付密钥：</dt><dd><htmlA:input id="pay[cmpay][serverCert]" value="{$cmpay_config.serverCert}" tip="*" /></dd></dl>
+	</div>
+	<!--tab8-->
+	<!--tab10-->
+	<div id="tab_10" style="display:none">
+		<dl class="lineD"><dt>是否启用：</dt><dd><htmlA:radio id="pay[allinpay][enable]" value="key|allinpay_config.enable" default="1|是,0|否" /></dd></dl>
+		<dl class="lineD"><dt>充值手续费：</dt><dd><htmlA:input id="pay[allinpay][feerate]" value="{$allinpay_config.feerate}" tip="%" /></dd></dl>
+		<dl class="lineD"><dt>商户号：</dt><dd><htmlA:input id="pay[allinpay][MerCode]" value="{$allinpay_config.MerCode}" tip="*" /></dd></dl>
+		<dl class="lineD"><dt>商户key：</dt><dd><htmlA:input id="pay[allinpay][key]" value="{$allinpay_config.key}" tip="*" /></dd></dl>
+	</div>
+	<!--tab10-->
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+
+</div>
+<include file="Public:_footer" />

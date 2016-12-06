@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{$ts['site']['site_name']}管理后台</title>
+<link href="__ROOT__/tpl/Admin/default/Res/css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__ROOT__/tpl/Admin/default/Res/js/jquery.js"></script>
+<script type="text/javascript" src="__ROOT__/tpl/Admin/default/Res/js/common.js"></script>
+<script type="text/javascript" src='/res/editor/main.js'></script>
+<script type="text/javascript" src="__ROOT__/tpl/Admin/default/Res/js/tbox/box.js"></script>
+<script>
+  $(document).ready(function(){
+     style = top.readCookie("stylesheet").replace('css','');
+     $('head').append('<link href="__ROOT__/tpl/Admin/default/Res/css/style_'+style+'.css" rel="stylesheet" wtype="text/css" />');
+  });
+</script>
+</head>
+<body>

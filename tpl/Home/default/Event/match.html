@@ -1,0 +1,59 @@
+<include file="Public:header" />
+<link href="{$res}css/event.css" rel="stylesheet" type="text/css" media="screen,projection" />
+<div class="banner">
+    <div class="bar">
+        <div class="award">
+            <p class="two"><strong>第二名</strong><span><b>{$param['reward'][1]}</b>元</span>配资资金</p>
+            <p class="one"><strong>第一名</strong><span><b>{$param['reward'][0]}</b>元</span>配资资金</p>
+            <p class="three"><strong>第三名</strong><span><b>{$param['reward'][2]}</b>元</span>配资资金</p>
+        </div>
+    </div>
+</div>
+<div class="bar">
+    <div class="main">
+        <div class="box">
+            <p class="title matchListT">比赛大厅</p>
+            <div class="boxM">
+                <ul id="matchList">
+                    <volist name="data" id="match">
+                        <li class="{$match.flag}">
+                            <b><a href="/event/{$match.id}.html">{$match.name|cutstr=0,10,false}</a></b>
+                            <p>比赛周期：{$match.begin|date='Y年m月d日',###} ~ {$match.end|date='Y年m月d日',###}</p>
+                            <p>报名人数：<span class="font1">{$match.people}</span> 人
+                                <notempty name="match['left']"><span style="color:#999">（距报名截止还有 {$match.left}）</span></notempty>
+                            </p>
+                            <p>当前状态：{$match.status}</p>
+                            <a class="btn {$match.class}" href="/event/{$match.id}.html">{$match.button}</a>
+                        </li>
+                    </volist>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="side">
+        <div class="box rankBox">
+            <p class="title rankT1">{$param['top']['month'][0]|intval}月全网总排行榜</p>
+            <div class="boxM">
+                <p class="rankTop"><span>用户名</span>总资产(元)</p>
+                <ul class="rankingList">
+                    <volist name="param['top']['now']" id="top">
+                        <li><em class="nember">{$key+1}</em><b>{$top.name}</b><span>{$top.capital}</span></li>
+                    </volist>
+                </ul>
+            </div>
+        </div>
+        <div class="box rankBox">
+            <p class="title rankT1">{$param['top']['month'][1]|intval}月全网总排行榜</p>
+            <div class="boxM">
+                <p class="rankTop"><span>用户名</span>总资产(元)</p>
+                <ul class="rankingList">
+                    <volist name="param['top']['pre']" id="top">
+                        <li><em class="nember">{$key+1}</em><b>{$top.name}</b><span>{$top.capital}</span></li>
+                    </volist>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Content End -->
+<include file="Public:footer" />

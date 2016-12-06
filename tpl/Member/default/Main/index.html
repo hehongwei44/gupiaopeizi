@@ -1,0 +1,49 @@
+<include file="default:Public:header" group="Home" />
+<link href="/tpl/Member/default/Res/css/user.css" rel="stylesheet" type="text/css" media="screen,projection" />
+<div class="bar">
+	<div class="my-space">
+		<div class="ms-c1 bg-night">
+			<div class="w1000">
+				<div class="name"></div>
+				<dl>
+					<dt>晚上好<a href="/member/profile.html" target="mainFrame"><span>{$_SESSION['MEMBER']['NAME']}</span></a>，欢迎回来！</dt>
+					<empty name="param['last']['date']">
+					<a href="/member/validate/idcard.html" target="mainFrame"><dd>如需配资，请尽快进行实名认证！</dd></a>
+					<else/>
+					<a href="/member/log.html" target="mainFrame"><dd>上次登录时间：<span>{$param['last']['date']|date='Y-m-d H:i:s',###}</span></dd></a>
+					</empty>
+				</dl>
+			</div>
+		</div>
+		<div class="space-main clearfix">
+			<div class="space-left">
+				<dl>
+					<volist name="data['group']" id="group">
+					<dt class="t4"><a href="#ynw"><span style="margin-left:0px;">{$group.name}</span></a></dt>
+						<volist name="data['item'][$group['id']]" id="item">
+						<a href="/member{$item.url}" target="mainFrame"><dd>
+							{$item.name}
+						</dd></a>
+						</volist>
+					</volist>
+
+				</dl>
+			</div>
+			<div class="space-right">
+				<iframe id="mainFrame" name="mainFrame" src="/member/{$_GET['go']|default='account/'}" style="height:0px;width:100%" frameborder='no' scrolling="no"></iframe>
+				<div id="loading"><h2><strong>加载中...</strong></h2><div><img src="{$res}img/loading.gif"><br/><span>加载中，请稍候...</span></div></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$('dd').click(function(){
+			$('dd').removeClass('current');
+			$(this).addClass('current');
+			$('#mainFrame').css('height','0px');
+			$('#loading').css('display','block');
+		});
+	});
+</script>
+<include file="default:Public:footer" group="Home" />

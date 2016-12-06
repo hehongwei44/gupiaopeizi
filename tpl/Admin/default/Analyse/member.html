@@ -1,0 +1,769 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/js/highcharts.js"></script>
+<script type="text/javascript" src="__ROOT__/res/js/exporting.js"></script>
+<tagLib name="htmlA" />
+<include file="style" />
+<div class="so_main">
+    <div class="page_tit">
+      注册会员分析
+      <span><include file="Public:quick" /></span>
+    </div>
+
+    <div class="page_tab" style="margin-bottom:15px;margin-top:15px">
+      <a href="__ACTION__?tab=all">
+        <span data="tab_day" <eq name="_GET[tab]" value='all'>class="active"</eq><eq name="_GET[tab]" value=''>class="active"</eq>>全部</span>
+      </a>
+      <a href="__ACTION__?tab=month">
+        <span data="tab_month" <eq name="_GET[tab]" value='month'>class="active"</eq>>本月</span>
+      </a>
+      <a href="__ACTION__?tab=last">
+        <span data="tab_month" <eq name="_GET[tab]" value='last'>class="active"</eq>>上个月</span>
+      </a>
+      <a href="__ACTION__?tab=year">
+        <span data="tab_day" <eq name="_GET[tab]" value='year'>class="active"</eq>>本年</span>
+      </a>
+    </div>
+
+    <div>
+        <table width="95%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+              <td class="chart" id="member_type_pie"></td>
+              <td>
+                <ul class="list">
+                <li class="title">时间：{$param['region']}</li> 
+                <php>foreach($chart['type'] as $key=>$val){</php>
+                <li><php>echo $type[$key]==''?'其它':$type[$key]</php> ：<php>echo number_format($val)</php> 人</li>
+                <php>$type_total += $val;</php>
+                <php>}</php>  
+                <li class="sum">总计：<php>echo number_format($type_total)</php> 人</li>         
+                </ul>
+              </td>
+          </tr>
+          <tr>
+              <td colspan="2" class="trend" id="member_type_trend"></td>
+          </tr>
+          <tr>
+              <td class="chart" id="member_from_pie"></td>
+              <td>
+                <ul class="list">
+                <li class="title">时间：{$param['region']}</li> 
+                <php>foreach($chart['from'] as $key=>$val){</php>
+                <li><php>echo $from[$key]==''?'其它':$from[$key]</php> ：<php>echo number_format($val)</php> 人</li>
+                <php>$from_total += $val;</php>
+                <php>}</php>  
+                <li class="sum">总计：<php>echo number_format($from_total)</php> 人</li>         
+                </ul>
+              </td>
+          </tr>
+          <tr>
+              <td colspan="2" class="trend" id="member_from_trend"></td>
+          </tr>
+          <tr>
+              <td class="chart" id="member_sex_pie"></td>
+              <td>
+                <ul class="list">
+                <li class="title">时间：{$param['region']}</li> 
+                <php>foreach($chart['sex'] as $key=>$val){</php>
+                <li><php>echo $key==''?'未知':$key</php> ：<php>echo number_format($val)</php> 人</li>
+                <php>$sex_total += $val;</php>
+                <php>}</php>  
+                <li class="sum">总计：<php>echo number_format($sex_total)</php> 人</li>         
+                </ul>
+              </td>
+          </tr>
+          <tr>
+              <td colspan="2" class="trend" id="member_sex_trend"></td>
+          </tr>
+          <tr>
+              <td class="chart" id="member_marry_pie"></td>
+              <td>
+                <ul class="list">
+                <li class="title">时间：{$param['region']}</li> 
+                <php>foreach($chart['marry'] as $key=>$val){</php>
+                <li><php>echo $key==''?'未知':$key</php> ：<php>echo number_format($val)</php> 人</li>
+                <php>$marry_total += $val;</php>
+                <php>}</php>  
+                <li class="sum">总计：<php>echo number_format($marry_total)</php> 人</li>         
+                </ul>
+              </td>
+          </tr>
+          <tr>
+              <td colspan="2" class="trend" id="member_marry_trend"></td>
+          </tr>
+
+          <tr>
+              <td class="chart" id="member_education_pie"></td>
+              <td>
+                <ul class="list">
+                <li class="title">时间：{$param['region']}</li> 
+                <php>foreach($chart['education'] as $key=>$val){</php>
+                <li><php>echo $key==''?'未知':$key</php> ：<php>echo number_format($val)</php> 人</li>
+                <php>$education_total += $val;</php>
+                <php>}</php>  
+                <li class="sum">总计：<php>echo number_format($education_total)</php> 人</li>         
+                </ul>
+              </td>
+          </tr>
+          <tr>
+              <td colspan="2" class="trend" id="member_education_trend"></td>
+          </tr>
+
+          <tr>
+              <td class="chart" id="member_income_pie"></td>
+              <td>
+                <ul class="list">
+                <li class="title">时间：{$param['region']}</li> 
+                <php>foreach($chart['income'] as $key=>$val){</php>
+                <li><php>echo intval($key)=='0'?'未知':$key</php> ：<php>echo number_format($val)</php> 人</li>
+                <php>$income_total += $val;</php>
+                <php>}</php>  
+                <li class="sum">总计：<php>echo number_format($income_total)</php> 人</li>         
+                </ul>
+              </td>
+          </tr>
+          <tr>
+              <td colspan="2" class="trend" id="member_income_trend"></td>
+          </tr>
+
+          <tr>
+              <td class="chart" id="member_age_pie"></td>
+              <td>
+                <ul class="list">
+                <li class="title">时间：{$param['region']}</li> 
+                <php>foreach($chart['age'] as $key=>$val){</php>
+                <li><php>echo intval($key)=='0'?'未知':$key.'岁'</php> ：<php>echo number_format($val)</php> 人</li>
+                <php>$age_total += $val;</php>
+                <php>}</php>  
+                <li class="sum">总计：<php>echo number_format($age_total)</php> 人</li>         
+                </ul>
+              </td>
+          </tr>
+          <tr>
+              <td colspan="2" class="trend" id="member_age_trend"></td>
+          </tr>
+        </table>
+    </div>
+
+    <div class="list" style="width:98%" id="trends"></div>
+
+</div>
+<script type="text/javascript">
+$(function () {
+    $('#member_type_pie').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '会员类型占比'
+        },
+        tooltip: {
+            pointFormat: '{series.name} <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b> {point.percentage:.1f} %'
+                }
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        series: [{
+            type: 'pie',
+            name: '占比',
+            data: [
+                <php>foreach($chart['type'] as $key => $val){</php>
+                ['<php>echo $type[$key]==''?'其它':$type[$key]</php>', <php>echo $val</php>],
+                <php>}</php>
+            ]
+        }]
+    });
+
+    $('#member_type_trend').highcharts({
+        chart: {type: 'spline'},
+        title: {text: '会员类型走势'},
+        xAxis: {
+            min: 0,
+            categories: [<php>echo implode(',',$param['day'])</php>]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '注册人数'
+            },
+            labels: {
+                formatter: function() {
+                    return this.value;
+                }
+            }
+        },            
+        subtitle: {
+            y: +33,
+            text: '{$param['region']}'
+        },
+        tooltip: {
+            enabled: true,
+            formatter: function() {
+              var s = '<b class="tips">'+this.series.name+'</b><br/><php>echo $param['prefix']</php>' + this.x  +'<php>echo $param['postfix']</php>  ：共 '+ this.y +' 人';
+              return s;                                     
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        textShadow: '0 0 3px white, 0 0 3px white'
+                    }
+                },
+                enableMouseTracking: true
+            }
+        }, series: [
+        <php>foreach($chart['member']['type']['trend'] as $key => $val){</php>
+              {name: '<php>echo $type[$key]==''?'其它':$type[$key]</php>',data: [<php>echo implode(',',$val)</php>]},
+        <php>}</php>
+        ]
+    });
+
+    $('#member_from_pie').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '会员来源占比'
+        },
+        tooltip: {
+            pointFormat: '{series.name} <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b> {point.percentage:.1f} %'
+                }
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        series: [{
+            type: 'pie',
+            name: '占比',
+            data: [
+                <php>foreach($chart['from'] as $key => $val){</php>
+                ['<php>echo $from[$key]==''?'其它':$from[$key]</php>', <php>echo $val</php>],
+                <php>}</php>
+            ]
+        }]
+    });
+
+    $('#member_from_trend').highcharts({
+        chart: {type: 'spline'},
+        title: {text: '会员来源走势'},
+        xAxis: {
+            min: 0,
+            categories: [<php>echo implode(',',$param['day'])</php>]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '注册人数'
+            },
+            labels: {
+                formatter: function() {
+                    return this.value;
+                }
+            }
+        },            
+        subtitle: {
+            y: +33,
+            text: '{$param['region']}'
+        },
+        tooltip: {
+            enabled: true,
+            formatter: function() {
+              var s = '<b class="tips">'+this.series.name+'</b><br/><php>echo $param['prefix']</php>' + this.x  +'<php>echo $param['postfix']</php>  ：共 '+ this.y +' 人';
+              return s;                                     
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        textShadow: '0 0 3px white, 0 0 3px white'
+                    }
+                },
+                enableMouseTracking: true
+            }
+        }, series: [
+        <php>foreach($chart['member']['from']['trend'] as $key => $val){</php>
+              {name: '<php>echo $from[$key]==''?'其它':$from[$key]</php>',data: [<php>echo implode(',',$val)</php>]},
+        <php>}</php>
+        ]
+    });
+
+
+
+    $('#member_sex_pie').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '会员性别占比'
+        },
+        tooltip: {
+            pointFormat: '{series.name} <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b> {point.percentage:.1f} %'
+                }
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        series: [{
+            type: 'pie',
+            name: '占比',
+            data: [
+                <php>foreach($chart['sex'] as $key => $val){</php>
+                ['<php>echo $key==''?'未知':$key</php>', <php>echo $val</php>],
+                <php>}</php>
+            ]
+        }]
+    });
+
+    $('#member_sex_trend').highcharts({
+        chart: {type: 'spline'},
+        title: {text: '会员性别走势'},
+        xAxis: {
+            min: 0,
+            categories: [<php>echo implode(',',$param['day'])</php>]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '注册人数'
+            },
+            labels: {
+                formatter: function() {
+                    return this.value;
+                }
+            }
+        },            
+        subtitle: {
+            y: +33,
+            text: '{$param['region']}'
+        },
+        tooltip: {
+            enabled: true,
+            formatter: function() {
+              var s = '<b class="tips">'+this.series.name+'</b><br/><php>echo $param['prefix']</php>' + this.x  +'<php>echo $param['postfix']</php>  ：共 '+ this.y +' 人';
+              return s;                                     
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        textShadow: '0 0 3px white, 0 0 3px white'
+                    }
+                },
+                enableMouseTracking: true
+            }
+        }, series: [
+        <php>foreach($chart['member']['sex']['trend'] as $key => $val){</php>
+              {name: '<php>echo $key==''?'未知':$key</php>',data: [<php>echo implode(',',$val)</php>]},
+        <php>}</php>
+        ]
+    });
+
+
+
+    $('#member_marry_pie').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '会员婚况占比'
+        },
+        tooltip: {
+            pointFormat: '{series.name} <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b> {point.percentage:.1f} %'
+                }
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        series: [{
+            type: 'pie',
+            name: '占比',
+            data: [
+                <php>foreach($chart['marry'] as $key => $val){</php>
+                ['<php>echo $key==''?'未知':$key</php>', <php>echo $val</php>],
+                <php>}</php>
+            ]
+        }]
+    });
+
+    $('#member_marry_trend').highcharts({
+        chart: {type: 'spline'},
+        title: {text: '会员婚况走势'},
+        xAxis: {
+            min: 0,
+            categories: [<php>echo implode(',',$param['day'])</php>]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '注册人数'
+            },
+            labels: {
+                formatter: function() {
+                    return this.value;
+                }
+            }
+        },            
+        subtitle: {
+            y: +33,
+            text: '{$param['region']}'
+        },
+        tooltip: {
+            enabled: true,
+            formatter: function() {
+              var s = '<b class="tips">'+this.series.name+'</b><br/><php>echo $param['prefix']</php>' + this.x  +'<php>echo $param['postfix']</php>  ：共 '+ this.y +' 人';
+              return s;                                     
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        textShadow: '0 0 3px white, 0 0 3px white'
+                    }
+                },
+                enableMouseTracking: true
+            }
+        }, series: [
+        <php>foreach($chart['member']['marry']['trend'] as $key => $val){</php>
+              {name: '<php>echo $key==''?'未知':$key</php>',data: [<php>echo implode(',',$val)</php>]},
+        <php>}</php>
+        ]
+    });
+
+
+    $('#member_education_pie').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '会员学历占比'
+        },
+        tooltip: {
+            pointFormat: '{series.name} <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b> {point.percentage:.1f} %'
+                }
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        series: [{
+            type: 'pie',
+            name: '占比',
+            data: [
+                <php>foreach($chart['education'] as $key => $val){</php>
+                ['<php>echo $key==''?'未知':$key</php>', <php>echo $val</php>],
+                <php>}</php>
+            ]
+        }]
+    });
+
+    $('#member_education_trend').highcharts({
+        chart: {type: 'spline'},
+        title: {text: '会员学历走势'},
+        xAxis: {
+            min: 0,
+            categories: [<php>echo implode(',',$param['day'])</php>]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '注册人数'
+            },
+            labels: {
+                formatter: function() {
+                    return this.value;
+                }
+            }
+        },            
+        subtitle: {
+            y: +33,
+            text: '{$param['region']}'
+        },
+        tooltip: {
+            enabled: true,
+            formatter: function() {
+              var s = '<b class="tips">'+this.series.name+'</b><br/><php>echo $param['prefix']</php>' + this.x  +'<php>echo $param['postfix']</php>  ：共 '+ this.y +' 人';
+              return s;                                     
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        textShadow: '0 0 3px white, 0 0 3px white'
+                    }
+                },
+                enableMouseTracking: true
+            }
+        }, series: [
+        <php>foreach($chart['member']['education']['trend'] as $key => $val){</php>
+              {name: '<php>echo $key==''?'未知':$key</php>',data: [<php>echo implode(',',$val)</php>]},
+        <php>}</php>
+        ]
+    });
+
+
+    $('#member_income_pie').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '会员收入占比'
+        },
+        tooltip: {
+            pointFormat: '{series.name} <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b> {point.percentage:.1f} %'
+                }
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        series: [{
+            type: 'pie',
+            name: '占比',
+            data: [
+                <php>foreach($chart['income'] as $key => $val){</php>
+                ['<php>echo $key==''?'未知':$key</php>', <php>echo $val</php>],
+                <php>}</php>
+            ]
+        }]
+    });
+
+    $('#member_income_trend').highcharts({
+        chart: {type: 'spline'},
+        title: {text: '会员收入走势'},
+        xAxis: {
+            min: 0,
+            categories: [<php>echo implode(',',$param['day'])</php>]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '注册人数'
+            },
+            labels: {
+                formatter: function() {
+                    return this.value;
+                }
+            }
+        },            
+        subtitle: {
+            y: +33,
+            text: '{$param['region']}'
+        },
+        tooltip: {
+            enabled: true,
+            formatter: function() {
+              var s = '<b class="tips">'+this.series.name+'</b><br/><php>echo $param['prefix']</php>' + this.x  +'<php>echo $param['postfix']</php>  ：共 '+ this.y +' 人';
+              return s;                                     
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        textShadow: '0 0 3px white, 0 0 3px white'
+                    }
+                },
+                enableMouseTracking: true
+            }
+        }, series: [
+        <php>foreach($chart['member']['income']['trend'] as $key => $val){</php>
+              {name: '<php>echo $key==''?'未知':$key</php>',data: [<php>echo implode(',',$val)</php>]},
+        <php>}</php>
+        ]
+    });
+
+
+    $('#member_age_pie').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '会员年龄占比'
+        },
+        tooltip: {
+            pointFormat: '{series.name} <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b> {point.percentage:.1f} %'
+                }
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        series: [{
+            type: 'pie',
+            name: '占比',
+            data: [
+                <php>foreach($chart['age'] as $key => $val){</php>
+                ['<php>echo intval($key)=='0'?'未知':$key.'岁'</php>', <php>echo $val</php>],
+                <php>}</php>
+            ]
+        }]
+    });
+
+    $('#member_age_trend').highcharts({
+        chart: {type: 'spline'},
+        title: {text: '会员年龄走势'},
+        xAxis: {
+            min: 0,
+            categories: [<php>echo implode(',',$param['day'])</php>]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '注册人数'
+            },
+            labels: {
+                formatter: function() {
+                    return this.value;
+                }
+            }
+        },            
+        subtitle: {
+            y: +33,
+            text: '{$param['region']}'
+        },
+        tooltip: {
+            enabled: true,
+            formatter: function() {
+              var s = '<b class="tips">'+this.series.name+'</b><br/><php>echo $param['prefix']</php>' + this.x  +'<php>echo $param['postfix']</php>  ：共 '+ this.y +' 人';
+              return s;                                     
+            }
+        },
+        exporting: {
+            enabled:false
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        textShadow: '0 0 3px white, 0 0 3px white'
+                    }
+                },
+                enableMouseTracking: true
+            }
+        }, series: [
+        <php>foreach($chart['member']['age']['trend'] as $key => $val){</php>
+              {name: '<php>echo intval($key)=='0'?'未知':$key.'岁'</php>',data: [<php>echo implode(',',$val)</php>]},
+        <php>}</php>
+        ]
+    });
+});
+</script>
+<include file="Public:_footer" />

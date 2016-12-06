@@ -1,0 +1,115 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/add';
+var isSearchHidden = 1;
+var searchName = "搜索/筛选会员";
+</script>
+<style>
+.list table th {
+    text-align: right;
+}
+
+.list table td {
+    text-align: right;
+}
+</style>
+<div class="so_main">
+    <div class="page_tit">
+        <span>会员帐户明细</span>
+        <include file="Public:quick" />
+    </div>
+    <div class="page_tab">
+        <a href="__ACTION__?type={$_GET['type']}">
+            <span data="tab_1" <eq name="_GET['level']" value=''>class="active"</eq>>全部</span>
+        </a>
+        <span data="tab_search" onclick="dosearch()"><b class="tab_search"></b></span>
+    </div>
+    <include file="account_search" />
+    <!--搜索/筛选会员-->
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+    <div class="list" style=" overflow-x:scroll">
+        <table id="area_list" width="2000" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l" style="text-align:center">ID</th>
+                <th class="line_l" style="text-align:center">用户名</th>
+                <th class="line_l" style="text-align:center">真实姓名</th>
+                <th class="line_l">总资产</th>
+                <th class="line_l">可用余额</th>
+                <th class="line_l">冻结金额</th>
+                <th class="line_l">待收本息金额</th>
+                <th class="line_l">待收本金</th>
+                <th class="line_l">待收利息</th>
+                <th class="line_l">待付本息金额</th>
+                <th class="line_l">待付本金</th>
+                <th class="line_l">待付利息</th>
+                <th class="line_l">待审核提现+手续费</th>
+                <th class="line_l">处理中提现+手续费</th>
+                <th class="line_l">累计提现手续费</th>
+                <th class="line_l">累计充值手续费</th>
+                <th class="line_l">累计提现金额</th>
+                <th class="line_l">累计充值金额</th>
+                <th class="line_l">累计支付佣金</th>
+                <th class="line_l">累计投标奖励</th>
+                <th class="line_l">累计推广奖励</th>
+                <th class="line_l">累计充值奖励</th>
+                <th class="line_l">累计续投奖励</th>
+                <th class="line_1">净赚利息</th>
+                <th class="line_l">净付利息</th>
+                <th class="line_1">管理员操作资金</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td style="text-align:center">{$vo.id}</td>
+                    <td style="text-align:center">{$vo.user_name}</td>
+                    <td style="text-align:center">{$vo.real_name}</td>
+                    <td>{$vo['money_freeze'] + $vo['total_money'] + $vo['money_collect']}</td>
+                    <td>{$vo.total_money|default=0}</td>
+                    <td>{$vo.money_freeze|default=0}</td>
+                    <td>{:Fmoney($vo['benefit']['interest_collection']+$vo['benefit']['capital_collection'])}</td>
+                    <td>{$vo.benefit.capital_collection|default="0.00"}</td>
+                    <td>{$vo.benefit.interest_collection|default="0.00"}</td>
+                    <td>{:Fmoney($vo['out']['interest_pay'] + $vo['out']['capital_pay'])}</td>
+                    <td>{$vo.out.capital_pay|default="0.00"}</td>
+                    <td>{$vo.out.interest_pay|default="0.00"}</td>
+                    <!--<td>{$vo.reg_time|date="Y-m-d H:i",###}</td>-->
+                    <td>{$vo.dshtx|default="0.00"}</td>
+                    <td>{$vo.chulizhong|default="0.00"}</td>
+                    <td>{$vo.out.withdraw_fee|default="0.00"}</td>
+                    <td>{$vo.out.czfee|default="0.00"}</td>
+                    <td>{$vo.out.withdraw_money|default="0.00"}</td>
+                    <td>{$vo.count.payonline|default="0.00"}</td>
+                    <td>{$vo.count.commission|default="0.00"}</td>
+                    <td>{$vo.benefit.ireward|default="0.00"}</td>
+                    <td>{$vo.benefit.spread_reward|default="0.00"}</td>
+                    <td>{$vo.benefit.re_reward|default="0.00"}</td>
+                    <td>{$vo.benefit.con_reward|default="0.00"}</td>
+                    <td>{$vo.benefit.interest|default="0.00"}</td>
+                    <td>{$vo.out.interest|default="0.00"}</td>
+                    <td>{$vo.glycz|default="0.00"}</td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page right">{$pagebar}</div>
+    </div>
+</div>
+<script type="text/javascript">
+function showurl(url, Title) {
+    ui.box.load(url, {
+        title: Title
+    });
+}
+</script>
+<include file="Public:_footer" />

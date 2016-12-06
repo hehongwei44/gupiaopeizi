@@ -1,0 +1,90 @@
+<tagLib name="htmlA" />
+<style type="text/css">
+	.data,.data tr,.data th,.data td {border: 1px #ccc solid;padding: 0;text-align: center;width: auto;}
+	.data {width: 100%;border-collapse: collapse;overflow: hidden;}
+	.data th {background-color: #F0F0F0;}
+	.data td {height: 22px;}
+	.data a{color:#333333; text-decoration:none}
+
+	.line {width: 600px;display: block; overflow: hidden;}
+	.line dt{width: 100px;  float: left;text-align: right;}
+	.line dd{width: 150px;  float: left;vertical-align: middle;margin: 0;}
+
+	#btn_search {float: right;cursor: pointer;width:50px;height:22px;padding-right: 50px;padding-top: 16px;}
+	.data .show { max-width: 100px;word-break: break-all;width :auto !important;width:100px;}
+	.data .show2 { max-width: 200px;word-break: break-all;width :auto !important;width:200px;}
+</style>
+<script type="text/javascript">
+$(function(){
+	$("#btn_search").click(function(){
+		data = {
+			admin_id:$("#tab_4 select[name=admin_id]").val(),
+			user_name:$('#tab_4 input[name=user_name]').val(),
+			user_email:$('#tab_4 input[name=user_email]').val(),
+			user_phone:$('#tab_4 input[name=user_phone]').val()
+		};
+
+		$.ajax({
+			url: "__URL__/smslog",
+			data: data,
+			timeout: 5000,
+			cache: false,
+			type: "get",
+			dataType: "json",
+			success: function (d, s, r) {
+				if(d) $("#tab_4").html(d.html);//更新客户端竞拍信息 作个判断，避免报错
+			}
+		});
+	});
+
+});
+
+</script>
+<div class="search">
+	<img src="__ROOT__/tpl/Home/default/res/images/index_55s.jpg" id="btn_search">
+	<dl class="line">
+		<dt>发送人：</dt>
+		<dd><htmlA:select id="admin_id" value="key|map.admin_id" datakey='admin_data' style="width:160px;"/></dd>
+		<dt>用户名：</dt>
+		<dd><input type="text" name="user_name" value="{$map.user_name}" /></dd>
+	</dl>
+	<dl class="line">
+		<dt>邮件：</dt>
+		<dd><input type="text" name="user_email" value="{$map.user_email}" /></dd>
+		<dt>短信：</dt>
+		<dd><input type="text" name="user_phone" value="{$map.user_phone}" /></dd>
+	</dl>
+</div>
+                
+<table class="data">
+	<tr>
+		<th rowspan="2">序号</th>
+		<th rowspan="2">发送人</th>
+		<th colspan="3">发送方式</th>
+		<th rowspan="2">标题</th>
+		<th rowspan="2">发送时间</th>
+	</tr>
+	<tr>
+		<th>站内信</th>
+		<th>邮件</th>
+		<th>短信</th>
+	</tr>
+	<if condition="$list eq null ">
+	<tr><td colspan="8"><p class="red">无相关记录</p></td></tr>
+	<else />
+	<volist empty="$empty" name="list" id="vs">
+	<tr data="{$vs.id}">
+		<td>{$vs.id}</td>
+		<td>{$vs.admin_real_name}</td>
+		<td>{$vs.user_name}</td>
+		<td class="show">{$vs.user_email}</td>
+		<td class="show">{$vs.user_phone}</td>
+		<td class="show2">{$vs.content}</td>
+		<td>{$vs.add_time|date="Y-m-d H:i",###}</td>
+	</tr>
+	</volist>
+	</if>
+</table>
+<div  class="pages" style="margin:10px 0 5px 0;" data="tab_4">{$page}</div>
+
+	

@@ -1,0 +1,45 @@
+<include file="Public:_header" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<tagLib name="htmlA" />
+<div class="so_main">
+
+<div class="page_tit">
+    <span>VIP审核</span>
+    <include file="Public:quick" />
+</div>
+<div class="page_tab"><span data="tab_1" class="active">基本信息</span></div>
+<div class="form2">
+	<form method="post" action="__URL__/doEdit" onsubmit="return subcheck();">
+	<input type="hidden" name="id" value="{$vo.id}"/>
+	<div id="tab_1">
+	
+	<dl class="lineD"><dt>是否通过审核：</dt><dd><htmlA:radio id="status" default="1|是,2|否" tip="*"/></dd></dl>
+	<dl class="lineD"><dt>申请人：</dt><dd>{$vo.uname}</dd></dl>
+	<dl class="lineD"><dt>指定客服：</dt><dd>{$vo.kfuname}</dd></dl>
+	<dl class="lineD"><dt>申请时间：</dt><dd>{$vo.add_time|date="Y-m-d H:i",###}</dd></dl>
+	<dl class="lineD"><dt>申请说明：</dt><dd>{$vo.des}</dd></dl>
+	<dl class="lineD"><dt>处理说明：</dt><dd><htmlA:text id="deal_info" value="{$vo.deal_info}" tip="*"/></dd></dl>
+	</div><!--tab1-->
+	
+	<div class="page_btm">
+	  <input type="submit" class="btn_b" value="确定" />
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+function subcheck(){
+	if($("input[name='status']:checked").val()!=1 && $("input[name='status']:checked").val()!=2){
+		ui.error("请选择审核结果");
+		return false;
+	}
+	
+	var deal_info = $("#deal_info").val();
+	if(deal_info ==""){
+		ui.error("处理说明不能为空！");
+		return false;
+	}
+	return true;
+}
+</script>
+</div>
+<include file="Public:_footer" />

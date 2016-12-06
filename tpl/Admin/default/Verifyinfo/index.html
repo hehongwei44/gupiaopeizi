@@ -1,0 +1,108 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js"></script>
+<script type="text/javascript" src="__ROOT__/tpl/Admin/default/Res/js/jquery.artZoom.js"></script>
+<style type="text/css" media="screen">
+A.artZoom { CURSOR: url(/tpl/Admin/default/Res/images/zoomin.cur), auto; POSITION: relative; }
+A.artZoom .loading { Z-INDEX: 9; BACKGROUND: url(/tpl/Admin/default/Res/images/load.gif) no-repeat center center; LEFT: 5px; WIDTH: 25px; POSITION: absolute; TOP: 5px; HEIGHT: 25px; }
+.artZoomBox { POSITION: relative; z-index: 999; }
+.artZoomBox A.maxImgLink { DISPLAY: inline; CURSOR: url(/tpl/Admin/default/Res/images/zoomout.cur), auto; ZOOM: 1 }
+.artZoomBox A.maxImgLink .maxImg { BORDER: #ccc 1px solid; PADDING: 5px; BACKGROUND: #fff; moz-border-radius: 4px; webkit-border-radius: 4px; border-radius: 4px; moz-box-shadow: 0 0 3px rgba(58, 110, 165, 0.5); webkit-box-shadow: 0 0 3px rgba(58, 110, 165, 0.5); box-shadow: 0 0 3px rgba(58, 110, 165, 0.5); }
+.artZoomBox .tool SPAN { display: inline-block; width: 12px; height: 12px; margin: auto 3px auto auto; position: relative; top: 0; *top: 0px; background-image: url('/tpl/Admin/default/Res/images/icons.png'); background-repeat: no-repeat; *font-size: 0; vertical-align: middle; moz-border-radius: 4px; webkit-border-radius: 4px; border-radius: 4px }
+.artZoomBox .tool a { display: inline-block; padding: 5px 8px; font: 12px/1.11 "Microsoft Yahei", Tahoma, Arial, Helvetica, STHeiti; _font-family: Tahoma, Arial, Helvetica, STHeiti; -o-font-family: Tahoma, Arial; _font-size: 12px; color: #3C3C3D; text-shadow: 1px 1px 0 #FFFFFF; background: #ECECEC url('/tpl/Admin/default/Res/images/css3buttons_backgrounds.png') 0 0 no-repeat; white-space: nowrap; overflow: visible; cursor: pointer; text-decoration: none; border: 1px solid #CACACA; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; outline: none; position: relative; zoom: 1; *display: inline; *vertical-align: middle; -moz-user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-user-select: none; -webkit-touch-callout: none; }
+.artZoomBox .tool a:hover { color: #FFFFFF; border-color: #388AD4; text-decoration: none; text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3); background-position: 0 -40px; background-color: #2D7DC5; }
+.artZoomBox .tool a:active { top: 1px; background-position: 0 -81px; border-color: #347BBA; background-color: #0F5EA2; color: #FFFFFF; text-shadow: none; }
+.artZoomBox .tool .imgRight span { background-position: 0 -0; }
+.artZoomBox .tool .imgRight:hover span, .artZoomBox .tool .imgRight:active span { background-position: 0 -12px; }
+.artZoomBox .tool .imgLeft span { background-position: -12px 0; }
+.artZoomBox .tool .imgLeft:hover span, .artZoomBox .tool .imgLeft:active span { background-position: -12px -12px; }
+.artZoomBox .tool .viewImg span { background-position: -24px 0; }
+.artZoomBox .tool .viewImg:hover span, .artZoomBox .tool .viewImg:active span { background-position: -24px -12px; }
+</style>
+<script type="text/javascript">
+var delUrl = '__URL__/doDel';
+var addUrl = '__URL__/add';
+var editUrl = '__URL__/edit';
+var editTitle = '审核资料';
+var isSearchHidden = 1;
+</script>
+<div class="so_main">
+    <div class="page_tit">会员上传资料管理</div>
+    <div class="page_tab">
+        <php>foreach($data_status as $kds=>$vds){</php>
+        <a href="__URL__/index?status={$kds}">
+            <span data="tab_1" <eq name="_GET['status']" value='$kds'>class="active"</eq>>{$vds}</span>
+        </a>
+        <php>}</php>
+        <span data="tab_search" onclick="dosearch()"><b class="tab_search"></b></span>
+    </div>
+    <include file="search" />
+    <div class="Toolbar_inbox">
+        <div class="page" style="float:right; padding:0px;">{$pagebar}</div>
+    </div>
+    <div class="list">
+        <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th style="width:22px;">
+                    <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+                    <label for="checkbox"></label>
+                </th>
+                <th class="line_l">ID</th>
+                <th class="line_l">会员名</th>
+                <th class="line_l">资料操作</th>
+                <th class="line_l">所属客服</th>
+                <th class="line_l">资料分类</th>
+                <th class="line_l">资料名称</th>
+                <th class="line_l">上传时间</th>
+                <th class="line_l">审核状态</th>
+                <th class="line_l">奖励积分</th>
+                <th class="line_l">审核人</th>
+                <th class="line_l">审核时间</th>
+                <th class="line_l">审核说明</th>
+                <th class="line_l">操作</th>
+            </tr>
+            <volist empty="$empty" id="vo" name="list">
+                <tr overstyle='on' id="list_{$vo.id}">
+                    <td>
+                        <input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}">
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>
+                        <htmlA:user id="vo.uid" uname="vo.uname" />
+                    </td>
+                    <td>
+                        <a href="/admin/verifyinfo/upload?uid={$vo.uid}">上传信用资料</a>&nbsp;&nbsp;&nbsp;
+                        <a href="/admin/verifyinfo/uploadshow?uid={$vo.uid}">上传前台展示资料</a>
+                    </td>
+                    <td>{$vo.customer_name|default="&nbsp;"}</td>
+                    <td>{$vo.type_name|cnsubstr=###,15}</td>
+                    <td>{$vo.data_name|cnsubstr=###,15}(
+                        <if condition="$vo.data_url eq 2 "><span style="color:red;">没有权限</span>
+                            <elseif condition="$vo.data_url neq '' " /><a class="artZoom" href="/{$vo.data_url}">查看</a>
+                            <else /><span style="color:red;">图片上传失败</span></if>)</td>
+                    <td>{$vo.add_time|date="Y-m-d",###}</td>
+                    <td>
+                        <if condition="$vo.status eq 0">
+                            {$vo.status_name}
+                            <elseif condition="$vo.status eq 1" />
+                            <font color="#00CC00">{$vo.status_name}</font>
+                            <else/>
+                            <font color="red">{$vo.status_name}</font>
+                        </if>
+                    </td>
+                    <td>{$vo.deal_credits|default="&nbsp;"}</td>
+                    <td>{$vo.real_name|default="&nbsp;"}</td>
+                    <td>
+                        <if condition="$vo.deal_time neq 0">{$vo.deal_time|date="Y-m-d H:i",###}</if>
+                    </td>
+                    <td>{$vo.deal_info|default="&nbsp;"}</td>
+                    <td><a href="javascript:void(0);" onclick="edit('?id={$vo['id']}');">审核</a></td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+    <div class="Toolbar_inbox">
+        <div class="page" style="float:right; padding:0px;">{$pagebar}</div>
+    </div>
+</div>
+<include file="Public:_footer" />

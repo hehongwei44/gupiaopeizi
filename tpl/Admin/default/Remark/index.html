@@ -1,0 +1,72 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+  var addUrl = '__URL__/edit';
+  var editUrl = '__URL__/edit';
+  var isSearchHidden = 1;
+  var searchName = "搜索会员";
+  var addTitle = '添加会员备注信息';
+  var editTitle = '编辑会员备注信息';
+</script>
+<div class="so_main">
+  <div class="page_tit">会员备注信息</div>
+  <include file="search" />
+  <div class="Toolbar_inbox">
+    <div class="pages" style="float:right; padding:0px;">{$pagebar}</div>
+    <htmlA:commonBtn type="jsfun" action="dosearch();" value="搜索/筛选会员"/>
+
+    <if condition="$search['user_name'] eq null ">
+    <htmlA:commonBtn type="jsfun" action="add();" value="添加会员备注"/>
+    <else/>
+    <htmlA:commonBtn type="jsfun" action="edit('?user_name={$search['user_name']}');" value="添加会员备注"/>
+    </if>
+  </div>
+  
+  <div class="list">
+  <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:22px;">
+        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+        <label for="checkbox"></label>
+    </th>
+    <th class="line_l">ID</th>
+    <th class="line_l">用户名</th>
+    <th class="line_l">备注信息</th>
+    <th class="line_l">备注人</th>
+    <th class="line_l">备注时间</th>
+    <th class="line_l">操作</th>
+  </tr>
+
+  <if condition="$list eq null ">
+    <tr><td colspan="7"><p style="text-align:center;font-size:18px;">无相关记录</p></td></tr>
+  <else />
+  <volist empty="$empty" id="vo" name="list">
+      <tr overstyle='on' id="list_{$vo.id}">
+        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.id}"></td>
+        <td>{$vo.id}</td>
+        <td><htmlA:user id="vo.user_id" uname="vo.user_name" /></td>
+        <td>{$vo.remark}</td>
+        <td>{$vo.admin_real_name}</td>
+        <td>{$vo.add_time|date="Y-m-d H:i",###}</td>
+        <td>
+             <a href="javascript:void()" onclick="ui.box.load('/admin/common/sms?tab=1&user_name={$vo.user_name}', {title:'通讯系统'})">通知</a>
+        </td>
+      </tr>
+  </volist>
+  </if>
+  </table>
+  </div>
+  
+  <div class="Toolbar_inbox">
+    <div class="pages" style="float:right; padding:0px;">{$pagebar}</div>
+    <htmlA:commonBtn type="jsfun" action="dosearch();" value="搜索/筛选会员"/>
+    <htmlA:commonBtn type="jsfun" action="add();" value="添加会员备注"/>
+  </div>
+</div>
+<script type="text/javascript">
+function showurl(url,Title){
+  ui.box.load(url, {title:Title});
+}
+</script>
+
+<include file="Public:_footer" />

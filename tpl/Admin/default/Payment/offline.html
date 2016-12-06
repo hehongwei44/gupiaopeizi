@@ -1,0 +1,75 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript" src="__ROOT__/res/date/WdatePicker.js" language="javascript"></script>
+<div class="so_main">
+    <div class="page_tit">线下充值银行</div>
+    <div class="page_tab" style="margin-bottom:7px;margin-top:10px">
+        <span data="tab_bank" <eq name="_GET[tab]" value='all'>class="active"</eq><eq name="_GET[tab]" value=''>class="active"</eq>>银行列表</span>
+        <span data="tab_intro" <eq name="_GET[tab]" value='month'>class="active"</eq>>线下充值说明</span>
+    </div>
+    <form action="__URL__/offline" name="bankForm" id="bankForm" method="post">
+        <div class="list" id="tab_bank">
+            <div class="Toolbar_inbox">
+                <htmlA:commonBtn type="jsfun" action="addBank();" value="添加银行" style="search_action" />
+            </div>
+            <table id="bank_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <th class="line_l" style="width:65px">序号</th>
+                    <th class="line_l" style="text-align:left;width:240px">银行名称</th>
+                    <th class="line_l" style="text-align:left;width:120px">收款人</th>
+                    <th class="line_l" style="text-align:left;width:250px">收款账号</th>
+                    <th class="line_l" style="text-align:left">开户地址</th>
+                    <th class="line_l" width="80">操作</th>
+                </tr>
+                <volist empty="$empty" name='bank' id='vo'>
+                    <tr overstyle='on' id="bank_{$i}">
+                        <td>{$i}</td>
+                        <td style="text-align:left">
+                            <input type="text" name="bank[]" style="width:94%" value="{$vo.bank}">
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" name="payee[]" style="width:89%" value="{$vo.payee}">
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" name="account[]" style="width:94%" value="{$vo.account}" size="30">
+                        </td>
+                        <td style="text-align:left">
+                            <input type="text" name="address[]" style="width:97%" value="{$vo.address}" size="40">
+                        </td>
+                        <td>
+                            <input type="button" value="删除" onclick="delBank({$i})">
+                        </td>
+                    </tr>
+                </volist>
+            </table>
+        </div>
+        <table style="width:100%;display:none" id="tab_intro">
+            <tr>
+                <td>
+                    <textarea id="info" name="info" style="width:100%;height:200px">{$info}</textarea>
+                </td>
+            </tr>
+        </table>
+        <div class="page_btm">
+            <input type="submit" class="btn_b" value="确定" />
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+function addBank() {
+    id = parseInt($("#bank_list tr").last().find("td").eq(0).html()) + 1;
+    var html = '<tr overstyle="on" id="bank_' + id + '"><td>' + id + '</td><td style="text-align:left"><input type="text" name="bank[]" value=""></td> <td style="text-align:left"><input type="text" name="payee[]" value=""></td><td style="text-align:left"><input type="text" name="account[]"  value="" size="30"></td>  <td style="text-align:left"><input type="text" name="address[]" value="" size="40"></td><td><a href="javascript:void(0);" onclick="delBank(' + id + ')">删除</a></td></tr>';
+    $("#bank_list").append(html);
+}
+
+function delBank(id) {
+    $("#bank_" + id).remove();
+}
+
+function dosubmit() {
+    $("#bankForm").submit();
+}
+var editor = KindEditor.create('textarea[name="info"]');
+</script>
+
+<include file="Public:_footer" />

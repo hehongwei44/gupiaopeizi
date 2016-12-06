@@ -1,0 +1,38 @@
+/*Top*/
+#TopFrame { height: 70px; width: 100%; background-color: #337ABB; background-repeat: repeat-x; background-image: url(../images/TopBg.png); border-bottom-width: 5px; border-bottom-style: solid; border-bottom-color: #337ABB; }
+#TopLogo { float: left; }
+#TopTime { float: right; line-height: 30px; margin-right: 10px; color: #999999; clear: right; height: 30px; }
+#TopHead { height: 30px; line-height: 30px; color: #666666; clear: right; float: right; margin-right: 20px; padding-left: 20px; margin-top: 5px; width: 400px; }
+#TopHead span { float: right; color: #333333; }
+/*Left*/
+#LeftMenu { width: 170px; height: auto; padding: 5px; }
+#MenuList ul, li { list-style-type: none; }
+#MenuList a { display: block; width: 100%; line-height: 26px; }
+.submenu { display: none; }
+.submenu li a { text-indent: 40px; }
+.submenuA { color: #FFFFFF; background-image: url(../images/arr.png); background-repeat: no-repeat; background-position: 20px 5px; }
+.submenuA:hover { color: #FFFFFF; background-image: url(../images/arr.png); background-repeat: no-repeat; background-position: 25px 5px; text-decoration: underline blink; }
+.submenuB { color: #FFFFFF; background-image: url(../images/arr.png); background-repeat: no-repeat; background-position: 25px 5px; text-decoration: underline blink; }
+.treemenu { background: url(../images/ArrOn.png) no-repeat; text-indent: 30px; margin-bottom: 5px; border: 1px solid #2F85C3; }
+.actuator { color: #FFFFFF; margin: 0px; padding: 0px; }
+.actuator:hover { color: #D1F3FE; }
+#switchPoint { cursor: pointer; }
+/*ConMain*/
+#ConHead { height: 26px; width: 100%; border-bottom: 1px solid #CCCCCC; text-indent: 20px; line-height: 26px; }
+#ConNav { background: #EBF2F5 url(../images/Navarr.png) no-repeat; text-indent: 40px; height: 30px; width: 100%; margin-bottom: 10px; font-size: 14.7px; font-weight: bold; color: #CC0000; line-height: 30px; letter-spacing: 3px; }
+#ConSearch { line-height: 30px; height: 30px; width: auto; margin-bottom: 20px; }
+#ConSearch table { border: 0px solid #FFFFFF; }
+#ConSearch td { background: #F3F8FA; }
+#ConBottom { line-height: 30px; height: 30px; width: auto; margin-top: 5px; margin-bottom: 5px; }
+#ConFrame { margin: 10px; color: #000000; }
+#ConFrame #ConTable { width: 100%; font-size: 12px; line-height: 180%; border: 1px solid #009CAD; }
+#ConFrame th { background: #C4D9E2; height: 25px; color: #6666CC; text-align: center; }
+#ConFrame td { padding: 5px; border-top: 1px solid #009CAD; }
+#ConFrame td.right { text-align: right; padding-right: 20px; float: none; }
+#ConFrame a { text-decoration: underline; }
+.InTxt { border: 1px solid #999999; height: auto; }
+.BotA { background: url(../images/ButtonBgA.png) no-repeat; height: 24px; width: 80px; border: none; line-height: 24px; color: #CC0000; }
+.BotA:hover { background: url(../images/ButtonBgAover.png) no-repeat; cursor: pointer; color: #000000; }
+.BotB { background: url(../images/ButtonBgB.png) no-repeat; height: 20px; width: 50px; border: none; line-height: 20px; color: #CC0000; }
+.BotB:hover { background: url(../images/ButtonBgBover.png) no-repeat; cursor: pointer; color: #000000; }
+.center { text-align: center; }
